@@ -11,16 +11,17 @@
 
     <artifactId>pm-controller</artifactId>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.zyzh</groupId>
             <artifactId>pm-application</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zyzh</groupId>
+            <artifactId>web-component</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

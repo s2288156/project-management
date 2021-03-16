@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: project-management
+
+server:
+  port: 10660
+  servlet:
+    context-path: /pm
+  tomcat:
+    connection-timeout: 10s

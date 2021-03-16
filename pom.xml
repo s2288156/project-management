@@ -17,8 +17,8 @@
     <version>0.0.1</version>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <skipTests>true</skipTests>
 
         <zyzh-cloud-dependencies.version>0.1.2</zyzh-cloud-dependencies.version>
