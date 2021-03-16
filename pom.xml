@@ -21,7 +21,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <skipTests>true</skipTests>
 
-        <zyzh-cloud-dependencies.version>0.1.2</zyzh-cloud-dependencies.version>
+        <zyzh-cloud-dependencies.version>0.2.1-SNAPSHOT</zyzh-cloud-dependencies.version>
     </properties>
 
     <dependencyManagement>
