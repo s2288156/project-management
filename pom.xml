@@ -22,6 +22,7 @@
         <skipTests>true</skipTests>
 
         <zyzh-cloud-dependencies.version>0.2.1-SNAPSHOT</zyzh-cloud-dependencies.version>
+        <zyzh-common-lib.version>1.0.15</zyzh-common-lib.version>
         <cola-parent.version>4.0.1</cola-parent.version>
         <nimbus-jsse-jwt.version>8.19</nimbus-jsse-jwt.version>
         <spring-security-rsa.version>1.0.9.RELEASE</spring-security-rsa.version>
@@ -70,6 +71,12 @@
             <groupId>com.alibaba.cola</groupId>
             <artifactId>cola-component-exception</artifactId>
             <version>${cola-parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zyzh.common</groupId>
+            <artifactId>zyzh-common-lib</artifactId>
+            <version>${zyzh-common-lib.version}</version>
         </dependency>
 
         <dependency>
