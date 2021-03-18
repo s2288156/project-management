@@ -2,6 +2,7 @@ package com.pm.controller;
 
 import com.alibaba.cola.dto.Response;
 import com.pm.application.dto.UserLoginCmd;
+import com.pm.application.dto.UserRegisterCmd;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,12 @@ public class UserController {
 
     @PostMapping("/login")
     public Response login(@RequestBody @Validated UserLoginCmd userLoginCmd) {
+
+        return Response.buildSuccess();
+    }
+
+    @PostMapping("/register")
+    public Response register(@RequestBody @Validated UserRegisterCmd userRegisterCmd) {
 
         return Response.buildSuccess();
     }
