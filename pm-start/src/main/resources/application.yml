@@ -11,6 +11,13 @@ spring:
       minimum-idle: 10
       maximum-pool-size: 50
       idle-timeout: 30000
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: id_worker_str
+  type-aliases-package: com.pm.infrastructure.dataobject
+
 server:
   port: 10660
   servlet:
