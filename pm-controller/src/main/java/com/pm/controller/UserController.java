@@ -3,6 +3,8 @@ package com.pm.controller;
 import com.alibaba.cola.dto.Response;
 import com.pm.application.dto.UserLoginCmd;
 import com.pm.application.dto.UserRegisterCmd;
+import com.pm.application.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
+    @Autowired
+    private IUserService userService;
+
     @PostMapping("/login")
     public Response login(@RequestBody @Validated UserLoginCmd userLoginCmd) {
 
@@ -24,7 +29,6 @@ public class UserController {
 
     @PostMapping("/register")
     public Response register(@RequestBody @Validated UserRegisterCmd userRegisterCmd) {
-
-        return Response.buildSuccess();
+        return userService.userRegister(userRegisterCmd);
     }
 }
