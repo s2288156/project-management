@@ -17,5 +17,11 @@
             <artifactId>pm-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.zyzh</groupId>
+            <artifactId>pm-infrastructure</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

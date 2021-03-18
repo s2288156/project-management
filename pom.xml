@@ -22,6 +22,7 @@
         <skipTests>true</skipTests>
 
         <zyzh-cloud-dependencies.version>0.2.1-SNAPSHOT</zyzh-cloud-dependencies.version>
+        <cola-parent.version>4.0.1</cola-parent.version>
     </properties>
 
     <dependencyManagement>
@@ -49,10 +50,18 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- 定义了DTO格式，包括分页 -->
         <dependency>
             <groupId>com.alibaba.cola</groupId>
             <artifactId>cola-component-dto</artifactId>
-            <version>4.0.1</version>
+            <version>${cola-parent.version}</version>
+        </dependency>
+
+        <!-- 定义了异常格式，主要有BizException和SysException -->
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-exception</artifactId>
+            <version>${cola-parent.version}</version>
         </dependency>
 
         <dependency>
