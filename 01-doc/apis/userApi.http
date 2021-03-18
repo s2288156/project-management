@@ -1,0 +1,8 @@
+### Send POST request with json body
+POST http://{{host}}/user/register
+Content-Type: application/json
+
+{
+  "username": "laowang",
+  "password": "123123"
+}
