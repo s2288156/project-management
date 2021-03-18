@@ -16,7 +16,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: id_worker_str
-  type-aliases-package: com.pm.infrastructure.dataobject
+  type-enums-package: com.pm.infrastructure.dataobject.enums
 
 server:
   port: 10660
