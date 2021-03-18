@@ -1,7 +1,7 @@
 package com.pm.controller;
 
 import com.alibaba.cola.dto.Response;
-import com.pm.application.command.UserLoginCmd;
+import com.pm.application.dto.UserLoginCmd;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

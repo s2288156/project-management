@@ -23,6 +23,7 @@
 
         <zyzh-cloud-dependencies.version>0.2.1-SNAPSHOT</zyzh-cloud-dependencies.version>
         <cola-parent.version>4.0.1</cola-parent.version>
+        <nimbus-jsse-jwt.version>8.19</nimbus-jsse-jwt.version>
     </properties>
 
     <dependencyManagement>
@@ -33,6 +34,12 @@
                 <version>${zyzh-cloud-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jsse-jwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

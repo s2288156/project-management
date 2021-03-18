@@ -1,4 +1,4 @@
-package com.pm.application.command;
+package com.pm.application.dto;
 
 import com.alibaba.cola.dto.Command;
 import lombok.Data;

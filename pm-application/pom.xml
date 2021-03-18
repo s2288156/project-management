@@ -18,6 +18,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>${nimbus-jsse-jwt.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.zyzh</groupId>
             <artifactId>pm-domain</artifactId>
             <version>${project.version}</version>
