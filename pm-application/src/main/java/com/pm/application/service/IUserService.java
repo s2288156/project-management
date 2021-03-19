@@ -2,8 +2,8 @@ package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.UserLoginCmd;
-import com.pm.application.dto.UserRegisterCmd;
+import com.pm.application.dto.cmd.UserLoginCmd;
+import com.pm.application.dto.cmd.UserRegisterCmd;
 
 /**
  * @author wcy

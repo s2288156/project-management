@@ -2,8 +2,8 @@ package com.pm.controller;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.UserLoginCmd;
-import com.pm.application.dto.UserRegisterCmd;
+import com.pm.application.dto.cmd.UserLoginCmd;
+import com.pm.application.dto.cmd.UserRegisterCmd;
 import com.pm.application.dto.vo.UserVO;
 import com.pm.application.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

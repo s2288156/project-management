@@ -1,6 +1,6 @@
 package com.pm.application.convertor;
 
-import com.pm.application.dto.UserLoginCmd;
+import com.pm.application.dto.cmd.UserLoginCmd;
 import com.zyzh.pm.domain.user.User;
 import org.springframework.beans.BeanUtils;
 
