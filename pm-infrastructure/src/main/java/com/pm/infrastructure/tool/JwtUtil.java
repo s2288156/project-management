@@ -1,4 +1,4 @@
-package com.pm.application.tool;
+package com.pm.infrastructure.tool;
 
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;

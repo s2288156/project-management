@@ -1,11 +1,12 @@
 package com.pm.infrastructure.gatewayimpl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
 import com.zyzh.pm.domain.gateway.UserGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * @author wcy
@@ -18,9 +19,13 @@ public class UserGatewayImpl implements UserGateway {
 
     @Override
     public boolean existForUsername(String username) {
-        UserDO userDO = userMapper.selectOne(new LambdaQueryWrapper<UserDO>()
-                .eq(UserDO::getUsername, username)
-        );
-        return userDO != null;
+        Optional<UserDO> userOptional = userMapper.selectForUsername(username);
+        return userOptional.isPresent();
+    }
+
+    @Override
+    public boolean validPwd(String username, String password) {
+
+        return false;
     }
 }
