@@ -22,10 +22,4 @@ public class UserGatewayImpl implements UserGateway {
         Optional<UserDO> userOptional = userMapper.selectForUsername(username);
         return userOptional.isPresent();
     }
-
-    @Override
-    public boolean validPwd(String username, String password) {
-
-        return false;
-    }
 }
