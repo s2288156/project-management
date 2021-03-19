@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@TableName(autoResultMap = true, value = "t_project")
-public class ProjectDO {
+@TableName(autoResultMap = true, value = "t_group")
+public class GroupDO {
 
     private String id;
 
@@ -26,16 +26,6 @@ public class ProjectDO {
 
     private LocalDateTime updateTime;
 
-    private String groupId;
-
-    /**
-     * 项目名
-     **/
     private String name;
-
-    /**
-     * 描述
-     **/
-    private String desc;
 
 }
