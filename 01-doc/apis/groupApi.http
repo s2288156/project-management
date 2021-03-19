@@ -1,8 +1,11 @@
-### Send POST request with json body
+GET http://{{host}}/group/list?page=1&limit=10
+Accept: application/json
+
+###
 POST http://{{host}}/group/add
 Content-Type: application/json
 
 {
-  "name": "geek"
+  "name": "ants"
 }
-
+###

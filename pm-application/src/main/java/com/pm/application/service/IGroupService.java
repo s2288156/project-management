@@ -2,6 +2,9 @@ package com.pm.application.service;
 
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.GroupAddCmd;
+import com.pm.application.dto.vo.GroupVO;
+import com.pm.infrastructure.entity.PageQuery;
+import com.pm.infrastructure.entity.PageResponse;
 
 /**
  * @author wcy
@@ -9,4 +12,6 @@ import com.pm.application.dto.cmd.GroupAddCmd;
 public interface IGroupService {
 
     SingleResponse<?> addGroup(GroupAddCmd addCmd);
+
+    PageResponse<GroupVO> listGroup(PageQuery pageQuery);
 }
