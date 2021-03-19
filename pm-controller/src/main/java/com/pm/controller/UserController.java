@@ -23,8 +23,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Response login(@RequestBody @Validated UserLoginCmd userLoginCmd) {
-
-        return Response.buildSuccess();
+        return userService.userLogin(userLoginCmd);
     }
 
     @PostMapping("/register")

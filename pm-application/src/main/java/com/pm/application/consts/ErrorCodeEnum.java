@@ -10,6 +10,8 @@ public enum ErrorCodeEnum {
      * 错误码
      */
     USERNAME_EXISTED("50000", "用户名重复"),
+    PASSWORD_FAIL("50001", "密码错误"),
+    USERNAME_NOT_FOUND("50002", "用户名不存在"),
     ;
 
     @Getter
