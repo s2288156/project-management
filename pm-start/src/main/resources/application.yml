@@ -1,6 +1,8 @@
 spring:
   application:
     name: project-management
+  jackson:
+    default-property-inclusion: non_null
   flyway:
     clean-disabled: true
   datasource:

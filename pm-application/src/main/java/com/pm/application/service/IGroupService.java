@@ -1,5 +1,6 @@
 package com.pm.application.service;
 
+import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.GroupAddCmd;
 
 /**
@@ -7,5 +8,5 @@ import com.pm.application.dto.cmd.GroupAddCmd;
  */
 public interface IGroupService {
 
-    void addGroup(GroupAddCmd addCmd);
+    SingleResponse<?> addGroup(GroupAddCmd addCmd);
 }
