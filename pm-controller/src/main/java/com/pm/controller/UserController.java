@@ -1,6 +1,7 @@
 package com.pm.controller;
 
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.UserLoginCmd;
 import com.pm.application.dto.UserRegisterCmd;
 import com.pm.application.service.IUserService;
@@ -22,7 +23,7 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/login")
-    public Response login(@RequestBody @Validated UserLoginCmd userLoginCmd) {
+    public SingleResponse login(@RequestBody @Validated UserLoginCmd userLoginCmd) {
         return userService.userLogin(userLoginCmd);
     }
 

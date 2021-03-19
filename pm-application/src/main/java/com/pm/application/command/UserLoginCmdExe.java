@@ -1,14 +1,20 @@
 package com.pm.application.command;
 
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.UserLoginCmd;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
+import com.pm.infrastructure.tool.JwtUtil;
+import com.pm.infrastructure.tool.Payload;
+import com.zyzh.common.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -23,18 +29,28 @@ public class UserLoginCmdExe {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Response execute(UserLoginCmd userLoginCmd) {
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    public SingleResponse execute(UserLoginCmd userLoginCmd) {
         Optional<UserDO> optional = userMapper.selectForUsername(userLoginCmd.getUsername());
         if (!optional.isPresent()) {
-            return Response.buildFailure(ErrorCodeEnum.USERNAME_NOT_FOUND.getErrorCode(), ErrorCodeEnum.USERNAME_NOT_FOUND.getErrorMsg());
+            return SingleResponse.buildFailure(ErrorCodeEnum.USERNAME_NOT_FOUND.getErrorCode(), ErrorCodeEnum.USERNAME_NOT_FOUND.getErrorMsg());
         }
         if (!validPwd(userLoginCmd.getPassword(), optional.get().getPassword())) {
-            return Response.buildFailure(ErrorCodeEnum.PASSWORD_FAIL.getErrorCode(), ErrorCodeEnum.PASSWORD_FAIL.getErrorMsg());
+            return SingleResponse.buildFailure(ErrorCodeEnum.PASSWORD_FAIL.getErrorCode(), ErrorCodeEnum.PASSWORD_FAIL.getErrorMsg());
         }
-        return Response.buildSuccess();
+        Payload payload = new Payload();
+        payload.setUid(optional.get().getId());
+
+        return SingleResponse.of(signJwt(payload));
     }
 
     private boolean validPwd(String inputPwd, String dbPwd) {
         return passwordEncoder.matches(inputPwd, dbPwd);
+    }
+
+    private String signJwt(Payload payload) {
+        return jwtUtil.sign(JsonUtils.toJson(payload));
     }
 }

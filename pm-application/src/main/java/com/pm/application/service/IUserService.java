@@ -1,6 +1,7 @@
 package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.UserLoginCmd;
 import com.pm.application.dto.UserRegisterCmd;
 
@@ -11,5 +12,5 @@ public interface IUserService {
 
     Response userRegister(UserRegisterCmd userRegisterCmd);
 
-    Response userLogin(UserLoginCmd loginCmd);
+    SingleResponse userLogin(UserLoginCmd loginCmd);
 }

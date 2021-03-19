@@ -1,6 +1,7 @@
 package com.pm.application.service.impl;
 
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.command.UserLoginCmdExe;
 import com.pm.application.command.UserRegisterCmdExe;
 import com.pm.application.dto.UserLoginCmd;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Response userLogin(UserLoginCmd loginCmd) {
+    public SingleResponse userLogin(UserLoginCmd loginCmd) {
         return userLoginCmdExe.execute(loginCmd);
     }
 }
