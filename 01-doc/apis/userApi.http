@@ -3,7 +3,7 @@ POST http://{{host}}/user/register
 Content-Type: application/json
 
 {
-  "username": "laowang",
+  "username": "admin",
   "password": "123123"
 }
 

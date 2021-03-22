@@ -1,5 +1,6 @@
 package com.pm.controller;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.GroupAddCmd;
 import com.pm.application.dto.vo.GroupVO;
@@ -8,7 +9,9 @@ import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +35,10 @@ public class GroupController {
     @GetMapping("/list")
     public PageResponse<GroupVO> listGroup(PageQuery pageQuery) {
         return groupService.listGroup(pageQuery);
+    }
+
+    @DeleteMapping("/{id}")
+    public Response delete(@PathVariable String id) {
+        return groupService.deleteById(id);
     }
 }

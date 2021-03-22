@@ -1,5 +1,6 @@
 package com.pm.application.service;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.GroupAddCmd;
 import com.pm.application.dto.vo.GroupVO;
@@ -14,4 +15,6 @@ public interface IGroupService {
     SingleResponse<?> addGroup(GroupAddCmd addCmd);
 
     PageResponse<GroupVO> listGroup(PageQuery pageQuery);
+
+    Response deleteById(String id);
 }

@@ -1,5 +1,6 @@
 package com.pm.application.service.impl;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -51,4 +52,9 @@ public class GroupServiceImpl implements IGroupService {
         return PageResponse.of(datas, page.getTotal());
     }
 
+    @Override
+    public Response deleteById(String id) {
+        groupMapper.deleteById(id);
+        return Response.buildSuccess();
+    }
 }
