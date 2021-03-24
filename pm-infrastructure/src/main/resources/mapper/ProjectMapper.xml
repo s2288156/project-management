@@ -4,4 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.infrastructure.mapper.ProjectMapper">
 
+    <select id="selectByName" resultType="com.pm.infrastructure.dataobject.ProjectDO">
+        select id, create_time, update_time, group_id, name, `desc`
+        from t_project
+        where name=#{name}
+    </select>
 </mapper>

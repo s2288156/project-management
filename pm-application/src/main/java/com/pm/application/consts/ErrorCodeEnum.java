@@ -14,6 +14,7 @@ public enum ErrorCodeEnum {
     USERNAME_NOT_FOUND("50002", "用户名不存在"),
     GROUP_NAME_EXISTED("50003", "组名称重复"),
     GROUP_NOT_FOUND("50004", "组不存在"),
+    PROJECT_NAME_EXISTED("50005", "项目名重复"),
     ;
 
     @Getter
