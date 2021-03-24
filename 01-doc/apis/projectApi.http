@@ -1,0 +1,9 @@
+POST http://{{host}}/project/one
+Content-Type: application/json
+
+{
+  "groupId": "1372841098510565377",
+  "name": "order"
+}
+
+###

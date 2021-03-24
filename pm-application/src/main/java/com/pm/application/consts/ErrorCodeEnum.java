@@ -13,6 +13,7 @@ public enum ErrorCodeEnum {
     PASSWORD_FAIL("50001", "密码错误"),
     USERNAME_NOT_FOUND("50002", "用户名不存在"),
     GROUP_NAME_EXISTED("50003", "组名称重复"),
+    GROUP_NOT_FOUND("50004", "组不存在"),
     ;
 
     @Getter

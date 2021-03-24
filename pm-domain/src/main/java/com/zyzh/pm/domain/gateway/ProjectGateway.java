@@ -5,5 +5,4 @@ package com.zyzh.pm.domain.gateway;
  */
 public interface ProjectGateway {
 
-
 }
