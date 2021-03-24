@@ -11,7 +11,9 @@ public class Project {
 
     private String name;
 
-    private String desc;
+    private String description;
 
-    private List<Module> modules;
+    private ProjectGroup group;
+
+    private List<ProjectModule> projectModules;
 }

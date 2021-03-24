@@ -1,7 +1,6 @@
 package com.pm.application.service.impl;
 
 import com.alibaba.cola.dto.SingleResponse;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ProjectAddCmdExe;
 import com.pm.application.dto.GroupId;
@@ -38,9 +37,9 @@ public class ProjectServiceImpl implements IProjectService {
     @Override
     public PageResponse<ProjectVO> listByGroupId(GroupId groupId) {
         Page<ProjectDO> page = groupId.createPage();
-        projectMapper.selectPage(page, new LambdaQueryWrapper<ProjectDO>()
-                .eq(ProjectDO::getGroupId, groupId.getGroupId())
-        );
+
+        projectMapper.pageBy(page, groupId.getGroupId());
+
         List<ProjectVO> collect = page.getRecords()
                 .stream()
                 .map(ProjectVO::convert2DO)
@@ -51,7 +50,7 @@ public class ProjectServiceImpl implements IProjectService {
     @Override
     public PageResponse<ProjectVO> listAll(PageQuery pageQuery) {
         Page<ProjectDO> page = pageQuery.createPage();
-        projectMapper.selectPage(page, null);
+        projectMapper.pageBy(page);
         List<ProjectVO> collect = page.getRecords()
                 .stream()
                 .map(ProjectVO::convert2DO)

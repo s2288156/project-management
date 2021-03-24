@@ -39,4 +39,6 @@ public class ProjectDO {
      **/
     private String description;
 
+    @TableField(exist = false)
+    private String groupName;
 }

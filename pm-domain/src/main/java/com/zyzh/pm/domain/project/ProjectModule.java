@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author wcy
  */
-public class Module {
+public class ProjectModule {
 
     private String id;
 
@@ -15,5 +15,5 @@ public class Module {
 
     private Boolean isLatest;
 
-    private List<Module> dependencyModule;
+    private List<ProjectModule> dependencyProjectModule;
 }

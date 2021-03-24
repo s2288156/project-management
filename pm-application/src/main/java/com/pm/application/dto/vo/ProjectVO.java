@@ -19,6 +19,8 @@ public class ProjectVO extends DTO {
 
     private String groupId;
 
+    private String groupName;
+
     /**
      * 项目名
      **/
@@ -34,4 +36,5 @@ public class ProjectVO extends DTO {
         BeanUtils.copyProperties(projectDO, projectVO);
         return projectVO;
     }
+
 }
