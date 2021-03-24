@@ -9,4 +9,5 @@ import com.pm.application.dto.cmd.ProjectAddCmd;
 public interface IProjectService {
 
     SingleResponse<?> addOne(ProjectAddCmd addCmd);
+
 }

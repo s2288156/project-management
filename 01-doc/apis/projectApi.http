@@ -1,3 +1,7 @@
+GET http://{{host}}/project/list?pid=99&page=1&limit=100
+Accept: application/json
+
+###
 POST http://{{host}}/project/one
 Content-Type: application/json
 
