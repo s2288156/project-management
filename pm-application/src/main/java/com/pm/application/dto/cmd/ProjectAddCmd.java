@@ -22,5 +22,5 @@ public class ProjectAddCmd extends Command {
     /**
      * 描述
      **/
-    private String desc;
+    private String description;
 }

@@ -1,10 +1,11 @@
 package com.pm.controller;
 
-import com.alibaba.cola.dto.PageResponse;
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.Pid;
+import com.pm.application.dto.GroupId;
 import com.pm.application.dto.cmd.ProjectAddCmd;
+import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
+import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,10 @@ public class ProjectController {
         return projectService.addOne(addCmd);
     }
 
-    @GetMapping("/list")
-    public PageResponse<?> list(Pid pid) {
-        return PageResponse.buildSuccess();
+    @GetMapping("/list/for_group")
+    public PageResponse<ProjectVO> listByGroup(GroupId groupId) {
+        return projectService.listByGroupId(groupId);
     }
+
+
 }

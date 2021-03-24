@@ -5,7 +5,7 @@
 <mapper namespace="com.pm.infrastructure.mapper.ProjectMapper">
 
     <select id="selectByName" resultType="com.pm.infrastructure.dataobject.ProjectDO">
-        select id, create_time, update_time, group_id, name, `desc`
+        select id, create_time, update_time, group_id, name, description
         from t_project
         where name = #{name}
     </select>

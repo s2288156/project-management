@@ -1,0 +1,1 @@
+alter table t_project change `desc` `description` varchar(255) NULL COMMENT '描述' AFTER `name`;

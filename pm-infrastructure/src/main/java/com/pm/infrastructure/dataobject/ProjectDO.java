@@ -1,5 +1,6 @@
 package com.pm.infrastructure.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,6 @@ public class ProjectDO {
     /**
      * 描述
      **/
-    private String desc;
+    private String description;
 
 }

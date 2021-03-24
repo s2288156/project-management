@@ -12,7 +12,7 @@ public class ProjectConvertor {
         ProjectDO projectDO = new ProjectDO();
         projectDO.setGroupId(addCmd.getGroupId());
         projectDO.setName(addCmd.getName());
-        projectDO.setDesc(addCmd.getDesc());
+        projectDO.setDescription(addCmd.getDescription());
         return projectDO;
     }
 }
