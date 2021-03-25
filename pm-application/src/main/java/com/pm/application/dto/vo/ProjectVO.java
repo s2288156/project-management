@@ -3,6 +3,7 @@ package com.pm.application.dto.vo;
 import com.alibaba.cola.dto.DTO;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 /**
  * @author wcy
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ProjectVO extends DTO {
 
