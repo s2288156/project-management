@@ -3,6 +3,7 @@ package com.pm.controller;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModulePageQueryCmd;
+import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ModuleController {
     }
 
     @GetMapping("/list")
-    public PageResponse<?> listModule(ModulePageQueryCmd modulePageQueryCmd) {
+    public PageResponse<ModuleVO> listModule(ModulePageQueryCmd modulePageQueryCmd) {
         return moduleService.list(modulePageQueryCmd);
     }
 }

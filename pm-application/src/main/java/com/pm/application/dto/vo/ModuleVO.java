@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
+
 /**
  * @author wcy
  */
@@ -26,6 +28,8 @@ public class ModuleVO extends DTO {
      * moduleVersion
      */
     private String version;
+
+    private LocalDateTime createTime;
 
     public static ModuleVO createForId(String id) {
         ModuleVO moduleVO = new ModuleVO();
