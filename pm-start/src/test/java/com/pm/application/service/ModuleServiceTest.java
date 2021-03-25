@@ -53,18 +53,10 @@ public class ModuleServiceTest extends NoneWebBaseTest {
 
         assertTrue(singleResponse.isSuccess());
 
-        SingleResponse<ModuleVO> singleResponse1 = moduleService.addOne(moduleAddCmd);
+        SingleResponse<ModuleVO> secondResponse = moduleService.addOne(moduleAddCmd);
 
-        assertFalse(singleResponse1.isSuccess());
-        assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), singleResponse1.getErrCode());
-
-        Optional<ModuleDO> moduleOptional = moduleMapper.selectByName(moduleAddCmd.getName());
-        // 第二次插入将失败
-        assertFalse(moduleOptional.isPresent());
-
-        ModuleVersionDO moduleVersionDO = moduleVersionMapper.selectOne(new LambdaQueryWrapper<ModuleVersionDO>()
-                .eq(ModuleVersionDO::getMid, singleResponse.getData().getId())
-        );
-        assertNull(moduleVersionDO);
+        assertFalse(secondResponse.isSuccess());
+        assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), secondResponse.getErrCode());
     }
+
 }

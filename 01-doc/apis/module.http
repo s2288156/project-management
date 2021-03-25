@@ -1,0 +1,10 @@
+POST http://{{host}}/module/one
+Content-Type: application/json
+
+{
+  "pid": "1374994622346301442",
+  "name": "afafadd",
+  "version": "1.1.1"
+}
+
+###
