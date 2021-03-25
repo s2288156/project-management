@@ -15,6 +15,7 @@ public enum ErrorCodeEnum {
     GROUP_NAME_EXISTED("50003", "组名称重复"),
     GROUP_NOT_FOUND("50004", "组不存在"),
     PROJECT_NAME_EXISTED("50005", "项目名重复"),
+    MODULE_NAME_EXISTED("50006", "模块名重复"),
     ;
 
     @Getter

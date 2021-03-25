@@ -4,4 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.infrastructure.mapper.ModuleMapper">
 
+    <select id="selectByName" resultType="com.pm.infrastructure.dataobject.ModuleDO">
+        select id, create_time, pid, name
+        from t_module
+        where name = #{name}
+    </select>
 </mapper>
