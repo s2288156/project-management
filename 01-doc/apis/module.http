@@ -1,10 +1,18 @@
+GET http://{{host}}/module/list?pid=1374558408900321282&page=1&limit=10
+Accept: application/json
+
+###
+GET http://{{host}}/module/list?page=1&limit=10
+Accept: application/json
+
+###
 POST http://{{host}}/module/one
 Content-Type: application/json
 
 {
-  "pid": "1374994622346301442",
-  "name": "afafadd",
-  "version": "1.1.1"
+  "pid": "1374558408900321282",
+  "name": "order-dao",
+  "version": "2.1.0"
 }
 
 ###

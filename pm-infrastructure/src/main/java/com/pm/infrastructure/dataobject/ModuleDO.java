@@ -1,5 +1,6 @@
 package com.pm.infrastructure.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,4 +37,12 @@ public class ModuleDO {
      **/
     private String name;
 
+    /**
+     * moduleVersion
+     */
+    @TableField(exist = false)
+    private String version;
+
+    @TableField(exist = false)
+    private String projectName;
 }

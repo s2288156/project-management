@@ -9,4 +9,13 @@
         from t_module
         where name = #{name}
     </select>
+
+    <select id="listProjectAndVersion" resultType="com.pm.infrastructure.dataobject.ModuleDO">
+        select m.id, m.create_time, m.update_time, m.pid, m.name, tmv.version, tp.name as projectName
+        from t_module m left join t_module_version tmv on m.id = tmv.mid
+        left join t_project tp on m.pid = tp.id
+        <if test="pid != null and pid != ''">
+            where m.pid = #{pid}
+        </if>
+    </select>
 </mapper>
