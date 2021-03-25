@@ -22,7 +22,7 @@ public class ModuleServiceImpl implements IModuleService {
     private ModuleVersionMapper moduleVersionMapper;
 
     @Override
-    public SingleResponse<?> addOne(ModuleAddCmd moduleAddCmd) {
+    public SingleResponse<ModuleVO> addOne(ModuleAddCmd moduleAddCmd) {
         SingleResponse<ModuleVO> moduleAddExe = moduleAddCmdExe.execute(moduleAddCmd);
         if (!moduleAddExe.isSuccess()) {
             return moduleAddExe;
