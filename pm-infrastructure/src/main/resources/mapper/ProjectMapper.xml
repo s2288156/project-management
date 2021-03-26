@@ -14,7 +14,7 @@
         select p.id, p.create_time, p.group_id, p.name, p.description, g.name as groupName
         from t_project p left join t_group g on p.group_id=g.id
         <if test="groupId != null and groupId != ''">
-            and p.group_id = #{groupId}
+            where p.group_id = #{groupId}
         </if>
     </select>
 </mapper>

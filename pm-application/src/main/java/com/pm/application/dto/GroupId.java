@@ -4,8 +4,6 @@ import com.pm.infrastructure.entity.PageQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * @author wcy
  */
@@ -13,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class GroupId extends PageQuery {
 
-    @NotBlank(message = "参数错误")
     private String groupId;
 
 }

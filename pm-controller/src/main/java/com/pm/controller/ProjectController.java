@@ -5,7 +5,6 @@ import com.pm.application.dto.GroupId;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
-import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -30,14 +29,9 @@ public class ProjectController {
         return projectService.addOne(addCmd);
     }
 
-    @GetMapping("/list/for_group")
-    public PageResponse<ProjectVO> listByGroup(GroupId groupId) {
-        return projectService.listByGroupId(groupId);
-    }
-
     @GetMapping("/list")
-    public PageResponse<ProjectVO> list(PageQuery pageQuery) {
-        return projectService.listAll(pageQuery);
+    public PageResponse<ProjectVO> listProject(GroupId groupId) {
+        return projectService.listProjects(groupId);
     }
 
 }

@@ -8,7 +8,6 @@ import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
 import com.pm.infrastructure.dataobject.ProjectDO;
-import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public PageResponse<ProjectVO> listByGroupId(GroupId groupId) {
+    public PageResponse<ProjectVO> listProjects(GroupId groupId) {
         Page<ProjectDO> page = groupId.createPage();
 
         projectMapper.pageBy(page, groupId.getGroupId());
@@ -47,14 +46,4 @@ public class ProjectServiceImpl implements IProjectService {
         return PageResponse.of(collect, page.getTotal());
     }
 
-    @Override
-    public PageResponse<ProjectVO> listAll(PageQuery pageQuery) {
-        Page<ProjectDO> page = pageQuery.createPage();
-        projectMapper.pageBy(page);
-        List<ProjectVO> collect = page.getRecords()
-                .stream()
-                .map(ProjectVO::convert2DO)
-                .collect(Collectors.toList());
-        return PageResponse.of(collect, page.getTotal());
-    }
 }

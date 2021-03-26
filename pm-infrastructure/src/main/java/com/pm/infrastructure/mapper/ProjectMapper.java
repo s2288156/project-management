@@ -16,7 +16,4 @@ public interface ProjectMapper extends BaseMapper<ProjectDO> {
 
     Page<ProjectDO> pageBy(IPage<ProjectDO> page, @Param("groupId") String groupId);
 
-    default Page<ProjectDO> pageBy(IPage<ProjectDO> page) {
-        return pageBy(page, null);
-    }
 }
