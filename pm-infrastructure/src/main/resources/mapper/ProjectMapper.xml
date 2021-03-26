@@ -18,6 +18,6 @@
                 p.group_id = #{groupId}
             </if>
         </where>
-
+        order by g.name ASC
     </select>
 </mapper>

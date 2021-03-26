@@ -17,6 +17,9 @@ public class PageQuery extends AbstractPageQuery {
 
     public <T> Page<T> createPage() {
         Page<T> page = new Page<>(getPage(), getLimit());
+        if (handleSort() == null) {
+            return page;
+        }
         List<OrderItem> orderItemList = handleSort()
                 .stream()
                 .map(sortItem -> sortItem.isAsc() ? OrderItem.asc(sortItem.getFieldName()) : OrderItem.desc(sortItem.getFieldName()))

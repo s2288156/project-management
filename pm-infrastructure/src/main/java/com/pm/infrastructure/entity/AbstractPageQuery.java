@@ -34,13 +34,16 @@ public abstract class AbstractPageQuery extends Query implements Serializable {
     /**
      * 格式：“+name” 、 "+id,+name,-age"
      */
-    private String sort = "+id";
+    private String sort;
 
     private String[] splitSort() {
         return StringUtils.split(getSort(), SEPARATOR);
     }
 
     public List<SortItem> handleSort() {
+        if (StringUtils.isBlank(sort)) {
+            return null;
+        }
         return Arrays.stream(splitSort())
                 .map(item -> new SortItem(StringUtils.contains(item, "+"), StringUtils.substring(item, 1)))
                 .collect(Collectors.toList());
