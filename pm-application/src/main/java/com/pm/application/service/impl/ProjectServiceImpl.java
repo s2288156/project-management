@@ -3,7 +3,7 @@ package com.pm.application.service.impl;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ProjectAddCmdExe;
-import com.pm.application.dto.GroupId;
+import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
@@ -34,10 +34,10 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public PageResponse<ProjectVO> listProjects(GroupId groupId) {
-        Page<ProjectDO> page = groupId.createPage();
+    public PageResponse<ProjectVO> listProjects(ProjectPageQueryCmd projectPageQueryCmd) {
+        Page<ProjectDO> page = projectPageQueryCmd.createPage();
 
-        projectMapper.pageBy(page, groupId.getGroupId());
+        projectMapper.pageBy(page, projectPageQueryCmd.getGroupId());
 
         List<ProjectVO> collect = page.getRecords()
                 .stream()

@@ -1,4 +1,4 @@
-package com.pm.application.dto;
+package com.pm.application.dto.cmd;
 
 import com.pm.infrastructure.entity.PageQuery;
 import lombok.Data;
@@ -9,8 +9,9 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GroupId extends PageQuery {
+public class ProjectPageQueryCmd extends PageQuery {
 
     private String groupId;
 
+    private String groupName;
 }

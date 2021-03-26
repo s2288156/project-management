@@ -1,7 +1,7 @@
 package com.pm.controller;
 
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.GroupId;
+import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
@@ -30,8 +30,8 @@ public class ProjectController {
     }
 
     @GetMapping("/list")
-    public PageResponse<ProjectVO> listProject(GroupId groupId) {
-        return projectService.listProjects(groupId);
+    public PageResponse<ProjectVO> listProject(ProjectPageQueryCmd projectPageQueryCmd) {
+        return projectService.listProjects(projectPageQueryCmd);
     }
 
 }
