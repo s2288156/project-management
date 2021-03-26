@@ -36,8 +36,7 @@ public class ProjectServiceImpl implements IProjectService {
     @Override
     public PageResponse<ProjectVO> listProjects(ProjectPageQueryCmd projectPageQueryCmd) {
         Page<ProjectDO> page = projectPageQueryCmd.createPage();
-
-        projectMapper.pageBy(page, projectPageQueryCmd.getGroupId());
+        projectMapper.pageByGroupId(page, projectPageQueryCmd.getGroupId());
 
         List<ProjectVO> collect = page.getRecords()
                 .stream()

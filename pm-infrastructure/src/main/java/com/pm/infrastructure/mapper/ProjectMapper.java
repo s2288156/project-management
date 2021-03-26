@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface ProjectMapper extends BaseMapper<ProjectDO> {
     Optional<ProjectDO> selectByName(String name);
 
-    Page<ProjectDO> pageBy(IPage<ProjectDO> page, @Param("groupId") String groupId);
+    Page<ProjectDO> pageByGroupId(IPage<ProjectDO> page, @Param("groupId") String groupId);
 
 }

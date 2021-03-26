@@ -10,11 +10,14 @@
         where name = #{name}
     </select>
 
-    <select id="pageBy" resultType="com.pm.infrastructure.dataobject.ProjectDO">
+    <select id="pageByGroupId" resultType="com.pm.infrastructure.dataobject.ProjectDO">
         select p.id, p.create_time, p.group_id, p.name, p.description, g.name as groupName
-        from t_project p left join t_group g on p.group_id=g.id
-        <if test="groupId != null and groupId != ''">
-            where p.group_id = #{groupId}
-        </if>
+        from t_project p left join t_group g on p.group_id = g.id
+        <where>
+            <if test="groupId != null and groupId != ''">
+                p.group_id = #{groupId}
+            </if>
+        </where>
+
     </select>
 </mapper>
