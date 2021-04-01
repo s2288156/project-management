@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@TableName(autoResultMap = true, value = "t_module_version")
-public class ModuleVersionDO {
+@TableName(autoResultMap = true, value = "t_dependence")
+public class DependenceDO {
 
     private String id;
 
@@ -27,18 +27,18 @@ public class ModuleVersionDO {
     private LocalDateTime updateTime;
 
     /**
-     * module_id
+     * 所属项目id
+     **/
+    private String pid;
+
+    /**
+     * 项目模块id
      **/
     private String mid;
 
     /**
-     * 版本
+     * 当前模块依赖其它模块id
      **/
-    private String version;
-
-    /**
-     * 版本描述
-     **/
-    private String description;
+    private String dependMid;
 
 }

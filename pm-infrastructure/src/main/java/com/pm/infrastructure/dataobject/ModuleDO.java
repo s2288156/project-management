@@ -38,6 +38,21 @@ public class ModuleDO {
     private String name;
 
     /**
+     * 模块说明
+     **/
+    private String description;
+
+    /**
+     * 是否对外开发，0 - 不开放，1 - 开放
+     **/
+    private Integer openingUp;
+
+    /**
+     * 最新版本
+     **/
+    private String latestVersion;
+
+    /**
      * moduleVersion
      */
     @TableField(exist = false)
