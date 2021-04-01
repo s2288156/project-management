@@ -52,12 +52,6 @@ public class ModuleDO {
      **/
     private String latestVersion;
 
-    /**
-     * moduleVersion
-     */
-    @TableField(exist = false)
-    private String version;
-
     @TableField(exist = false)
     private String projectName;
 }

@@ -27,7 +27,7 @@ public class ModuleVO extends DTO {
     /**
      * moduleVersion
      */
-    private String version;
+    private String latestVersion;
 
     private LocalDateTime createTime;
 
