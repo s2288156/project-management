@@ -12,6 +12,7 @@ public class ModuleConvertor {
     public static ModuleDO convert2Do(ModuleAddCmd moduleAddCmd) {
         ModuleDO moduleDO = new ModuleDO();
         BeanUtils.copyProperties(moduleAddCmd, moduleDO);
+        moduleDO.setLatestVersion(moduleAddCmd.getVersion());
         return moduleDO;
     }
 }

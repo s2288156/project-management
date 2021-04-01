@@ -16,6 +16,6 @@
         <if test="pid != null and pid != ''">
             where m.pid = #{pid}
         </if>
-        order by tp.name ASC
+        order by tp.name ASC, m.name ASC
     </select>
 </mapper>
