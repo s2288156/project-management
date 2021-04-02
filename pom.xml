@@ -24,7 +24,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <zyzh-cloud-dependencies.version>0.2.1-SNAPSHOT</zyzh-cloud-dependencies.version>
-        <zyzh-common-lib.version>1.0.15</zyzh-common-lib.version>
         <cola-parent.version>4.0.1</cola-parent.version>
         <nimbus-jsse-jwt.version>8.19</nimbus-jsse-jwt.version>
         <spring-security-rsa.version>1.0.9.RELEASE</spring-security-rsa.version>
@@ -69,9 +68,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.zyzh.common</groupId>
-            <artifactId>zyzh-common-lib</artifactId>
-            <version>${zyzh-common-lib.version}</version>
+            <groupId>com.zyzh</groupId>
+            <artifactId>zyzh-component-exception</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
         <dependency>

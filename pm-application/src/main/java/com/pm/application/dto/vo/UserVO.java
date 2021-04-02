@@ -2,9 +2,9 @@ package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
 import com.nimbusds.jose.JWSObject;
+import com.pm.infrastructure.tool.JsonUtils;
 import com.pm.infrastructure.tool.Payload;
-import com.zyzh.common.ex.SysException;
-import com.zyzh.common.util.JsonUtils;
+import com.zyzh.exception.SysException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

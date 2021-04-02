@@ -12,7 +12,7 @@ import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
-import com.zyzh.common.ex.BizException;
+import com.zyzh.exception.BizException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +56,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         try {
             moduleService.addOne(moduleAddCmd);
         } catch (BizException ex) {
-            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ex.getCode());
+            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ex.getErrCode());
         }
     }
 
