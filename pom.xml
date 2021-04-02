@@ -68,13 +68,6 @@
             <version>${cola-parent.version}</version>
         </dependency>
 
-        <!-- 定义了异常格式，主要有BizException和SysException -->
-        <dependency>
-            <groupId>com.alibaba.cola</groupId>
-            <artifactId>cola-component-exception</artifactId>
-            <version>${cola-parent.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.zyzh.common</groupId>
             <artifactId>zyzh-common-lib</artifactId>

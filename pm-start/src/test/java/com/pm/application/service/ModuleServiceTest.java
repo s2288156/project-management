@@ -2,7 +2,6 @@ package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.alibaba.cola.exception.BizException;
 import com.pm.NoneWebBaseTest;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleAddCmd;
@@ -13,6 +12,7 @@ import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
+import com.zyzh.common.ex.BizException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +56,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         try {
             moduleService.addOne(moduleAddCmd);
         } catch (BizException ex) {
-            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ex.getErrCode());
+            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ex.getCode());
         }
     }
 

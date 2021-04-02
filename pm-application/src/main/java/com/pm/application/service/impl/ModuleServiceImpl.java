@@ -2,7 +2,6 @@ package com.pm.application.service.impl;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.alibaba.cola.exception.BizException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
 import com.pm.application.consts.ErrorCodeEnum;
@@ -17,6 +16,7 @@ import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.entity.PageResponse;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
+import com.zyzh.common.ex.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

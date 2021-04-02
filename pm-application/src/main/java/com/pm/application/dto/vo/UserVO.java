@@ -1,9 +1,9 @@
 package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
-import com.alibaba.cola.exception.SysException;
 import com.nimbusds.jose.JWSObject;
 import com.pm.infrastructure.tool.Payload;
+import com.zyzh.common.ex.SysException;
 import com.zyzh.common.util.JsonUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -47,7 +47,7 @@ public class UserVO extends DTO {
         try {
             jwsObject = JWSObject.parse(token);
         } catch (ParseException e) {
-            throw new SysException("");
+            throw new SysException(e.getMessage());
         }
         String userStr = jwsObject.getPayload().toString();
         Payload payload = JsonUtils.fromJson(userStr, Payload.class);
