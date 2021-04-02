@@ -38,7 +38,6 @@ public class ModuleController {
 
     @PostMapping("/version")
     public Response addVersion(@Validated @RequestBody ModuleVersionAddCmd versionAddCmd) {
-
-        return null;
+        return moduleService.addVersion(versionAddCmd);
     }
 }
