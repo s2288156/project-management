@@ -1,8 +1,10 @@
 package com.pm.controller;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModulePageQueryCmd;
+import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.entity.PageResponse;
@@ -32,5 +34,11 @@ public class ModuleController {
     @GetMapping("/list")
     public PageResponse<ModuleVO> listModule(ModulePageQueryCmd modulePageQueryCmd) {
         return moduleService.list(modulePageQueryCmd);
+    }
+
+    @PostMapping("/version")
+    public Response addVersion(@Validated @RequestBody ModuleVersionAddCmd versionAddCmd) {
+
+        return null;
     }
 }
