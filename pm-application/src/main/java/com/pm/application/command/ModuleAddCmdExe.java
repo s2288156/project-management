@@ -22,10 +22,6 @@ public class ModuleAddCmdExe {
     private ModuleMapper moduleMapper;
 
     public SingleResponse<ModuleVO> execute(ModuleAddCmd addCmd) {
-        Optional<ModuleDO> moduleOptional = moduleMapper.selectByName(addCmd.getName());
-        if (moduleOptional.isPresent()) {
-            return SingleResponse.buildFailure(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorMsg());
-        }
 
         ModuleDO moduleDO = ModuleConvertor.convert2Do(addCmd);
         moduleMapper.insert(moduleDO);

@@ -1,23 +1,23 @@
 package com.pm.application.service;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.alibaba.cola.exception.BizException;
 import com.pm.NoneWebBaseTest;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleAddCmd;
+import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.infrastructure.dataobject.ModuleDO;
-import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author wcy
@@ -53,10 +53,31 @@ public class ModuleServiceTest extends NoneWebBaseTest {
 
         assertTrue(singleResponse.isSuccess());
 
-        SingleResponse<ModuleVO> secondResponse = moduleService.addOne(moduleAddCmd);
-
-        assertFalse(secondResponse.isSuccess());
-        assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), secondResponse.getErrCode());
+        try {
+            moduleService.addOne(moduleAddCmd);
+        } catch (BizException ex) {
+            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ex.getErrCode());
+        }
     }
 
+    @Transactional
+    @Test
+    void testAddModuleVersionMidNotExist() {
+        String version = "2.1.1";
+        String mid = "1231510238213912";
+
+        ModuleVersionAddCmd versionAddCmd = new ModuleVersionAddCmd();
+        versionAddCmd.setVersion(version);
+        versionAddCmd.setMid(mid);
+
+        Response response = moduleService.addVersion(versionAddCmd);
+        assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), response.getErrMessage());
+    }
+
+    private ModuleDO insertModule() {
+        ModuleDO moduleDO = new ModuleDO();
+        moduleDO.setName("hahaha");
+        moduleDO.setPid("112233");
+        return moduleDO;
+    }
 }

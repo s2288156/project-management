@@ -2,6 +2,7 @@ package com.pm.application.service.impl;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
+import com.alibaba.cola.exception.BizException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
 import com.pm.application.consts.ErrorCodeEnum;
@@ -41,6 +42,10 @@ public class ModuleServiceImpl implements IModuleService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SingleResponse<ModuleVO> addOne(ModuleAddCmd moduleAddCmd) {
+        Optional<ModuleDO> moduleOptional = moduleMapper.selectByName(moduleAddCmd.getName());
+        if (moduleOptional.isPresent()) {
+            throw new BizException(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorMsg());
+        }
         SingleResponse<ModuleVO> moduleAddExe = moduleAddCmdExe.execute(moduleAddCmd);
         if (!moduleAddExe.isSuccess()) {
             return moduleAddExe;
