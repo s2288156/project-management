@@ -6,9 +6,9 @@ spring:
   flyway:
     clean-disabled: true
   datasource:
-    url: jdbc:mysql://node0.com:3306/db_pm?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.30.66:3306/db_pm?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: 123123
+    password: zyzh2018
     hikari:
       minimum-idle: 10
       maximum-pool-size: 50
