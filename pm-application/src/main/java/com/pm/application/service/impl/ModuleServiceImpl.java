@@ -66,10 +66,16 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     public Response addVersion(ModuleVersionAddCmd versionAddCmd) {
+        ModuleDO moduleDO = moduleMapper.selectById(versionAddCmd.getMid());
+        if (moduleDO == null) {
+            return Response.buildFailure(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), ErrorCodeEnum.MODULE_NOT_FOUND.getErrorMsg());
+        }
+
         Optional<ModuleVersionDO> versionOptional = moduleVersionMapper.selectByVersion(versionAddCmd.getVersion());
         if (versionOptional.isPresent()) {
             return Response.buildFailure(ErrorCodeEnum.MODULE_VERSION_EXISTED.getErrorCode(), ErrorCodeEnum.MODULE_VERSION_EXISTED.getErrorMsg());
         }
+
         moduleVersionMapper.insert(ModuleVersionConvertor.convertFor(versionAddCmd));
         return Response.buildSuccess();
     }

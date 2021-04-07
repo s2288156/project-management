@@ -49,10 +49,12 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         moduleAddCmd.setName("testModule");
         moduleAddCmd.setVersion("1.0.0");
 
+        // 首次插入version
         SingleResponse<ModuleVO> singleResponse = moduleService.addOne(moduleAddCmd);
 
         assertTrue(singleResponse.isSuccess());
 
+        // 验证重复插入相同version
         try {
             moduleService.addOne(moduleAddCmd);
         } catch (BizException ex) {
@@ -70,8 +72,9 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         versionAddCmd.setVersion(version);
         versionAddCmd.setMid(mid);
 
+        // 如果mid不存在，应该抛出ErrorCodeEnum.MODULE_NOT_FOUND错误码
         Response response = moduleService.addVersion(versionAddCmd);
-        assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), response.getErrMessage());
+        assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), response.getErrCode());
     }
 
     private ModuleDO insertModule() {
