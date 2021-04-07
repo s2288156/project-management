@@ -77,10 +77,23 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), response.getErrCode());
     }
 
+    @Transactional
+    @Test
+    void testAddModuleVersionSuccess() {
+        ModuleDO moduleDO = insertModule();
+        ModuleVersionAddCmd versionAddCmd = new ModuleVersionAddCmd();
+        versionAddCmd.setVersion("2.3.1");
+        versionAddCmd.setMid(moduleDO.getId());
+
+        Response response = moduleService.addVersion(versionAddCmd);
+        assertTrue(response.isSuccess());
+    }
+
     private ModuleDO insertModule() {
         ModuleDO moduleDO = new ModuleDO();
         moduleDO.setName("hahaha");
         moduleDO.setPid("112233");
+        moduleMapper.insert(moduleDO);
         return moduleDO;
     }
 }
