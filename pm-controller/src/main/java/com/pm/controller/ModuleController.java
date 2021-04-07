@@ -5,7 +5,9 @@ import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModulePageQueryCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
+import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
 import com.pm.application.dto.vo.ModuleVO;
+import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,10 @@ public class ModuleController {
     @PostMapping("/version")
     public Response addVersion(@Validated @RequestBody ModuleVersionAddCmd versionAddCmd) {
         return moduleService.addVersion(versionAddCmd);
+    }
+
+    @GetMapping("/version/list")
+    public PageResponse<ModuleVersionVO> listModuleVersion(@Validated ModuleVersionPageQueryCmd versionPageQueryCmd) {
+        return null;
     }
 }
