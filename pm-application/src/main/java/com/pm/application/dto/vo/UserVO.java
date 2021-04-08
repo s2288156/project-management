@@ -53,6 +53,7 @@ public class UserVO extends DTO {
         Payload payload = JsonUtils.fromJson(userStr, Payload.class);
 
         Set<String> rs = new HashSet<>();
+        // TODO: 2021/4/8 暂时写死
         rs.add("ADMIN");
 
         UserVO userVO = new UserVO();
