@@ -1,8 +1,11 @@
 package com.pm.application.service.impl;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ProjectAddCmdExe;
+import com.pm.application.command.ProjectDependAddCmdExe;
+import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.vo.ProjectVO;
@@ -26,6 +29,9 @@ public class ProjectServiceImpl implements IProjectService {
     private ProjectAddCmdExe projectAddCmdExe;
 
     @Autowired
+    private ProjectDependAddCmdExe projectDependAddCmdExe;
+
+    @Autowired
     private ProjectMapper projectMapper;
 
     @Override
@@ -43,6 +49,11 @@ public class ProjectServiceImpl implements IProjectService {
                 .map(ProjectVO::convert2DO)
                 .collect(Collectors.toList());
         return PageResponse.of(collect, page.getTotal());
+    }
+
+    @Override
+    public Response dependAdd(ProjectDependAddCmd dependAddCmd) {
+        return projectDependAddCmdExe.execute(dependAddCmd);
     }
 
 }
