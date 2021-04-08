@@ -45,6 +45,6 @@ public class ModuleController {
 
     @GetMapping("/version/list")
     public PageResponse<ModuleVersionVO> listModuleVersion(@Validated ModuleVersionPageQueryCmd versionPageQueryCmd) {
-        return null;
+        return moduleService.listVersion(versionPageQueryCmd);
     }
 }

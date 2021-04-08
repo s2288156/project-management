@@ -9,4 +9,9 @@
         from t_module_version
         where version=#{version}
     </select>
+    <select id="listModuleVersion" resultType="com.pm.infrastructure.dataobject.ModuleVersionDO">
+        select id, create_time, version, description
+        from t_module_version
+        where mid = #{mid}
+    </select>
 </mapper>

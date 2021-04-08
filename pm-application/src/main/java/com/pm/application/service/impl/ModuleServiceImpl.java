@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
+import com.pm.application.command.ModuleVersionPageQueryCmdExe;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleVersionConvertor;
 import com.pm.application.dto.cmd.ModuleAddCmd;
@@ -40,6 +41,9 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Autowired
     private ModuleMapper moduleMapper;
+
+    @Autowired
+    private ModuleVersionPageQueryCmdExe versionPageQueryCmdExe;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -84,8 +88,7 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     public PageResponse<ModuleVersionVO> listVersion(ModuleVersionPageQueryCmd versionPageQueryCmd) {
-
-        return null;
+        return versionPageQueryCmdExe.execute(versionPageQueryCmd);
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {

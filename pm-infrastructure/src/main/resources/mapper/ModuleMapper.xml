@@ -18,8 +18,4 @@
         </if>
         order by tp.name ASC, m.name ASC
     </select>
-    <select id="listDependModule" resultType="com.pm.infrastructure.dataobject.ModuleDO">
-        select *
-        from t_dependence
-    </select>
 </mapper>
