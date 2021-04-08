@@ -30,4 +30,6 @@ public class ModuleAddCmd extends Command {
      */
     @NotBlank(message = "版本号必传")
     private String version;
+
+    private String description;
 }

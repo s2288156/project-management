@@ -29,6 +29,8 @@ public class ModuleVO extends DTO {
      */
     private String latestVersion;
 
+    private String description;
+
     private LocalDateTime createTime;
 
     public static ModuleVO createForId(String id) {

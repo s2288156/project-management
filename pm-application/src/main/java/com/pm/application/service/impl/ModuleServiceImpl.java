@@ -95,6 +95,7 @@ public class ModuleServiceImpl implements IModuleService {
         ModuleVersionDO moduleVersionDO = new ModuleVersionDO();
         moduleVersionDO.setMid(moduleAddExe.getData().getId());
         moduleVersionDO.setVersion(moduleAddCmd.getVersion());
+        moduleVersionDO.setDescription(moduleAddCmd.getDescription());
         moduleVersionMapper.insert(moduleVersionDO);
     }
 

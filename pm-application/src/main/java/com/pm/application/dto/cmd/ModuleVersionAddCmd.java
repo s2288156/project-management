@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ModuleVersionAddCmd extends Command {
 
+    @NotBlank(message = "参数异常")
     private String mid;
 
     @NotBlank(message = "版本号不能为空")
