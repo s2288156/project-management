@@ -1,8 +1,10 @@
 package com.pm.controller;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.cmd.ProjectAddCmd;
+import com.pm.application.dto.cmd.ProjectDependAddCmd;
+import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
 import com.pm.infrastructure.entity.PageResponse;
@@ -34,4 +36,9 @@ public class ProjectController {
         return projectService.listProjects(projectPageQueryCmd);
     }
 
+    @PostMapping("/depend")
+    public Response dependAdd(@Validated @RequestBody ProjectDependAddCmd dependAddCmd) {
+
+        return null;
+    }
 }
