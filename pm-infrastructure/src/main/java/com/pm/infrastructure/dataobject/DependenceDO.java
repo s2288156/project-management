@@ -27,18 +27,18 @@ public class DependenceDO {
     private LocalDateTime updateTime;
 
     /**
-     * 所属项目id
+     * 项目id
      **/
     private String pid;
-
-    /**
-     * 项目模块id
-     **/
-    private String mid;
 
     /**
      * 当前模块依赖其它模块id
      **/
     private String dependMid;
+
+    /**
+     * 依赖模块信息
+     **/
+    private String dependModuleInfo;
 
 }
