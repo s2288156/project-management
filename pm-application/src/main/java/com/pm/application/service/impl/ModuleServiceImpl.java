@@ -9,7 +9,9 @@ import com.pm.application.convertor.ModuleVersionConvertor;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModulePageQueryCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
+import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
 import com.pm.application.dto.vo.ModuleVO;
+import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.dataobject.ModuleDO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
@@ -78,6 +80,12 @@ public class ModuleServiceImpl implements IModuleService {
 
         moduleVersionMapper.insert(ModuleVersionConvertor.convertFor(versionAddCmd));
         return Response.buildSuccess();
+    }
+
+    @Override
+    public PageResponse<ModuleVersionVO> listVersion(ModuleVersionPageQueryCmd versionPageQueryCmd) {
+
+        return null;
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {
