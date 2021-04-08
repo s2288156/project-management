@@ -6,6 +6,7 @@ import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ProjectConvertor;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
+import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
@@ -25,6 +26,10 @@ public class ProjectDependAddCmdExe {
     private DependenceMapper dependenceMapper;
 
     public Response execute(ProjectDependAddCmd dependAddCmd) {
+        Optional<DependenceDO> doOptional = dependenceMapper.selectByPidAndDependMid(dependAddCmd.getPid(), dependAddCmd.getDependMid());
+        if (doOptional.isPresent()) {
+            return Response.buildFailure(ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getErrorCode(), ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getErrorMsg());
+        }
         dependenceMapper.insert(dependAddCmd.convert2Do());
         return Response.buildSuccess();
     }

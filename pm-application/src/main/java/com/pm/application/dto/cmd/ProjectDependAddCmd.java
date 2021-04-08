@@ -21,7 +21,7 @@ public class ProjectDependAddCmd extends Command {
     private String pid;
 
     @NotBlank
-    private String mid;
+    private String dependMid;
 
     @NotBlank
     private String version;

@@ -38,7 +38,6 @@ public class ProjectController {
 
     @PostMapping("/depend")
     public Response dependAdd(@Validated @RequestBody ProjectDependAddCmd dependAddCmd) {
-
-        return null;
+        return projectService.dependAdd(dependAddCmd);
     }
 }

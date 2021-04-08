@@ -22,7 +22,7 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
     @Test
     void testDependAdd() {
         ProjectDependAddCmd projectDependAddCmd = new ProjectDependAddCmd();
-        projectDependAddCmd.setMid("1");
+        projectDependAddCmd.setDependMid("1");
         projectDependAddCmd.setPid("22");
         projectDependAddCmd.setVersion("1.3.2");
         projectDependAddCmd.setDescription("nihao,hahaha!!");
