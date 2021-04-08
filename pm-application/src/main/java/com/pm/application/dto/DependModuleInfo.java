@@ -11,6 +11,10 @@ import lombok.EqualsAndHashCode;
 @Data
 public class DependModuleInfo extends DTO {
 
+    private String projectName;
+
+    private String moduleName;
+
     private String version;
 
     private String description;

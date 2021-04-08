@@ -1,6 +1,6 @@
 package com.pm.application.dto;
 
-import com.alibaba.cola.dto.DTO;
+import com.pm.infrastructure.entity.PageQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Pid extends DTO {
+public class Pid extends PageQuery {
 
     @NotBlank
     private String pid;
