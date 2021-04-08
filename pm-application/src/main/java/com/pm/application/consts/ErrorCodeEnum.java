@@ -18,6 +18,7 @@ public enum ErrorCodeEnum {
     MODULE_NAME_EXISTED("50006", "模块名重复"),
     MODULE_VERSION_EXISTED("50007", "模块版本重复"),
     MODULE_NOT_FOUND("50008", "模块不存在"),
+    RE_DEPEND_NOT_ALLOW("50009", "不允许重复依赖"),
     ;
 
     @Getter
