@@ -2,9 +2,9 @@ package com.pm.application.dto.cmd;
 
 import com.alibaba.cola.dto.Command;
 import com.pm.infrastructure.dataobject.DependenceDO;
+import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.tool.JsonUtils;
 import com.zyzh.pm.domain.project.DependModuleInfo;
-import com.zyzh.pm.domain.project.ProjectDepend;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
@@ -29,30 +29,20 @@ public class ProjectDependAddCmd extends Command {
 
     private String description;
 
-    public DependenceDO convert2Do() {
+    public DependenceDO convert2Do(ProjectDO projectDO) {
         DependenceDO dependenceDO = new DependenceDO();
         BeanUtils.copyProperties(this, dependenceDO);
-        DependModuleInfo dependModuleInfo = createDependModuleInfo();
+        DependModuleInfo dependModuleInfo = createDependModuleInfo(projectDO);
         dependenceDO.setDependModuleInfo(JsonUtils.toJson(dependModuleInfo));
         return dependenceDO;
     }
 
-    public DependModuleInfo createDependModuleInfo() {
+    public DependModuleInfo createDependModuleInfo(ProjectDO projectDO) {
         DependModuleInfo dependModuleInfo = new DependModuleInfo();
         dependModuleInfo.setVersion(this.version);
         dependModuleInfo.setDescription(this.description);
+        dependModuleInfo.setProjectName(projectDO.getName());
+        dependModuleInfo.setModuleName(projectDO.getModuleName());
         return dependModuleInfo;
-    }
-
-    public ProjectDepend convert2Domain() {
-        ProjectDepend projectDepend = new ProjectDepend();
-        projectDepend.setId(this.getPid());
-        projectDepend.setDependModuleInfo(DependModuleInfo
-                .builder()
-                .version(this.getVersion())
-                .description(this.getDescription())
-                .id(this.dependMid)
-                .build());
-        return projectDepend;
     }
 }

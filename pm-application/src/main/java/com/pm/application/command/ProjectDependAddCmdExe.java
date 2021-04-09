@@ -10,6 +10,7 @@ import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
+import com.zyzh.exception.BizException;
 import com.zyzh.pm.domain.gateway.GroupGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,12 +26,17 @@ public class ProjectDependAddCmdExe {
     @Autowired
     private DependenceMapper dependenceMapper;
 
+    @Autowired
+    private ProjectMapper projectMapper;
+
     public Response execute(ProjectDependAddCmd dependAddCmd) {
         Optional<DependenceDO> doOptional = dependenceMapper.selectByPidAndDependMid(dependAddCmd.getPid(), dependAddCmd.getDependMid());
         if (doOptional.isPresent()) {
             return Response.buildFailure(ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getErrorCode(), ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getErrorMsg());
         }
-        dependenceMapper.insert(dependAddCmd.convert2Do());
+        Optional<ProjectDO> projectOptional = projectMapper.selectByMid(dependAddCmd.getDependMid());
+        ProjectDO projectDO = projectOptional.orElseThrow(() -> new BizException(ErrorCodeEnum.PROJECT_NOT_FOUND));
+        dependenceMapper.insert(dependAddCmd.convert2Do(projectDO));
         return Response.buildSuccess();
     }
 

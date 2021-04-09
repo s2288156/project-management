@@ -16,4 +16,5 @@ public interface ProjectMapper extends BaseMapper<ProjectDO> {
 
     Page<ProjectDO> pageByGroupId(IPage<ProjectDO> page, @Param("groupId") String groupId);
 
+    Optional<ProjectDO> selectByMid(@Param("mid") String mid);
 }

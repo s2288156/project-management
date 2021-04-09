@@ -1,11 +1,12 @@
 package com.pm.application.consts;
 
+import com.zyzh.exception.IStrErrorEnum;
 import lombok.Getter;
 
 /**
  * @author wcy
  */
-public enum ErrorCodeEnum {
+public enum ErrorCodeEnum implements IStrErrorEnum {
     /**
      * 错误码
      */
@@ -19,6 +20,7 @@ public enum ErrorCodeEnum {
     MODULE_VERSION_EXISTED("50007", "模块版本重复"),
     MODULE_NOT_FOUND("50008", "模块不存在"),
     RE_DEPEND_NOT_ALLOW("50009", "不允许重复依赖"),
+    PROJECT_NOT_FOUND("50010", "项目不存在"),
     ;
 
     @Getter
@@ -30,5 +32,20 @@ public enum ErrorCodeEnum {
     ErrorCodeEnum(String errorCode, String errorMsg) {
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
+    }
+
+    @Override
+    public String getCode() {
+        return getErrorCode();
+    }
+
+    @Override
+    public String getMsg() {
+        return getErrorMsg();
+    }
+
+    @Override
+    public IStrErrorEnum valueOfCode(String s) {
+        return null;
     }
 }

@@ -7,8 +7,13 @@ import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.service.impl.ProjectServiceImpl;
+import com.pm.infrastructure.dataobject.ModuleDO;
+import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.entity.PageResponse;
+import com.pm.infrastructure.mapper.ModuleMapper;
+import com.pm.infrastructure.mapper.ProjectMapper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +26,30 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
     @Autowired
     private ProjectServiceImpl projectService;
 
-    private final String pid = "112233";
+    @Autowired
+    private ProjectMapper projectMapper;
+
+    @Autowired
+    private ModuleMapper moduleMapper;
+
+    private String pid;
+    private String mid;
+
+    @BeforeEach
+    void setUp() {
+        ProjectDO projectDO = new ProjectDO();
+        projectDO.setName("gagaga");
+        projectDO.setGroupId("123");
+        projectMapper.insert(projectDO);
+        pid = projectDO.getId();
+
+        ModuleDO moduleDO = new ModuleDO();
+        moduleDO.setPid(pid);
+        moduleDO.setName("moduleGGG");
+        moduleDO.setLatestVersion("1.2.3");
+        moduleMapper.insert(moduleDO);
+        mid = moduleDO.getId();
+    }
 
     @Transactional
     @Test
@@ -38,7 +66,7 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
 
     private ProjectDependAddCmd assembleDependAddCmd() {
         ProjectDependAddCmd projectDependAddCmd = new ProjectDependAddCmd();
-        projectDependAddCmd.setDependMid("1");
+        projectDependAddCmd.setDependMid(mid);
         projectDependAddCmd.setPid(pid);
         projectDependAddCmd.setVersion("1.3.2");
         projectDependAddCmd.setDescription("nihao,hahaha!!");

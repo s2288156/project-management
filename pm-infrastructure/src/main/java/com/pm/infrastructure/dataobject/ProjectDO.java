@@ -41,4 +41,7 @@ public class ProjectDO {
 
     @TableField(exist = false)
     private String groupName;
+
+    @TableField(exist = false)
+    private String moduleName;
 }
