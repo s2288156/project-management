@@ -13,5 +13,4 @@ public class ProjectPageQueryCmd extends PageQuery {
 
     private String groupId;
 
-    private String groupName;
 }

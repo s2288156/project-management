@@ -45,6 +45,6 @@ public class ProjectController {
 
     @GetMapping("/depend/list")
     public PageResponse<DependModuleVO> listDepend(@Validated PidQuery pid) {
-        return null;
+        return projectService.listDepend(pid);
     }
 }
