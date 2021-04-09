@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ProjectAddCmdExe;
 import com.pm.application.command.ProjectDependAddCmdExe;
-import com.pm.application.dto.Pid;
+import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.cmd.ProjectAddCmd;
@@ -65,7 +65,7 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public PageResponse<DependModuleVO> listDepend(Pid pid) {
+    public PageResponse<DependModuleVO> listDepend(PidQuery pid) {
         Page<DependenceDO> dependPage = dependenceMapper.selectPage(pid.createPage(), new LambdaQueryWrapper<DependenceDO>()
                 .eq(DependenceDO::getPid, pid.getPid()));
 

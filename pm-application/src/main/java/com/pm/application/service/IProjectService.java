@@ -2,7 +2,7 @@ package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.Pid;
+import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.cmd.ProjectAddCmd;
@@ -21,5 +21,5 @@ public interface IProjectService {
 
     Response dependAdd(ProjectDependAddCmd dependAddCmd);
 
-    PageResponse<DependModuleVO> listDepend(Pid pid);
+    PageResponse<DependModuleVO> listDepend(PidQuery pid);
 }

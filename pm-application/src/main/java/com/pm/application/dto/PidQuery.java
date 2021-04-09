@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Pid extends PageQuery {
+public class PidQuery extends PageQuery {
 
     @NotBlank
     private String pid;

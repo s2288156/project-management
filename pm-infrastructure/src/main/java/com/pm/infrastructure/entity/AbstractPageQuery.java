@@ -24,12 +24,12 @@ public abstract class AbstractPageQuery extends Query implements Serializable {
     /**
      * 页数
      */
-    private Long page;
+    private Long page = 1L;
 
     /**
      * 每页行数
      */
-    private Long limit;
+    private Long limit = 10L;
 
     /**
      * 格式：“+name” 、 "+id,+name,-age"

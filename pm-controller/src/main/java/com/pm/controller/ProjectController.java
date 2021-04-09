@@ -2,7 +2,7 @@ package com.pm.controller;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.Pid;
+import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.cmd.ProjectPageQueryCmd;
@@ -44,7 +44,7 @@ public class ProjectController {
     }
 
     @GetMapping("/depend/list")
-    public PageResponse<DependModuleVO> listDepend(@Validated Pid pid) {
+    public PageResponse<DependModuleVO> listDepend(@Validated PidQuery pid) {
         return null;
     }
 }
