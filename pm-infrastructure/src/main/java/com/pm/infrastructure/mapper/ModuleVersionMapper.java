@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 public interface ModuleVersionMapper extends BaseMapper<ModuleVersionDO> {
 
-    Optional<ModuleVersionDO> selectByVersion(String version);
+    Optional<ModuleVersionDO> selectByMidAndVersion(@Param("mid") String mid, @Param("version") String version);
 
     Page<ModuleVersionDO> listModuleVersion(IPage<ModuleVersionDO> page, @Param("mid") String mid);
 }

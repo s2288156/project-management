@@ -4,10 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.infrastructure.mapper.ModuleVersionMapper">
 
-    <select id="selectByVersion" resultType="com.pm.infrastructure.dataobject.ModuleVersionDO">
+    <select id="selectByMidAndVersion" resultType="com.pm.infrastructure.dataobject.ModuleVersionDO">
         select id, create_time, update_time, mid, version, description
         from t_module_version
-        where version=#{version}
+        where mid = #{mid}
+        and version=#{version}
     </select>
     <select id="listModuleVersion" resultType="com.pm.infrastructure.dataobject.ModuleVersionDO">
         select id, create_time, version, description

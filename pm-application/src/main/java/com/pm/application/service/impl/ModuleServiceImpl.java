@@ -78,7 +78,7 @@ public class ModuleServiceImpl implements IModuleService {
             return Response.buildFailure(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), ErrorCodeEnum.MODULE_NOT_FOUND.getErrorMsg());
         }
 
-        Optional<ModuleVersionDO> versionOptional = moduleVersionMapper.selectByVersion(versionAddCmd.getVersion());
+        Optional<ModuleVersionDO> versionOptional = moduleVersionMapper.selectByMidAndVersion(versionAddCmd.getMid(), versionAddCmd.getVersion());
         if (versionOptional.isPresent()) {
             return Response.buildFailure(ErrorCodeEnum.MODULE_VERSION_EXISTED.getErrorCode(), ErrorCodeEnum.MODULE_VERSION_EXISTED.getErrorMsg());
         }
