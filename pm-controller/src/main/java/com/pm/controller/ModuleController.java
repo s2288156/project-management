@@ -6,6 +6,7 @@ import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModulePageQueryCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
+import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +48,10 @@ public class ModuleController {
     @GetMapping("/version/list")
     public PageResponse<ModuleVersionVO> listModuleVersion(@Validated ModuleVersionPageQueryCmd versionPageQueryCmd) {
         return moduleService.listVersion(versionPageQueryCmd);
+    }
+
+    @PutMapping("/version")
+    public Response updateVersion(@Validated @RequestBody ModuleVersionUpdateCmd versionUpdateCmd) {
+        return null;
     }
 }
