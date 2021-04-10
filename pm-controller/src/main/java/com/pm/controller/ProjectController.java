@@ -52,6 +52,6 @@ public class ProjectController {
 
     @DeleteMapping("/depend/{id}")
     public Response deleteDepend(@PathVariable String id) {
-        return null;
+        return projectService.deleteDepend(id);
     }
 }

@@ -77,4 +77,10 @@ public class ProjectServiceImpl implements IProjectService {
         return PageResponse.of(moduleVOList, dependPage.getTotal());
     }
 
+    @Override
+    public Response deleteDepend(String id) {
+        dependenceMapper.deleteById(id);
+        return Response.buildSuccess();
+    }
+
 }

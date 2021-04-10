@@ -22,4 +22,6 @@ public interface IProjectService {
     Response dependAdd(ProjectDependAddCmd dependAddCmd);
 
     PageResponse<DependModuleVO> listDepend(PidQuery pid);
+
+    Response deleteDepend(String id);
 }
