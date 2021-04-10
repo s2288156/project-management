@@ -11,6 +11,7 @@ import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModulePageQueryCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
+import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
@@ -89,6 +90,12 @@ public class ModuleServiceImpl implements IModuleService {
     @Override
     public PageResponse<ModuleVersionVO> listVersion(ModuleVersionPageQueryCmd versionPageQueryCmd) {
         return versionPageQueryCmdExe.execute(versionPageQueryCmd);
+    }
+
+    @Override
+    public Response updateVersion(ModuleVersionUpdateCmd versionUpdateCmd) {
+        moduleVersionMapper.updateById(versionUpdateCmd.convert2Do());
+        return Response.buildSuccess();
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {

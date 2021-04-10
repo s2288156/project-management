@@ -52,6 +52,6 @@ public class ModuleController {
 
     @PutMapping("/version")
     public Response updateVersion(@Validated @RequestBody ModuleVersionUpdateCmd versionUpdateCmd) {
-        return null;
+        return moduleService.updateVersion(versionUpdateCmd);
     }
 }

@@ -6,6 +6,7 @@ import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModulePageQueryCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
+import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.infrastructure.entity.PageResponse;
@@ -22,4 +23,6 @@ public interface IModuleService {
     Response addVersion(ModuleVersionAddCmd versionAddCmd);
 
     PageResponse<ModuleVersionVO> listVersion(ModuleVersionPageQueryCmd versionPageQueryCmd);
+
+    Response updateVersion(ModuleVersionUpdateCmd versionUpdateCmd);
 }
