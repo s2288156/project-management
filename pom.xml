@@ -92,7 +92,7 @@
     </dependencies>
 
     <build>
-        <finalName>${artifactId}-${project.version}</finalName>
+        <finalName>${artifactId}</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>

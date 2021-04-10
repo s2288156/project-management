@@ -39,7 +39,6 @@ public class DependModuleVO extends DTO {
         dependModuleVO.setModuleName(dependModuleInfo.getModuleName());
         dependModuleVO.setProjectName(dependModuleInfo.getProjectName());
         dependModuleVO.setModuleVersion(dependModuleInfo.getVersion());
-        dependModuleVO.setModuleDescription(dependModuleInfo.getDescription());
 
         return dependModuleVO;
     }

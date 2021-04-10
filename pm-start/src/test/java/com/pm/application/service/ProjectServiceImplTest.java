@@ -69,7 +69,6 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
         projectDependAddCmd.setDependMid(mid);
         projectDependAddCmd.setPid(pid);
         projectDependAddCmd.setVersion("1.3.2");
-        projectDependAddCmd.setDescription("nihao,hahaha!!");
         return projectDependAddCmd;
     }
 

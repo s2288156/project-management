@@ -17,6 +17,4 @@ public class DependModuleInfo extends DTO {
 
     private String version;
 
-    private String description;
-
 }

@@ -27,8 +27,6 @@ public class ProjectDependAddCmd extends Command {
     @NotBlank
     private String version;
 
-    private String description;
-
     public DependenceDO convert2Do(ProjectDO projectDO) {
         DependenceDO dependenceDO = new DependenceDO();
         BeanUtils.copyProperties(this, dependenceDO);
@@ -40,7 +38,6 @@ public class ProjectDependAddCmd extends Command {
     public DependModuleInfo createDependModuleInfo(ProjectDO projectDO) {
         DependModuleInfo dependModuleInfo = new DependModuleInfo();
         dependModuleInfo.setVersion(this.version);
-        dependModuleInfo.setDescription(this.description);
         dependModuleInfo.setProjectName(projectDO.getName());
         dependModuleInfo.setModuleName(projectDO.getModuleName());
         return dependModuleInfo;
