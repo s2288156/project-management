@@ -1,0 +1,21 @@
+### Send POST request with json body
+POST http://{{host}}/user/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123123"
+}
+
+### /user/login
+POST http://{{host}}/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123123"
+}
+
+### /user/info
+GET http://{{host}}/user/info?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOiIxMzcyNzQzNDI4ODk4OTQ3MDc0IiwiZXhwIjpudWxsfQ.EercIhMeBgmgCS6cbhcpQ-rUNlNgM_MrI_gg8MDCCwtI73UjB5n_MRnylF-3tgzP6fEQ3yXp6maaTZWCRb8-yPuWltW5JdWpMsKH85VKhYxVu_qACefa_aTGwNOZlNJ_TG5uitPKFgrQzan0DPg2augl0kUyyxClp7ri57bjdwZfRnKGFzYvLC3IMeiPFndwRNAHV3Mon6I0x5pBM1ggcVG9QZ5PW_lHagQCBwMNKREieqCicCgFyoe7dLHtuGt24UxwOLtoQ9-JhSL-clYehs-Gz2WlZUtQaqdyBFIQA4hG_0U3KoRhlGpeblk9IdZwaIYkADMwXsLts--g0SaGgw
+Content-Type: application/json

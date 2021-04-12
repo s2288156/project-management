@@ -1,0 +1,18 @@
+GET http://{{host}}/project/list?page=1&limit=10
+Accept: application/json
+
+###
+GET http://{{host}}/project/list?groupId=1372841098510565377&page=1&limit=100
+Accept: application/json
+
+###
+POST http://{{host}}/project/one
+Content-Type: application/json
+
+{
+  "groupId": "1372841098510565377",
+  "name": "order1",
+  "description": "aaaaa"
+}
+
+###

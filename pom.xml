@@ -17,11 +17,16 @@
     <version>0.0.1</version>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <skipTests>true</skipTests>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <zyzh-cloud-dependencies.version>0.1.2</zyzh-cloud-dependencies.version>
+        <zyzh-cloud-dependencies.version>0.2.1-SNAPSHOT</zyzh-cloud-dependencies.version>
+        <cola-parent.version>4.0.1</cola-parent.version>
+        <nimbus-jsse-jwt.version>8.19</nimbus-jsse-jwt.version>
+        <spring-security-rsa.version>1.0.9.RELEASE</spring-security-rsa.version>
     </properties>
 
     <dependencyManagement>
@@ -32,6 +37,12 @@
                 <version>${zyzh-cloud-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jsse-jwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -49,6 +60,24 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- 定义了DTO格式，包括分页 -->
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-dto</artifactId>
+            <version>${cola-parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zyzh</groupId>
+            <artifactId>zyzh-component-exception</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -63,7 +92,7 @@
     </dependencies>
 
     <build>
-        <finalName>${artifactId}-${project.version}</finalName>
+        <finalName>${artifactId}</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>

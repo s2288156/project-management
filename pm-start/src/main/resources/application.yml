@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: project-management
+  jackson:
+    default-property-inclusion: non_null
+  flyway:
+    clean-disabled: true
+  datasource:
+    url: jdbc:mysql://192.168.30.66:3306/db_pm?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: zyzh2018
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 50
+      idle-timeout: 30000
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: id_worker_str
+  type-enums-package: com.pm.infrastructure.dataobject.enums
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+server:
+  port: 10660
+  servlet:
+    context-path: /pm
+    encoding:
+      charset: UTF-8
+  tomcat:
+    connection-timeout: 10s

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.infrastructure.mapper.DependenceMapper">
+
+
+    <select id="selectByPidAndDependMid" resultType="com.pm.infrastructure.dataobject.DependenceDO">
+        select id
+        from t_dependence
+        where pid = #{pid}
+        and depend_mid = #{dependMid}
+    </select>
+</mapper>

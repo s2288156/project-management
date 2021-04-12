@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.infrastructure.mapper.ProjectMapper">
+
+    <select id="selectByName" resultType="com.pm.infrastructure.dataobject.ProjectDO">
+        select id, create_time, update_time, group_id, name, description
+        from t_project
+        where name = #{name}
+    </select>
+
+    <select id="pageByGroupId" resultType="com.pm.infrastructure.dataobject.ProjectDO">
+        select p.id, p.create_time, p.group_id, p.name, p.description, g.name as groupName
+        from t_project p left join t_group g on p.group_id = g.id
+        <where>
+            <if test="groupId != null and groupId != ''">
+                p.group_id = #{groupId}
+            </if>
+        </where>
+        order by g.name ASC
+    </select>
+    <select id="selectByMid" resultType="com.pm.infrastructure.dataobject.ProjectDO">
+        select tp.id, tp.name, tm.name as moduleName
+        from t_project tp left join t_module tm on tp.id = tm.pid
+        where tm.id = #{mid}
+    </select>
+</mapper>
