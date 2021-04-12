@@ -7,3 +7,6 @@ spring:
       minimum-idle: 10
       maximum-pool-size: 50
       idle-timeout: 30000
+
+logging:
+  config: ${user.home}/logback-spring.xml
