@@ -1,3 +1,13 @@
+PUT http://{{host}}/module/version
+Content-Type: application/json
+
+{
+  "mid": "1381488489669283841",
+  "description": "",
+  "id": "1381488489677672450"
+}
+
+###
 GET http://{{host}}/module/version/list?mid=1379252456584044545&page=1&limit=10
 Accept: application/json
 

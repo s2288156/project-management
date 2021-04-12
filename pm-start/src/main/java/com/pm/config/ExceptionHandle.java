@@ -9,8 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @author wcy
  */
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionHandle {
 
     @ExceptionHandler(value = BizException.class)
@@ -37,13 +37,13 @@ public class ExceptionHandle {
     public Response methodArgNotValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         List<ObjectError> allErrors = bindingResult.getAllErrors();
-        log.error("argument not valid: {}", allErrors.toString());
+        log.error("argument not valid: {}", allErrors.toString(), e);
         return Response.buildFailure(ErrorCodeEnum.ARGUMENT_NOT_VALID_ERROR.getErrorCode(), allErrors.get(0).getDefaultMessage());
     }
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public Response paramsEx(MissingServletRequestParameterException e) {
-        log.error("missing parameter: {}", e.getMessage());
+        log.error("missing parameter: {}", e.getMessage(), e);
         return Response.buildFailure(ErrorCodeEnum.ARGUMENT_NOT_VALID_ERROR.getErrorCode(), e.getMessage());
     }
 
