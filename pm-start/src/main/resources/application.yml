@@ -19,8 +19,6 @@ mybatis-plus:
     db-config:
       id-type: id_worker_str
   type-enums-package: com.pm.infrastructure.dataobject.enums
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 server:
   port: 10660
