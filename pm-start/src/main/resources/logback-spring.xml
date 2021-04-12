@@ -31,6 +31,6 @@
     <root level="INFO">
         <appender-ref ref="RUNTIME"/>
         <!-- 生产环境将请STDOUT去掉 -->
-<!--        <appender-ref ref="STDOUT"/>-->
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

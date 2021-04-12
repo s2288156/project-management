@@ -31,8 +31,8 @@ public class LogInterceptor implements HandlerInterceptor {
         sw.start();
         MDC.clear();
         MDC.put("threadId", UUID.randomUUID().toString().replaceAll("-", ""));
-
-        log.info("请求路径: {}, Authorization = {}", request.getRequestURI(), request.getHeader("Authorization"));
+        log.info("requestMethod: {}, URI: {}", request.getMethod(), request.getRequestURI());
+        log.debug("Authorization = {}", request.getHeader("Authorization"));
         requestDebugLog(request);
         return true;
     }
