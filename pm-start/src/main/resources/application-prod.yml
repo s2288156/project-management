@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.31.30:3306/db_pm?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: u_pm
+    password: BAi2!RNI$sv25uVt
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 50
+      idle-timeout: 30000
+
+logging:
+  config: ${user.home}/logback-spring.xml

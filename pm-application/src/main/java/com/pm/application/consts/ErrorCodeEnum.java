@@ -21,6 +21,7 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     MODULE_NOT_FOUND("50008", "模块不存在"),
     RE_DEPEND_NOT_ALLOW("50009", "不允许重复依赖"),
     PROJECT_NOT_FOUND("50010", "项目不存在"),
+    ARGUMENT_NOT_VALID_ERROR("50011", "参数校验异常"),
     ;
 
     @Getter
