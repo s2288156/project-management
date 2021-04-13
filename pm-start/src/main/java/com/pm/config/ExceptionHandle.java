@@ -37,7 +37,7 @@ public class ExceptionHandle {
     public Response methodArgNotValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         List<ObjectError> allErrors = bindingResult.getAllErrors();
-        log.error("argument not valid: {}", allErrors.toString(), e);
+        log.error("argument not valid: {}", allErrors, e);
         return Response.buildFailure(ErrorCodeEnum.ARGUMENT_NOT_VALID_ERROR.getErrorCode(), allErrors.get(0).getDefaultMessage());
     }
 
