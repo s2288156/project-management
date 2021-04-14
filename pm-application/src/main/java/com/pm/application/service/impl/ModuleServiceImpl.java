@@ -2,16 +2,13 @@ package com.pm.application.service.impl;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
 import com.pm.application.command.ModuleVersionPageQueryCmdExe;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleVersionConvertor;
-import com.pm.application.dto.cmd.ModuleAddCmd;
-import com.pm.application.dto.cmd.ModulePageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionAddCmd;
-import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
+import com.pm.application.dto.cmd.*;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
@@ -25,8 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import javax.management.ObjectName;
+import javax.validation.constraints.NotBlank;
+import java.sql.SQLOutput;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -96,6 +95,28 @@ public class ModuleServiceImpl implements IModuleService {
     public Response updateVersion(ModuleVersionUpdateCmd versionUpdateCmd) {
         moduleVersionMapper.updateById(versionUpdateCmd.convert2Do());
         return Response.buildSuccess();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response deleteModule(ModuleDeleteCmd moduleDeleteCmd) {
+        // 1.查询模块id是否在t_moudle中存在
+        Map moudle = moduleVersionMapper.queryMoudleById(moduleDeleteCmd.getId());
+        if (moudle == null) {
+            return Response.buildFailure(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), ErrorCodeEnum.MODULE_NOT_FOUND.getErrorMsg());
+        }
+        // 2.判断该模块id是否被其他项目依赖
+        List<String> dependModuleInfoList = moduleVersionMapper.selectDependenceByMid(moduleDeleteCmd.getId());
+        if (dependModuleInfoList != null && !dependModuleInfoList.isEmpty()) {
+            Set<String> projectNameSet = dependModuleInfoList.stream().map(s -> JSONObject.parseObject(s).get("projectName").toString())
+                    .collect(Collectors.toCollection(TreeSet::new));
+            String projectNameStr = projectNameSet.stream().map(Object::toString).collect(Collectors.joining(", "));
+            return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), projectNameStr);
+        } else {
+            // 3.如果未被依赖 直接删除
+            moduleVersionMapper.deleteModuleById(moduleDeleteCmd.getId());
+            return Response.buildSuccess();
+        }
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {

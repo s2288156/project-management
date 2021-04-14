@@ -3,7 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.infrastructure.mapper.ModuleVersionMapper">
-
+    <delete id="deleteModuleById">
+        delete from  t_module where id=#{id};
+    </delete>
     <select id="selectByMidAndVersion" resultType="com.pm.infrastructure.dataobject.ModuleVersionDO">
         select id, create_time, update_time, mid, version, description
         from t_module_version
@@ -14,5 +16,11 @@
         select id, create_time, version, description
         from t_module_version
         where mid = #{mid}
+    </select>
+    <select id="selectDependenceByMid" resultType="java.lang.String">
+        SELECT depend_module_info FROM t_dependence where depend_mid =#{mid}
+    </select>
+    <select id="queryMoudleById" resultType="java.util.Map">
+        select name from t_module where id=#{id};
     </select>
 </mapper>

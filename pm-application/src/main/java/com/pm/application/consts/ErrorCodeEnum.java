@@ -22,6 +22,7 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     RE_DEPEND_NOT_ALLOW("50009", "不允许重复依赖"),
     PROJECT_NOT_FOUND("50010", "项目不存在"),
     ARGUMENT_NOT_VALID_ERROR("50011", "参数校验异常"),
+    MODULE_DEPENDENCE_ERROR("50012", "模块正在被其它项目引用"),
     ;
 
     @Getter

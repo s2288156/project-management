@@ -6,7 +6,7 @@ import com.pm.infrastructure.dataobject.ProjectDO;
 /**
  * @author wcy
  */
-public class ProjectConvertor {
+public class  ProjectConvertor {
 
     public static ProjectDO convertFor(ProjectAddCmd addCmd) {
         ProjectDO projectDO = new ProjectDO();
