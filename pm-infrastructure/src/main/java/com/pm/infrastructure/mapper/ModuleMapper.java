@@ -22,5 +22,4 @@ public interface ModuleMapper extends BaseMapper<ModuleDO> {
 
     List<String> selectDependenceByMid(@Param("mid")String mid);
 
-    Map queryMoudleById(@Param("id") String id);
 }

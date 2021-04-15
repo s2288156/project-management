@@ -14,9 +14,11 @@ import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.dataobject.ModuleDO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
+import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.entity.PageResponse;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
+import com.pm.infrastructure.mapper.ProjectMapper;
 import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,9 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Autowired
     private ModuleMapper moduleMapper;
+
+    @Autowired
+    private ProjectMapper projectMapper;
 
     @Autowired
     private ModuleVersionPageQueryCmdExe versionPageQueryCmdExe;
@@ -101,16 +106,15 @@ public class ModuleServiceImpl implements IModuleService {
     @Transactional(rollbackFor = Exception.class)
     public Response deleteModule(String id) {
         // 1.查询模块id是否在t_moudle中存在
-        Map moudle = moduleMapper.queryMoudleById(id);
-        if (moudle == null) {
+        ModuleDO moduleDO = moduleMapper.selectById(id);
+        if (moduleDO == null) {
             return Response.buildFailure(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), ErrorCodeEnum.MODULE_NOT_FOUND.getErrorMsg());
         }
         // 2.判断该模块id是否被其他项目依赖
-        List<String> dependModuleInfoList = moduleMapper.selectDependenceByMid(id);
-        if (dependModuleInfoList != null && !dependModuleInfoList.isEmpty()) {
-            Set<String> projectNameSet = dependModuleInfoList.stream().map(s -> JSONObject.parseObject(s).get("projectName").toString())
-                    .collect(Collectors.toCollection(TreeSet::new));
-            String projectNameStr = projectNameSet.stream().map(Object::toString).collect(Collectors.joining(", "));
+        List<String> pidList = moduleMapper.selectDependenceByMid(id);
+        if (pidList != null && !pidList.isEmpty()) {
+            Set<String> pidSet = pidList.stream().map(Object::toString).collect(Collectors.toCollection(TreeSet::new));
+            String projectNameStr = pidSet.stream().map(s -> projectMapper.selectById(s)).map(ProjectDO::getName).collect(Collectors.joining(","));
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), projectNameStr);
         } else {
             // 3.如果未被依赖 直接删除

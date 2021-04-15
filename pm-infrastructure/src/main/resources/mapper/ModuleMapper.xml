@@ -21,11 +21,7 @@
     </select>
 
     <select id="selectDependenceByMid" resultType="java.lang.String">
-        SELECT depend_module_info FROM t_dependence where depend_mid =#{mid}
-    </select>
-
-    <select id="queryMoudleById" resultType="java.util.Map">
-        select name from t_module where id=#{id};
+        SELECT pid FROM t_dependence where depend_mid =#{mid}
     </select>
 
 </mapper>
