@@ -99,14 +99,14 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response deleteModule(ModuleDeleteCmd moduleDeleteCmd) {
+    public Response deleteModule(String id) {
         // 1.查询模块id是否在t_moudle中存在
-        Map moudle = moduleVersionMapper.queryMoudleById(moduleDeleteCmd.getId());
+        Map moudle = moduleVersionMapper.queryMoudleById(id);
         if (moudle == null) {
             return Response.buildFailure(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), ErrorCodeEnum.MODULE_NOT_FOUND.getErrorMsg());
         }
         // 2.判断该模块id是否被其他项目依赖
-        List<String> dependModuleInfoList = moduleVersionMapper.selectDependenceByMid(moduleDeleteCmd.getId());
+        List<String> dependModuleInfoList = moduleVersionMapper.selectDependenceByMid(id);
         if (dependModuleInfoList != null && !dependModuleInfoList.isEmpty()) {
             Set<String> projectNameSet = dependModuleInfoList.stream().map(s -> JSONObject.parseObject(s).get("projectName").toString())
                     .collect(Collectors.toCollection(TreeSet::new));
@@ -114,7 +114,7 @@ public class ModuleServiceImpl implements IModuleService {
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), projectNameStr);
         } else {
             // 3.如果未被依赖 直接删除
-            moduleVersionMapper.deleteModuleById(moduleDeleteCmd.getId());
+            moduleVersionMapper.deleteModuleById(id);
             return Response.buildSuccess();
         }
     }
