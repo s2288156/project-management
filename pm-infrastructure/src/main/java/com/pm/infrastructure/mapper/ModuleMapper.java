@@ -7,6 +7,8 @@ import com.pm.infrastructure.dataobject.ModuleDO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -17,4 +19,8 @@ public interface ModuleMapper extends BaseMapper<ModuleDO> {
     Optional<ModuleDO> selectByName(String name);
 
     Page<ModuleDO> listProjectAndVersion(IPage<ModuleDO> page, @Param("pid") String pid);
+
+    List<String> selectDependenceByMid(@Param("mid")String mid);
+
+    Map queryMoudleById(@Param("id") String id);
 }

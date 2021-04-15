@@ -11,11 +11,21 @@
     </select>
 
     <select id="listProjectAndVersion" resultType="com.pm.infrastructure.dataobject.ModuleDO">
-        select m.id, m.create_time, m.update_time, m.pid, m.name, m.latest_version, m.description, tp.name as projectName
+        select m.id, m.create_time, m.update_time, m.pid, m.name, m.latest_version, m.description, tp.name as
+        projectName
         from t_module m left join t_project tp on m.pid = tp.id
         <if test="pid != null and pid != ''">
             where m.pid = #{pid}
         </if>
         order by tp.name ASC, m.name ASC
     </select>
+
+    <select id="selectDependenceByMid" resultType="java.lang.String">
+        SELECT depend_module_info FROM t_dependence where depend_mid =#{mid}
+    </select>
+
+    <select id="queryMoudleById" resultType="java.util.Map">
+        select name from t_module where id=#{id};
+    </select>
+
 </mapper>

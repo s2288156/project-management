@@ -20,10 +20,4 @@ public interface ModuleVersionMapper extends BaseMapper<ModuleVersionDO> {
 
     Page<ModuleVersionDO> listModuleVersion(IPage<ModuleVersionDO> page, @Param("mid") String mid);
 
-    List<String> selectDependenceByMid(@Param("mid")String mid);
-
-    void deleteModuleById(@Param("id") String id);
-
-    Map queryMoudleById(@Param("id")String id);
-
 }
