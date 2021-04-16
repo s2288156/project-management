@@ -20,6 +20,7 @@ public interface ModuleMapper extends BaseMapper<ModuleDO> {
 
     Page<ModuleDO> listProjectAndVersion(IPage<ModuleDO> page, @Param("pid") String pid);
 
+    // TODO: 2021/4/16 操作t_dependence表，不要在ModuleMapper中进行
     List<String> selectDependenceByMid(@Param("mid")String mid);
 
 }

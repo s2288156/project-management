@@ -22,6 +22,7 @@ import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.management.ObjectName;
 import javax.validation.constraints.NotBlank;
@@ -101,7 +102,9 @@ public class ModuleServiceImpl implements IModuleService {
         return Response.buildSuccess();
     }
 
+    // TODO: 2021/4/16 删除步骤较多，单独封装一个CmdExe类处理，避免此service中代码过多
     @Override
+    // TODO: 2021/4/16 加事务的意义是什么？
     @Transactional(rollbackFor = Exception.class)
     public Response deleteModule(String id) {
         // 1.查询模块id是否在t_moudle中存在
@@ -111,6 +114,7 @@ public class ModuleServiceImpl implements IModuleService {
         }
         // 2.判断该模块id是否被其他项目依赖
         List<String> pidList = moduleMapper.selectDependenceByMid(id);
+        // TODO: 2021/4/16 用工具类判断 CollectionUtils.isEmpty()
         if (pidList != null && !pidList.isEmpty()) {
             Set<String> pidSet = pidList.stream().map(Object::toString).collect(Collectors.toCollection(TreeSet::new));
             String projectNameStr = pidSet.stream().map(s -> projectMapper.selectById(s)).map(ProjectDO::getName).collect(Collectors.joining(","));
