@@ -2,28 +2,30 @@ package com.pm.application.service.impl;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
 import com.pm.application.command.ModuleVersionPageQueryCmdExe;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleVersionConvertor;
-import com.pm.application.dto.cmd.ModuleAddCmd;
-import com.pm.application.dto.cmd.ModulePageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionAddCmd;
-import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
+import com.pm.application.dto.cmd.*;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
+import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ModuleDO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.entity.PageResponse;
+import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
+import com.pm.infrastructure.tool.JsonUtils;
 import com.zyzh.exception.BizException;
+import com.zyzh.pm.domain.project.DependModuleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +47,9 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Autowired
     private ModuleVersionPageQueryCmdExe versionPageQueryCmdExe;
+
+    @Autowired
+    private DependenceMapper dependenceMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -95,6 +100,31 @@ public class ModuleServiceImpl implements IModuleService {
     @Override
     public Response updateVersion(ModuleVersionUpdateCmd versionUpdateCmd) {
         moduleVersionMapper.updateById(versionUpdateCmd.convert2Do());
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public Response deleteModuleVersion(ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
+        ModuleDO moduleDO=moduleMapper.selectById(moduleVersionDeleteCmd.getMid());
+        if (moduleDO.getLatestVersion().equals(moduleVersionDeleteCmd.getVersion())){
+            return Response.buildFailure(ErrorCodeEnum.MODULE_VERSION_NEW.getCode(),ErrorCodeEnum.MODULE_VERSION_NEW.getErrorMsg());
+        }
+        List<DependenceDO> dependenceDOList =dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
+                .eq(DependenceDO::getDependMid,moduleVersionDeleteCmd.getMid()));
+
+        if (!CollectionUtils.isEmpty(dependenceDOList)){
+
+            for (DependenceDO  dependenceDO:dependenceDOList) {
+                DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
+                if (dependModuleInfo.getVersion().equals(moduleVersionDeleteCmd.getVersion())) {
+                    return Response.buildFailure(ErrorCodeEnum.MODULE_CITED.getCode(),dependenceDO.getPid());
+                }
+
+            }
+        }
+        moduleVersionMapper.delete(new LambdaQueryWrapper<ModuleVersionDO>()
+                .eq(ModuleVersionDO::getMid,moduleVersionDeleteCmd.getMid())
+                .eq(ModuleVersionDO::getVersion,moduleVersionDeleteCmd.getVersion()));
         return Response.buildSuccess();
     }
 
