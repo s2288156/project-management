@@ -117,6 +117,7 @@ public class ModuleServiceImpl implements IModuleService {
         // TODO: 2021/4/16 用工具类判断 CollectionUtils.isEmpty()
         if (pidList != null && !pidList.isEmpty()) {
             Set<String> pidSet = pidList.stream().map(Object::toString).collect(Collectors.toCollection(TreeSet::new));
+            // TODO: 2021/4/19 不要在for循环中查询
             String projectNameStr = pidSet.stream().map(s -> projectMapper.selectById(s)).map(ProjectDO::getName).collect(Collectors.joining(","));
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), projectNameStr);
         } else {
