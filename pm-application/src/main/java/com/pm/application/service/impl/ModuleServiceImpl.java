@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
+import com.pm.application.command.ModuleDeleteCmdExe;
 import com.pm.application.command.ModuleVersionPageQueryCmdExe;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleVersionConvertor;
@@ -14,11 +15,9 @@ import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.dataobject.ModuleDO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.entity.PageResponse;
-import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.zyzh.exception.BizException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +44,7 @@ public class ModuleServiceImpl implements IModuleService {
     private ModuleVersionPageQueryCmdExe versionPageQueryCmdExe;
 
     @Autowired
-    private DependenceMapper dependenceMapper;
+    private ModuleDeleteCmdExe moduleDeleteCmdExe;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -100,13 +99,8 @@ public class ModuleServiceImpl implements IModuleService {
     }
 
     @Override
-    public Response deleteModule(String id) {
-        String projectNameStr = dependenceMapper.selectDependenceInfo(id);
-        if (StringUtils.isNoneEmpty(projectNameStr)) {
-            return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), projectNameStr);
-        }
-        moduleMapper.deleteById(id);
-        return Response.buildSuccess();
+    public Response deleteModule(ModuleDeleteCmd moduleDeleteCmd) {
+        return moduleDeleteCmdExe.execute(moduleDeleteCmd);
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {

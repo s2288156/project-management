@@ -46,8 +46,8 @@ public class ModuleController {
         return moduleService.updateVersion(versionUpdateCmd);
     }
 
-    @DeleteMapping("/{id}")
-    public Response deleteModule(@PathVariable String id) {
-        return moduleService.deleteModule(id);
+    @DeleteMapping
+    public Response deleteModule(@Validated @RequestBody ModuleDeleteCmd moduleDeleteCmd) {
+        return moduleService.deleteModule(moduleDeleteCmd);
     }
 }
