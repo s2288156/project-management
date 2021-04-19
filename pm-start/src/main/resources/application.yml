@@ -1,7 +1,6 @@
 spring:
   profiles:
-    active: local
-#    active: prod
+    active: prod
   application:
     name: project-management
   jackson:

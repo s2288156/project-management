@@ -19,9 +19,4 @@
         </if>
         order by tp.name ASC, m.name ASC
     </select>
-
-    <select id="selectDependenceByMid" resultType="java.lang.String">
-        SELECT pid FROM t_dependence where depend_mid =#{mid}
-    </select>
-
 </mapper>

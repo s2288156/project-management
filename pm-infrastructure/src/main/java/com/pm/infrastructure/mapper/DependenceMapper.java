@@ -13,4 +13,5 @@ public interface DependenceMapper extends BaseMapper<DependenceDO> {
 
     Optional<DependenceDO> selectByPidAndDependMid(@Param("pid") String pid, @Param("dependMid") String dependMid);
 
+    String selectDependenceInfo(@Param("mid") String id);
 }
