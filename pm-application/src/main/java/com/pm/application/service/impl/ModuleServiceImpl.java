@@ -5,6 +5,7 @@ import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
+import com.pm.application.command.ModuleVersionDeleteCmdExe;
 import com.pm.application.command.ModuleVersionPageQueryCmdExe;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleVersionConvertor;
@@ -49,7 +50,7 @@ public class ModuleServiceImpl implements IModuleService {
     private ModuleVersionPageQueryCmdExe versionPageQueryCmdExe;
 
     @Autowired
-    private DependenceMapper dependenceMapper;
+    private ModuleVersionDeleteCmdExe moduleVersionDeleteCmdExe;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -103,35 +104,9 @@ public class ModuleServiceImpl implements IModuleService {
         return Response.buildSuccess();
     }
 
-    // TODO: 2021/4/17 代码逻辑较多，封装一个ModuleVersionDeleteCmdExe.excute进行处理
     @Override
     public Response deleteModuleVersion(ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
-        // TODO: 2021/4/17 1.代码格式化问题; 2.git username没有更新
-        ModuleDO moduleDO=moduleMapper.selectById(moduleVersionDeleteCmd.getMid());
-        if (moduleDO.getLatestVersion().equals(moduleVersionDeleteCmd.getVersion())){
-            // TODO: 2021/4/17 MODULE_VERSION_NEW这个错误提示没有意义
-            return Response.buildFailure(ErrorCodeEnum.MODULE_VERSION_NEW.getCode(),ErrorCodeEnum.MODULE_VERSION_NEW.getErrorMsg());
-        }
-        List<DependenceDO> dependenceDOList =dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
-                .eq(DependenceDO::getDependMid,moduleVersionDeleteCmd.getMid()));
-
-        // TODO: 2021/4/17 没有意义的换行
-        if (!CollectionUtils.isEmpty(dependenceDOList)){
-
-            for (DependenceDO  dependenceDO:dependenceDOList) {
-                DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
-                if (dependModuleInfo.getVersion().equals(moduleVersionDeleteCmd.getVersion())) {
-                    // TODO: 2021/4/17 for循环中return？
-                    return Response.buildFailure(ErrorCodeEnum.MODULE_CITED.getCode(),dependenceDO.getPid());
-                }
-
-            }
-        }
-        // TODO: 2021/4/17 用deleteById进行删除操作
-        moduleVersionMapper.delete(new LambdaQueryWrapper<ModuleVersionDO>()
-                .eq(ModuleVersionDO::getMid,moduleVersionDeleteCmd.getMid())
-                .eq(ModuleVersionDO::getVersion,moduleVersionDeleteCmd.getVersion()));
-        return Response.buildSuccess();
+        return moduleVersionDeleteCmdExe.execute(moduleVersionDeleteCmd);
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {

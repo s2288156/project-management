@@ -13,6 +13,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ModuleVersionDeleteCmd extends Command {
 
+    private String id;
+
     private String mid;
 
     private String version;

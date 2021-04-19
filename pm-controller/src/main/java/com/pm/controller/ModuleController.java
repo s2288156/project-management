@@ -46,8 +46,7 @@ public class ModuleController {
         return moduleService.updateVersion(versionUpdateCmd);
     }
 
-    // TODO: 2021/4/19 deleteMapping
-    @DeleteMapping("/version/delete")
+    @DeleteMapping("/version")
     public Response deleteModelVersion(@Validated @RequestBody ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
         return moduleService.deleteModuleVersion(moduleVersionDeleteCmd);
     }
