@@ -12,9 +12,8 @@
           and depend_mid = #{dependMid}
     </select>
     <select id="selectDependenceInfo" resultType="java.lang.String">
-        select GROUP_CONCAT(distinct tp.name)
+        select td.pid
         from t_dependence td
-                 left join t_project tp on tp.id = td.pid
         where td.depend_mid = #{mid}
     </select>
 </mapper>
