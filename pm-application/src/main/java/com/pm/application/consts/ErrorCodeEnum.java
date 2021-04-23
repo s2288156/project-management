@@ -22,7 +22,7 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     RE_DEPEND_NOT_ALLOW("50009", "不允许重复依赖"),
     PROJECT_NOT_FOUND("50010", "项目不存在"),
     ARGUMENT_NOT_VALID_ERROR("50011", "参数校验异常"),
-    MODULE_VERSION_NEW("50012","最新版本无法删除"),
+    LATEST_MODULE_VERSION_NOT_ALLOW_DELETE("50012","最新版本无法删除"),
     MODULE_CITED("50013","此模块版本被引用")
     ;
 

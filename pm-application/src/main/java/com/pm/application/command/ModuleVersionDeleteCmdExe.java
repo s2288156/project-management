@@ -36,15 +36,17 @@ public class ModuleVersionDeleteCmdExe {
     public Response execute (ModuleVersionDeleteCmd moduleVersionDeleteCmd){
         ModuleDO moduleDO=moduleMapper.selectById(moduleVersionDeleteCmd.getMid());
         if (moduleDO.getLatestVersion().equals(moduleVersionDeleteCmd.getVersion())){
-            return Response.buildFailure(ErrorCodeEnum.MODULE_VERSION_NEW.getCode(),ErrorCodeEnum.MODULE_VERSION_NEW.getErrorMsg());
+            return Response.buildFailure(ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getCode(),ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getErrorMsg());
         }
 
         List<DependenceDO> dependenceDOList =dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
                 .eq(DependenceDO::getDependMid,moduleVersionDeleteCmd.getMid()));
         if (!CollectionUtils.isEmpty(dependenceDOList)){
+            // TODO: 2021/4/23 代码格式化问题、foreach return问题
             for (DependenceDO  dependenceDO:dependenceDOList) {
                 DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
                 if (dependModuleInfo.getVersion().equals(moduleVersionDeleteCmd.getVersion())) {
+                    // TODO: 2021/4/23 需求变更：不需要return pid，直接return errorMsg 
                     return Response.buildFailure(ErrorCodeEnum.MODULE_CITED.getCode(),dependenceDO.getPid());
                 }
             }
