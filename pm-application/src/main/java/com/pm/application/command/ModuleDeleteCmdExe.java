@@ -22,8 +22,10 @@ public class ModuleDeleteCmdExe {
     private ModuleMapper moduleMapper;
 
     public Response execute(ModuleDeleteCmd moduleDeleteCmd) {
+        // TODO: 2021/4/23 mid可以被多个项目引用，所以，这里的查询结果是list，查询结果也应该是个list
         String projectNameStr = dependenceMapper.selectDependenceInfo(moduleDeleteCmd.getId());
         if (StringUtils.isNoneEmpty(projectNameStr)) {
+            // TODO: 2021/4/23 这里修改下需求：直接返回定义的errorMsg，不用返回projectName
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), projectNameStr);
         }
         moduleMapper.deleteById(moduleDeleteCmd.getId());
