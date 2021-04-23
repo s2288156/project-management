@@ -19,4 +19,6 @@ public class UserRegisterCmd extends Command {
     @NotBlank(message = "密码必传")
     private String password;
 
+    @NotBlank(message = "密码必传")
+    private String confirmPassword;
 }
