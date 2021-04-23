@@ -20,4 +20,5 @@ public interface ModuleVersionMapper extends BaseMapper<ModuleVersionDO> {
 
     Page<ModuleVersionDO> listModuleVersion(IPage<ModuleVersionDO> page, @Param("mid") String mid);
 
+    List<String> selectModuleVersionIdByProjectId(@Param("pid") String id);
 }
