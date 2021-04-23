@@ -28,6 +28,8 @@ public class UserRegisterCmdExe {
     private PasswordEncoder passwordEncoder;
 
     public Response execute(UserRegisterCmd userRegisterCmd) {
+        confirmPasswordEquals(userRegisterCmd.getPassword(), userRegisterCmd.getConfirmPassword());
+
         if (userGateway.existForUsername(userRegisterCmd.getUsername())) {
             return Response.buildFailure(ErrorCodeEnum.USERNAME_EXISTED.getErrorCode(), ErrorCodeEnum.USERNAME_EXISTED.getErrorMsg());
         }
