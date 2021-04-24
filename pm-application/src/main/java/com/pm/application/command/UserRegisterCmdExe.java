@@ -6,6 +6,7 @@ import com.pm.application.dto.cmd.UserRegisterCmd;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
 import com.zyzh.exception.BizException;
+import com.zyzh.pm.domain.consts.BizConstants;
 import com.zyzh.pm.domain.gateway.UserGateway;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,8 @@ public class UserRegisterCmdExe {
         UserDO userDO = new UserDO();
         userDO.setUsername(cmd.getUsername());
         userDO.setPassword(passwordEncoder.encode(cmd.getPassword()));
+        userDO.setName(cmd.getName());
+        userDO.setIcon(BizConstants.DEFAULT_AVATAR);
         return userDO;
     }
 }

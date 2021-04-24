@@ -16,6 +16,11 @@ public class UserRegisterCmd extends Command {
     @NotBlank(message = "用户名必传")
     private String username;
 
+    /**
+     * 姓名
+     */
+    private String name;
+
     @NotBlank(message = "密码必传")
     private String password;
 
