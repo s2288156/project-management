@@ -4,6 +4,9 @@ import com.alibaba.cola.dto.Response;
 import com.pm.NoneWebBaseTest;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.UserRegisterCmd;
+import com.pm.application.dto.vo.UserVO;
+import com.pm.infrastructure.entity.PageQuery;
+import com.pm.infrastructure.entity.PageResponse;
 import com.zyzh.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -24,6 +27,8 @@ public class UserServiceTest extends NoneWebBaseTest {
 
     UserRegisterCmd userRegisterCmd = new UserRegisterCmd();
 
+    PageQuery pageQuery = new PageQuery();
+
     @BeforeEach
     void setUp() {
         userRegisterCmd.setUsername("test-go-go");
@@ -43,5 +48,12 @@ public class UserServiceTest extends NoneWebBaseTest {
         userRegisterCmd.setConfirmPassword("11223344");
         BizException bizException = Assertions.assertThrows(BizException.class, () -> userService.userRegister(userRegisterCmd));
         Assertions.assertEquals(ErrorCodeEnum.TWO_PASSWORD_ENTERED_NOT_SAME.getErrorCode(), bizException.getErrCode());
+    }
+
+    @Test
+    void testUserList() {
+        PageResponse<UserVO> response = userService.listUser(pageQuery);
+        Assertions.assertTrue(response.isSuccess());
+        log.info("{}", response.getData());
     }
 }

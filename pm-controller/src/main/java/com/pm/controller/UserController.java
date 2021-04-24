@@ -44,7 +44,6 @@ public class UserController {
 
     @GetMapping("/list")
     public PageResponse<UserVO> list(PageQuery pageQuery) {
-
-        return null;
+        return userService.listUser(pageQuery);
     }
 }
