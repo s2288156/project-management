@@ -49,6 +49,7 @@ public class UserVO extends DTO {
     public static UserVO convertForDo(UserDO userDO) {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(userDO, userVO);
+        userVO.setAvatar(userDO.getIcon());
         return userVO;
     }
 }
