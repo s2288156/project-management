@@ -11,7 +11,9 @@ import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -41,6 +43,8 @@ public class UserVO extends DTO {
      * 姓名
      **/
     private String name;
+
+    private LocalDateTime createTime;
 
     public static UserVO convertForDo(UserDO userDO) {
         UserVO userVO = new UserVO();
