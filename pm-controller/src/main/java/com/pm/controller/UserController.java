@@ -4,8 +4,11 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.UserLoginCmd;
 import com.pm.application.dto.cmd.UserRegisterCmd;
+import com.pm.application.dto.vo.UserDetailVO;
 import com.pm.application.dto.vo.UserVO;
 import com.pm.application.service.IUserService;
+import com.pm.infrastructure.entity.PageQuery;
+import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +38,13 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public SingleResponse<UserVO> info(String token) {
-        return SingleResponse.of(UserVO.createForToken(token));
+    public SingleResponse<UserDetailVO> info(String token) {
+        return SingleResponse.of(UserDetailVO.createForToken(token));
+    }
+
+    @GetMapping("/list")
+    public PageResponse<UserVO> list(PageQuery pageQuery) {
+
+        return null;
     }
 }

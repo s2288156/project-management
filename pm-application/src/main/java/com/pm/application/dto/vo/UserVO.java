@@ -40,26 +40,4 @@ public class UserVO extends DTO {
      **/
     private String name;
 
-    private Set<String> roles;
-
-    public static UserVO createForToken(String token) {
-        JWSObject jwsObject;
-        try {
-            jwsObject = JWSObject.parse(token);
-        } catch (ParseException e) {
-            throw new SysException(e.getMessage());
-        }
-        String userStr = jwsObject.getPayload().toString();
-        Payload payload = JsonUtils.fromJson(userStr, Payload.class);
-
-        Set<String> rs = new HashSet<>();
-        // TODO: 2021/4/8 暂时写死
-        rs.add("ADMIN");
-
-        UserVO userVO = new UserVO();
-        userVO.setRoles(rs);
-        userVO.setName(payload.getUid());
-        userVO.setAvatar("https://wcy-img.oss-cn-beijing.aliyuncs.com/images/avatar/default_avatar.jpg");
-        return userVO;
-    }
 }
