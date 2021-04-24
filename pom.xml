@@ -23,8 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
-        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
+        <spring-boot.version>2.4.5</spring-boot.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <cola-parent.version>4.0.1</cola-parent.version>
         <nimbus-jsse-jwt.version>8.19</nimbus-jsse-jwt.version>
