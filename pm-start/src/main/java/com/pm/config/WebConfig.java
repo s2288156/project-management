@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
                 .maxAge(3600)
-                .allowCredentials(true);
+                .allowCredentials(false);
     }
 
     @Override

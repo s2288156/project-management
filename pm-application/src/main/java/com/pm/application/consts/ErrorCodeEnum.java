@@ -23,7 +23,8 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     PROJECT_NOT_FOUND("50010", "项目不存在"),
     ARGUMENT_NOT_VALID_ERROR("50011", "参数校验异常"),
     LATEST_MODULE_VERSION_NOT_ALLOW_DELETE("50012","最新版本无法删除"),
-    MODULE_CITED("50013","此模块版本被引用")
+    MODULE_CITED("50013","此模块版本被引用"),
+    TWO_PASSWORD_ENTERED_NOT_SAME("50014", "两次输入的密码不相同"),
     ;
 
     @Getter
