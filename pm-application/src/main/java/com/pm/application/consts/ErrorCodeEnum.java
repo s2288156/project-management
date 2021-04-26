@@ -22,7 +22,8 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     RE_DEPEND_NOT_ALLOW("50009", "不允许重复依赖"),
     PROJECT_NOT_FOUND("50010", "项目不存在"),
     ARGUMENT_NOT_VALID_ERROR("50011", "参数校验异常"),
-    TWO_PASSWORD_ENTERED_NOT_SAME("50014", "两次输入的密码不相同"),
+    TWO_PASSWORD_ENTERED_NOT_SAME("50012", "两次输入的密码不相同"),
+    MODULE_DEPENDENCE_ERROR("50014", "模块正在被其它项目引用"),
     ;
 
     @Getter

@@ -4,11 +4,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pm.infrastructure.mapper.DependenceMapper">
 
-
     <select id="selectByPidAndDependMid" resultType="com.pm.infrastructure.dataobject.DependenceDO">
         select id
         from t_dependence
         where pid = #{pid}
-        and depend_mid = #{dependMid}
+          and depend_mid = #{dependMid}
+    </select>
+    <select id="selectDependenceInfo" resultType="java.lang.String">
+        select td.pid
+        from t_dependence td
+        where td.depend_mid = #{mid}
+    </select>
+    <select id="selectDependenceProjectByProjectId" resultType="java.lang.String">
+        select tpj.name
+        from t_dependence td
+                 left join t_project tpj on td.pid = tpj.id
+        where td.pid != #{pid}
+          and EXISTS(select tm.id
+                     from t_project tp
+                              left join t_module tm on tp.id = tm.pid
+                     where tp.id = #{pid}
+                       and td.depend_mid = tm.id)
+        group by tpj.name
+    </select>
+    <select id="queryDependIdByProjectId" resultType="java.lang.String">
+        select td.id
+        from t_dependence td
+                 left join t_project tpj on td.pid = tpj.id
+        where td.pid = #{pid}
+          and EXISTS(select tm.id
+                     from t_project tp
+                              left join t_module tm on tp.id = tm.pid
+                     where tp.id = #{pid}
+                       and td.depend_mid = tm.id)
     </select>
 </mapper>
