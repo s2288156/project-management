@@ -1,20 +1,12 @@
 package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
-import com.nimbusds.jose.JWSObject;
 import com.pm.infrastructure.dataobject.UserDO;
-import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.Payload;
-import com.zyzh.exception.SysException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * @author wcy

@@ -6,7 +6,7 @@ import lombok.Data;
  * @author wcy
  */
 @Data
-public class Payload {
+public class JwtPayload {
 
     private String uid;
 
@@ -14,4 +14,10 @@ public class Payload {
      * 失效日期时间戳，单位秒
      */
     private Long exp;
+
+    /**
+     * 签发机构
+     */
+    private String iss;
+
 }

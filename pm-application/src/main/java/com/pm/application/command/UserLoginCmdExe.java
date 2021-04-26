@@ -7,11 +7,13 @@ import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
 import com.pm.infrastructure.security.TokenService;
 import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.Payload;
+import com.pm.infrastructure.tool.JwtPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 /**
@@ -37,17 +39,21 @@ public class UserLoginCmdExe {
         if (!validPwd(userLoginCmd.getPassword(), optional.get().getPassword())) {
             return SingleResponse.buildFailure(ErrorCodeEnum.PASSWORD_FAIL.getErrorCode(), ErrorCodeEnum.PASSWORD_FAIL.getErrorMsg());
         }
-        Payload payload = new Payload();
-        payload.setUid(optional.get().getId());
+        JwtPayload jwtPayload = new JwtPayload();
+        jwtPayload.setUid(optional.get().getId());
+        // TODO: 2021/4/26 iss暂时写死，exp暂定默认30天
+        jwtPayload.setIss("zyzh");
+        LocalDateTime expDateTime = LocalDateTime.now().plusDays(30);
+        jwtPayload.setExp(expDateTime.toEpochSecond(ZoneOffset.of("+8")));
 
-        return SingleResponse.of(signJwt(payload));
+        return SingleResponse.of(signJwt(jwtPayload));
     }
 
     private boolean validPwd(String inputPwd, String dbPwd) {
         return passwordEncoder.matches(inputPwd, dbPwd);
     }
 
-    private String signJwt(Payload payload) {
-        return tokenService.sign(JsonUtils.toJson(payload));
+    private String signJwt(JwtPayload jwtPayload) {
+        return tokenService.sign(JsonUtils.toJson(jwtPayload));
     }
 }

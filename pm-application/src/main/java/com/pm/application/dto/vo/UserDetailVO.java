@@ -2,7 +2,7 @@ package com.pm.application.dto.vo;
 
 import com.nimbusds.jose.JWSObject;
 import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.Payload;
+import com.pm.infrastructure.tool.JwtPayload;
 import com.zyzh.exception.SysException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +28,7 @@ public class UserDetailVO extends UserVO {
             throw new SysException(e.getMessage());
         }
         String userStr = jwsObject.getPayload().toString();
-        Payload payload = JsonUtils.fromJson(userStr, Payload.class);
+        JwtPayload jwtPayload = JsonUtils.fromJson(userStr, JwtPayload.class);
 
         Set<String> rs = new HashSet<>();
         // TODO: 2021/4/8 暂时写死
@@ -36,7 +36,7 @@ public class UserDetailVO extends UserVO {
 
         UserDetailVO userDetailVO = new UserDetailVO();
         userDetailVO.setRoles(rs);
-        userDetailVO.setName(payload.getUid());
+        userDetailVO.setName(jwtPayload.getUid());
         userDetailVO.setAvatar("https://wcy-img.oss-cn-beijing.aliyuncs.com/images/avatar/default_avatar.jpg");
         return userDetailVO;
     }
