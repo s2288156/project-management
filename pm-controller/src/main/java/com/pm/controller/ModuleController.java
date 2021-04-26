@@ -2,23 +2,14 @@ package com.pm.controller;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.dto.cmd.ModuleAddCmd;
-import com.pm.application.dto.cmd.ModulePageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionAddCmd;
-import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
+import com.pm.application.dto.cmd.*;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author wcy
@@ -53,5 +44,10 @@ public class ModuleController {
     @PutMapping("/version")
     public Response updateVersion(@Validated @RequestBody ModuleVersionUpdateCmd versionUpdateCmd) {
         return moduleService.updateVersion(versionUpdateCmd);
+    }
+
+    @DeleteMapping("/version")
+    public Response deleteModelVersion(@Validated @RequestBody ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
+        return moduleService.deleteModuleVersion(moduleVersionDeleteCmd);
     }
 }
