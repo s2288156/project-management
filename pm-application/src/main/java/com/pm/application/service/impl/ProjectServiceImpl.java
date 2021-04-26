@@ -101,15 +101,19 @@ public class ProjectServiceImpl implements IProjectService {
         return Response.buildSuccess();
     }
 
+    // TODO: 2021/4/26 没有事务
     @Override
     public Response deleteProject(ProjectDeleteCmd cmd) {
         // 由项目id查询出依赖此项目的项目名称
         List<String> projectNameList = dependenceMapper.selectDependenceProjectByProjectId(cmd.getId());
+        // TODO: 2021/4/26 统一使用org.springframework.util.CollectionUtils
         if (CollectionUtils.isNotEmpty(projectNameList)) {
             String projectNameStr = projectNameList.stream()
                     .collect(Collectors.joining(", "));
+            // TODO: 2021/4/26 不用拼接errorMsg
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), projectNameStr);
         }
+        // TODO: 2021/4/26 project删除逻辑封装一个Exe，不用拆分
         // 删除项目相关的依赖
         dependenceDeleteCmdExe.execute(cmd.getId());
         // 删除项目相关的模块版本
