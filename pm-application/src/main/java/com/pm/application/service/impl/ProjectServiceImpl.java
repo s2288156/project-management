@@ -117,7 +117,7 @@ public class ProjectServiceImpl implements IProjectService {
         // 删除项目相关的依赖
         dependenceDeleteCmdExe.execute(cmd.getId());
         // 删除项目相关的模块版本
-        moduleVersionDeleteCmdExe.execute(cmd.getId());
+//        moduleVersionDeleteCmdExe.execute(cmd.getId());
         // 删除项目的模块
         moduleMapper.delete(new LambdaQueryWrapper<ModuleDO>()
                 .eq(ModuleDO::getPid, cmd.getId()));
