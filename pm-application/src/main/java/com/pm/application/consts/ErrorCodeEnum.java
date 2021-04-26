@@ -10,9 +10,10 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     /**
      * 错误码
      */
+    UNAUTHORIZED("40001", "没有权限"),
     USERNAME_EXISTED("50000", "用户名重复"),
     PASSWORD_FAIL("50001", "密码错误"),
-    USERNAME_NOT_FOUND("50002", "用户名不存在"),
+    USERNAME_NOT_FOUND("50002", "用户不存在"),
     GROUP_NAME_EXISTED("50003", "组名称重复"),
     GROUP_NOT_FOUND("50004", "组不存在"),
     PROJECT_NAME_EXISTED("50005", "项目名重复"),
