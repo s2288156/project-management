@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.web.filter.CorsFilter;
 
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
@@ -32,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
+
+    @Autowired
+    private CorsFilter corsFilter;
 
     @Bean
     public KeyPair keyPair() {
@@ -56,17 +60,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().disable()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-                .and()
-                .headers()
-                .frameOptions().disable()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/login", "/user/info").anonymous()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .headers().frameOptions().disable();
+        http.addFilter(corsFilter);
     }
 
     @Override
