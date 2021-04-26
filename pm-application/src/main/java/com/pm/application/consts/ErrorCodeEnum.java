@@ -25,6 +25,7 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     LATEST_MODULE_VERSION_NOT_ALLOW_DELETE("50012","最新版本无法删除"),
     MODULE_CITED("50013","此模块版本被引用"),
     TWO_PASSWORD_ENTERED_NOT_SAME("50014", "两次输入的密码不相同"),
+    MODULE_DEPENDENCE_ERROR("50015", "模块正在被其它项目引用"),
     ;
 
     @Getter

@@ -23,4 +23,6 @@ public interface IModuleService {
     Response updateVersion(ModuleVersionUpdateCmd versionUpdateCmd);
 
     Response deleteModuleVersion(ModuleVersionDeleteCmd moduleVersionDeleteCmd);
+
+    Response deleteModule(ModuleDeleteCmd moduleDeleteCmd);
 }

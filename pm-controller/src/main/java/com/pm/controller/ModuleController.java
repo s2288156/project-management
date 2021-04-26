@@ -50,4 +50,9 @@ public class ModuleController {
     public Response deleteModelVersion(@Validated @RequestBody ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
         return moduleService.deleteModuleVersion(moduleVersionDeleteCmd);
     }
+
+    @DeleteMapping
+    public Response deleteModule(@Validated @RequestBody ModuleDeleteCmd moduleDeleteCmd) {
+        return moduleService.deleteModule(moduleDeleteCmd);
+    }
 }
