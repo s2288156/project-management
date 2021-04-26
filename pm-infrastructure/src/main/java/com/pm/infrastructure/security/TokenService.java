@@ -1,4 +1,4 @@
-package com.pm.infrastructure.tool;
+package com.pm.infrastructure.security;
 
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -17,8 +17,7 @@ import org.springframework.stereotype.Component;
  * @author wcy
  */
 @Component
-public class JwtUtil {
-
+public class TokenService {
     @Autowired
     private RSAKey rsaKey;
 

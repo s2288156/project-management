@@ -60,8 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
+                // 基于token，不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()

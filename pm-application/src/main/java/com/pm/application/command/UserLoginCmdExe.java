@@ -5,8 +5,8 @@ import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.UserLoginCmd;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
+import com.pm.infrastructure.security.TokenService;
 import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.JwtUtil;
 import com.pm.infrastructure.tool.Payload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +27,7 @@ public class UserLoginCmdExe {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private TokenService tokenService;
 
     public SingleResponse execute(UserLoginCmd userLoginCmd) {
         Optional<UserDO> optional = userMapper.selectForUsername(userLoginCmd.getUsername());
@@ -48,6 +48,6 @@ public class UserLoginCmdExe {
     }
 
     private String signJwt(Payload payload) {
-        return jwtUtil.sign(JsonUtils.toJson(payload));
+        return tokenService.sign(JsonUtils.toJson(payload));
     }
 }
