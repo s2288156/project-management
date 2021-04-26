@@ -18,3 +18,9 @@
 | --- | --- | --- |
 | 服务信息录入 | 待开发 | 0.0.1 |
 | 服务依赖关系维护 | 待开发 | 0.1.1 |
+
+## 权限设计
+
+ROLE 1-n Resource
+Resource => `<systemName>:<method>:<权限>`
+权限: post / put / get / delete
