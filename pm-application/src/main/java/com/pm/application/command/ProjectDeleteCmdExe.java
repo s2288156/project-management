@@ -11,6 +11,7 @@ import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * @description: TODO
  * @date 2021/4/26 16:23
  */
+@Component
 public class ProjectDeleteCmdExe {
 
     @Autowired

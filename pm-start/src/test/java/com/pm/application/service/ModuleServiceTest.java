@@ -5,6 +5,7 @@ import com.alibaba.cola.dto.SingleResponse;
 import com.pm.NoneWebBaseTest;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleAddCmd;
+import com.pm.application.dto.cmd.ModuleDeleteCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
 import com.pm.application.dto.vo.ModuleVO;
@@ -15,6 +16,7 @@ import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import com.zyzh.exception.BizException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,6 +112,24 @@ public class ModuleServiceTest extends NoneWebBaseTest {
 
         Response response = moduleService.addVersion(versionAddCmd);
         assertTrue(response.isSuccess());
+    }
+
+    @Transactional
+    @Test
+    void testDeleteModuleSuccess() {
+        ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
+        moduleDeleteCmd.setId("");
+        Response response = moduleService.deleteModule(moduleDeleteCmd);
+        Assertions.assertEquals(Response.buildSuccess(), response);
+    }
+
+    @Transactional
+    @Test
+    void testDeleteModuleFailed() {
+        ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
+        moduleDeleteCmd.setId("2233");
+        Response response = moduleService.deleteModule(moduleDeleteCmd);
+        Assertions.assertEquals(Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorMsg()), response);
     }
 
     private ModuleDO insertModule() {
