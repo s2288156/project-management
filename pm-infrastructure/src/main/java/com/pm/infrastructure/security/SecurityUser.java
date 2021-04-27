@@ -1,46 +1,41 @@
 package com.pm.infrastructure.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author wcy
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class LoginUser implements UserDetails {
+public class SecurityUser implements UserDetails {
     private static final long serialVersionUID = 1988301320280808093L;
 
-    @JsonIgnore
+    private String id;
+
     private String password;
 
-    private final String username;
+    private String username;
 
-    private final Set<String> roles;
+    private Set<SimpleGrantedAuthority> authorities;
 
-    public LoginUser(String password, String username, Set<String> roles) {
-        this.password = password;
+    public SecurityUser() {
+    }
+
+    public SecurityUser(String username, String password, Set<SimpleGrantedAuthority> authorities) {
         this.username = username;
-        this.roles = roles;
+        this.password = password;
+        this.authorities = authorities;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (CollectionUtils.isEmpty(roles)) {
-            return null;
-        }
-        return roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
+    public Set<SimpleGrantedAuthority> getAuthorities() {
+        return this.authorities;
     }
 
     @Override

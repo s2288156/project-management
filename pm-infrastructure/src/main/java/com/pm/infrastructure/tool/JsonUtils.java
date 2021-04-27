@@ -27,7 +27,6 @@ public class JsonUtils {
 
     public static <T> T fromJson(String json, Class<T> valueType) {
         try {
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             return objectMapper.readValue(json, valueType);
         } catch (Exception e) {
             log.error("error json: {}", json, e);
@@ -37,7 +36,6 @@ public class JsonUtils {
 
     public static <T> T fromJson(String json, TypeReference<T> typeReference) {
         try {
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             return objectMapper.readValue(json, typeReference);
         } catch (Exception e) {
             log.error("error json: {}", json, e);
