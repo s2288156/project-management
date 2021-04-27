@@ -2,7 +2,7 @@ package com.pm.application.dto.vo;
 
 import com.nimbusds.jose.JWSObject;
 import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.JwtPayload;
+import com.pm.infrastructure.security.JwtPayload;
 import com.zyzh.exception.SysException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

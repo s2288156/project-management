@@ -1,7 +1,6 @@
 package com.pm.infrastructure.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pm.infrastructure.tool.JwtPayload;
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,7 +54,7 @@ public class SecurityUser implements UserDetails {
                 .map(SimpleGrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
         jwtPayload.setRoles(roles);
-        jwtPayload.setIss("ZYZH");
+//        jwtPayload.setIss("ZYZH");
         jwtPayload.setExp(expDaysLater());
 
         return jwtPayload;
