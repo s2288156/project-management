@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.pm.NoneWebBaseTest;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.PidQuery;
+import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.service.impl.ProjectServiceImpl;
@@ -17,6 +18,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author wcy
@@ -84,5 +87,24 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
         PageResponse<DependModuleVO> response = projectService.listDepend(pidQuery);
         Assertions.assertTrue(response.isSuccess());
 
+    }
+
+    @Transactional
+    @Test
+    void testProjectDeleteSuccess() {
+        ProjectDeleteCmd projectDeleteCmd = new ProjectDeleteCmd();
+        projectDeleteCmd.setId("66666");
+        Response response = projectService.deleteProject(projectDeleteCmd);
+        Assertions.assertTrue(response.isSuccess());
+    }
+
+    @Transactional
+    @Test
+    void testProjectDeleteFailed() {
+        ProjectDeleteCmd projectDeleteCmd = new ProjectDeleteCmd();
+        projectDeleteCmd.setId("1122333");
+        Response response = projectService.deleteProject(projectDeleteCmd);
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
     }
 }

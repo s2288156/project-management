@@ -39,7 +39,7 @@ public class ProjectDeleteCmdExe {
     public Response execute(ProjectDeleteCmd cmd) {
         // 由项目id查询出依赖此项目的项目名称
         List<String> projectNameList = dependenceMapper.selectDependenceProjectByProjectId(cmd.getId());
-        if (org.springframework.util.CollectionUtils.isEmpty(projectNameList)) {
+        if (!org.springframework.util.CollectionUtils.isEmpty(projectNameList)) {
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode());
         }
         // 根据项目id查询出自己项目引用自己模块的DependenceId
