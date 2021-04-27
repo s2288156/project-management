@@ -33,26 +33,26 @@ public class ModuleVersionDeleteCmdExe {
     @Autowired
     private ModuleVersionMapper moduleVersionMapper;
 
-    public Response execute (ModuleVersionDeleteCmd moduleVersionDeleteCmd){
-        ModuleDO moduleDO=moduleMapper.selectById(moduleVersionDeleteCmd.getMid());
-        if (moduleDO.getLatestVersion().equals(moduleVersionDeleteCmd.getVersion())){
-            return Response.buildFailure(ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getCode(),ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getErrorMsg());
+    public Response execute(ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
+        ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDeleteCmd.getMid());
+        if (moduleDO.getLatestVersion().equals(moduleVersionDeleteCmd.getVersion())) {
+            return Response.buildFailure(ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getCode(), ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getErrorMsg());
         }
 
-        List<DependenceDO> dependenceDOList =dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
-                .eq(DependenceDO::getDependMid,moduleVersionDeleteCmd.getMid()));
-        if (!CollectionUtils.isEmpty(dependenceDOList)){
-            // TODO: 2021/4/23 代码格式化问题、foreach return问题
-            for (DependenceDO  dependenceDO:dependenceDOList) {
-                DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
-                if (dependModuleInfo.getVersion().equals(moduleVersionDeleteCmd.getVersion())) {
-                    // TODO: 2021/4/23 需求变更：不需要return pid，直接return errorMsg 
-                    return Response.buildFailure(ErrorCodeEnum.MODULE_CITED.getCode(),dependenceDO.getPid());
-                }
+        List<DependenceDO> dependenceDOList = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
+                .eq(DependenceDO::getDependMid, moduleVersionDeleteCmd.getMid()));
+        if (CollectionUtils.isEmpty(dependenceDOList)) {
+            moduleVersionMapper.deleteById(moduleVersionDeleteCmd.getId());
+            return Response.buildSuccess();
+        }
+
+        for (DependenceDO dependenceDO : dependenceDOList) {
+            DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
+            if (dependModuleInfo.getVersion().equals(moduleVersionDeleteCmd.getVersion())) {
+                return Response.buildFailure(ErrorCodeEnum.MODULE_CITED.getCode(), ErrorCodeEnum.MODULE_CITED.getErrorMsg());
             }
         }
-
         moduleVersionMapper.deleteById(moduleVersionDeleteCmd.getId());
-        return  Response.buildSuccess();
+        return Response.buildSuccess();
     }
 }
