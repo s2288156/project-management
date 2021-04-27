@@ -3,6 +3,7 @@ package com.pm.application.service.impl;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
+import com.pm.infrastructure.security.LoginUser;
 import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,8 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BizException(ErrorCodeEnum.USERNAME_NOT_FOUND);
         }
         // TODO: 2021/4/25 临时写死Roles
-        Set<SimpleGrantedAuthority> authorityList = new HashSet<>();
-        authorityList.add(new SimpleGrantedAuthority("ADMIN"));
-        return new User(username, userDO.get().getPassword(), authorityList);
+        Set<String> authorityList = new HashSet<>();
+        authorityList.add("ADMIN");
+        return new LoginUser(username, userDO.get().getPassword(), authorityList);
     }
 }

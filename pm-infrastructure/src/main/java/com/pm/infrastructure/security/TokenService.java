@@ -43,7 +43,7 @@ public class TokenService {
     /**
      * 解析jwt，获取Payload内容
      */
-    public JwtPayload getPayload(HttpServletRequest request) throws ParseException {
+    public JwtPayload parsePayload(HttpServletRequest request) throws ParseException {
         String realToken = getHeaderToken(request);
         JWSObject jwsObject = JWSObject.parse(realToken);
         String payloadStr = jwsObject.getPayload().toString();

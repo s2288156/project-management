@@ -2,6 +2,8 @@ package com.pm.infrastructure.tool;
 
 import lombok.Data;
 
+import java.util.Set;
+
 /**
  * @author wcy
  */
@@ -20,4 +22,5 @@ public class JwtPayload {
      */
     private String iss;
 
+    private Set<String> roles;
 }
