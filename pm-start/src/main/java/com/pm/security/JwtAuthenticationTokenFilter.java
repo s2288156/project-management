@@ -8,7 +8,6 @@ import com.pm.infrastructure.security.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,9 +35,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             JwtPayload payload = tokenService.verifierAndGetPayload(request);
-            UserDO userDO = userMapper.selectById(payload.getUid());
-            SecurityUser securityUser = new SecurityUser(userDO.getUsername(), userDO.getPassword(), payload.getRoles());
-            new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
+            if (payload != null) {
+                UserDO userDO = userMapper.selectById(payload.getUid());
+                SecurityUser securityUser = new SecurityUser(userDO.getUsername(), userDO.getPassword(), payload.getRoles());
+                new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
+            }
         } catch (ParseException e) {
             log.error("jwt get payload parse error: ", e);
         }

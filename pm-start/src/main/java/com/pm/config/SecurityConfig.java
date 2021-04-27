@@ -1,6 +1,7 @@
 package com.pm.config;
 
 import com.nimbusds.jose.jwk.RSAKey;
+import com.pm.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import java.security.KeyPair;
@@ -37,6 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CorsFilter corsFilter;
+
+    @Autowired
+    private JwtAuthenticationTokenFilter authenticationTokenFilter;
 
     @Bean
     public KeyPair keyPair() {
@@ -78,7 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
-        http.addFilter(corsFilter);
+        // 添加JWT filter
+        http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        // 添加CORS filter
+        http.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
     }
 
     @Override

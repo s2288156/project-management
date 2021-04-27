@@ -51,6 +51,9 @@ public class TokenService {
      */
     public JwtPayload verifierAndGetPayload(HttpServletRequest request) throws ParseException {
         String realToken = getHeaderToken(request);
+        if (StringUtils.isBlank(realToken)) {
+            return null;
+        }
         JWSObject jwsObject = JWSObject.parse(realToken);
 
         verifierToken(jwsObject);
@@ -75,6 +78,9 @@ public class TokenService {
 
     private String getHeaderToken(HttpServletRequest request) {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        return authorization.replace(JWT_TOKEN_PREFIX, "");
+        if (StringUtils.isNotBlank(authorization)) {
+            return authorization.replace(JWT_TOKEN_PREFIX, "");
+        }
+        return authorization;
     }
 }
