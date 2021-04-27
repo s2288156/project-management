@@ -13,5 +13,5 @@ public interface ICacheService<K, V> {
 
     V get(K key);
 
-    boolean delete(K key);
+    void delete(K key);
 }

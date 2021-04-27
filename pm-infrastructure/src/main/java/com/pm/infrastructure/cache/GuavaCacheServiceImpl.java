@@ -31,22 +31,21 @@ public class GuavaCacheServiceImpl<K, V> implements ICacheService<K, V> {
 
     @Override
     public void set(K key, V value) {
-
-
+        buildCache().put(key, value);
     }
 
     @Override
     public void set(K key, V value, long timeout, TimeUnit unit) {
-
+        buildExpCache(timeout, unit).put(key, value);
     }
 
     @Override
     public V get(K key) {
-        return null;
+        return buildCache().getIfPresent(key);
     }
 
     @Override
-    public boolean delete(K key) {
-        return false;
+    public void delete(K key) {
+        buildCache().invalidate(key);
     }
 }
