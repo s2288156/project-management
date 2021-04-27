@@ -6,6 +6,7 @@ import com.pm.infrastructure.security.JwtPayload;
 import com.zyzh.exception.SysException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.BeanUtils;
 
 import java.text.ParseException;
 import java.util.HashSet;
@@ -31,9 +32,7 @@ public class UserDetailVO extends UserVO {
         JwtPayload jwtPayload = JsonUtils.fromJson(payloadStr, JwtPayload.class);
 
         UserDetailVO userDetailVO = new UserDetailVO();
-        userDetailVO.setRoles(jwtPayload.getRoles());
-        userDetailVO.setName(jwtPayload.getUid());
-        userDetailVO.setAvatar(jwtPayload.getAvatar());
+        BeanUtils.copyProperties(jwtPayload, userDetailVO);
         return userDetailVO;
     }
 }
