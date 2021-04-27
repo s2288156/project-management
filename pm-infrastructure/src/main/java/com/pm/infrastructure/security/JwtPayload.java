@@ -1,5 +1,6 @@
 package com.pm.infrastructure.security;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.Set;
 /**
  * @author wcy
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class JwtPayload {
 
