@@ -29,7 +29,8 @@ public class TokenService {
     private RSAKey rsaKey;
 
     @SneakyThrows
-    public String sign(String payloadJson) {
+    public String sign(JwtPayload jwtPayload) {
+        String payloadJson = JsonUtils.toJson(jwtPayload);
         JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.RS256)
                 .type(JOSEObjectType.JWT)
                 .build();

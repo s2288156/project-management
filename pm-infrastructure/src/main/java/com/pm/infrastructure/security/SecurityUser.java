@@ -1,12 +1,15 @@
 package com.pm.infrastructure.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pm.infrastructure.tool.JwtPayload;
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author wcy
@@ -24,13 +27,43 @@ public class SecurityUser implements UserDetails {
 
     private Set<SimpleGrantedAuthority> authorities;
 
-    public SecurityUser() {
-    }
+    /**
+     * 头像
+     **/
+    private String avatar;
+
+    /**
+     * 邮箱
+     **/
+    private String email;
+
+    /**
+     * 姓名
+     **/
+    private String name;
 
     public SecurityUser(String username, String password, Set<SimpleGrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+    }
+
+    public JwtPayload generalPayload() {
+        JwtPayload jwtPayload = new JwtPayload();
+        jwtPayload.setUid(this.id);
+        Set<String> roles = this.authorities.stream()
+                .map(SimpleGrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+        jwtPayload.setRoles(roles);
+        jwtPayload.setIss("ZYZH");
+        jwtPayload.setExp(expDaysLater());
+
+        return jwtPayload;
+    }
+
+
+    private long expDaysLater() {
+        return LocalDateTime.now().plusDays(30).toEpochSecond(ZoneOffset.of("+8"));
     }
 
     @Override

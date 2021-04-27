@@ -8,6 +8,7 @@ import com.pm.application.command.UserLoginCmdExe;
 import com.pm.application.command.UserRegisterCmdExe;
 import com.pm.application.dto.cmd.UserLoginCmd;
 import com.pm.application.dto.cmd.UserRegisterCmd;
+import com.pm.application.dto.vo.LoginUserVO;
 import com.pm.application.dto.vo.UserVO;
 import com.pm.application.service.IUserService;
 import com.pm.infrastructure.dataobject.UserDO;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public SingleResponse userLogin(UserLoginCmd loginCmd) {
+    public SingleResponse<LoginUserVO> userLogin(UserLoginCmd loginCmd) {
         return userLoginCmdExe.execute(loginCmd);
     }
 

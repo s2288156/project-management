@@ -36,14 +36,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserDO> userDO = userMapper.selectForUsername(username);
-        if (!userDO.isPresent()) {
+        Optional<UserDO> userOptional = userMapper.selectForUsername(username);
+        if (!userOptional.isPresent()) {
             throw new BizException(ErrorCodeEnum.USERNAME_NOT_FOUND);
         }
-        Set<String> roleList = roleMapper.listRoleByUid(userDO.get().getId());
+        UserDO userDO = userOptional.get();
+        Set<String> roleList = roleMapper.listRoleByUid(userOptional.get().getId());
         Set<SimpleGrantedAuthority> authorities = roleList.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
-        return new SecurityUser(username, userDO.get().getPassword(), authorities);
+        return assembleSecurityUser(username, userDO, authorities);
     }
+
+    private SecurityUser assembleSecurityUser(String username, UserDO userDO, Set<SimpleGrantedAuthority> authorities) {
+        SecurityUser securityUser = new SecurityUser(username, userDO.getPassword(), authorities);
+        securityUser.setId(userDO.getId());
+        securityUser.setName(userDO.getName());
+        securityUser.setAvatar(userDO.getIcon());
+        securityUser.setEmail(userDO.getEmail());
+        return securityUser;
+    }
+
 }
