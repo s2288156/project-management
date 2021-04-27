@@ -2,6 +2,7 @@ package com.pm.application.service.impl;
 
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.UserDO;
+import com.pm.infrastructure.mapper.RoleMapper;
 import com.pm.infrastructure.mapper.UserMapper;
 import com.pm.infrastructure.security.LoginUser;
 import com.zyzh.exception.BizException;
@@ -27,6 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     /**
      * Role实现类{@link org.springframework.security.core.authority.SimpleGrantedAuthority}
