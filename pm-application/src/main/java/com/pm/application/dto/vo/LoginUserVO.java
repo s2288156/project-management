@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * @author wcy
@@ -39,9 +40,12 @@ public class LoginUserVO extends DTO {
 
     private String token;
 
+    private Set<String> roles;
+
     public static LoginUserVO convertForDo(SecurityUser securityUser) {
         LoginUserVO userVO = new LoginUserVO();
         BeanUtils.copyProperties(securityUser, userVO);
+        userVO.setRoles(securityUser.roles());
         return userVO;
     }
 }

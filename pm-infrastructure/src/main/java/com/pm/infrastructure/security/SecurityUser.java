@@ -52,16 +52,17 @@ public class SecurityUser implements UserDetails {
     public JwtPayload generalPayload() {
         JwtPayload jwtPayload = new JwtPayload();
         jwtPayload.setUid(this.id);
-        Set<String> roles = this.authorities.stream()
-                .map(SimpleGrantedAuthority::getAuthority)
-                .collect(Collectors.toSet());
-        jwtPayload.setRoles(roles);
-//        jwtPayload.setIss("ZYZH");
+        jwtPayload.setRoles(roles());
         jwtPayload.setExp(expDaysLater());
 
         return jwtPayload;
     }
 
+    public Set<String> roles() {
+        return this.authorities.stream()
+                .map(SimpleGrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+    }
 
     private long expDaysLater() {
         return LocalDateTime.now().plusDays(30).toEpochSecond(ZoneOffset.of("+8"));
