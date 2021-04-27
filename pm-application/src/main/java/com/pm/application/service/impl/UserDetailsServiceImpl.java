@@ -1,13 +1,13 @@
 package com.pm.application.service.impl;
 
 import com.pm.application.consts.ErrorCodeEnum;
-import com.pm.infrastructure.dataobject.RoleDO;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.RoleMapper;
 import com.pm.infrastructure.mapper.UserMapper;
-import com.pm.infrastructure.security.LoginUser;
+import com.pm.infrastructure.security.SecurityUser;
 import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author wcy
@@ -40,6 +41,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BizException(ErrorCodeEnum.USERNAME_NOT_FOUND);
         }
         Set<String> roleList = roleMapper.listRoleByUid(userDO.get().getId());
-        return new LoginUser(username, userDO.get().getPassword(), roleList);
+        Set<SimpleGrantedAuthority> authorities = roleList.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
+        return new SecurityUser(username, userDO.get().getPassword(), authorities);
     }
 }
