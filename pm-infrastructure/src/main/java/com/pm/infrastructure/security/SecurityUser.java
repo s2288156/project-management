@@ -41,10 +41,12 @@ public class SecurityUser implements UserDetails {
      **/
     private String name;
 
-    public SecurityUser(String username, String password, Set<SimpleGrantedAuthority> authorities) {
+    public SecurityUser(String username, String password, Set<String> roles) {
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
+        this.authorities = roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     public JwtPayload generalPayload() {

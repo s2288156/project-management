@@ -1,7 +1,7 @@
 package com.pm.config;
 
 import com.alibaba.cola.dto.Response;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.zyzh.exception.BizException;
 import com.zyzh.exception.SysException;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.pm.application.command;
 
 import com.alibaba.cola.dto.Response;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.UserRegisterCmd;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;

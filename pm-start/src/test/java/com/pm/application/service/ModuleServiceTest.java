@@ -3,7 +3,7 @@ package com.pm.application.service;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.NoneWebBaseTest;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;

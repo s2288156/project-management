@@ -1,7 +1,7 @@
 package com.pm.security;
 
 import com.alibaba.cola.dto.Response;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.tool.JsonUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;

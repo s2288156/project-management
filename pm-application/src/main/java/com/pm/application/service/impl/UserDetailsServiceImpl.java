@@ -1,6 +1,6 @@
 package com.pm.application.service.impl;
 
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.RoleMapper;
 import com.pm.infrastructure.mapper.UserMapper;
@@ -42,14 +42,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         UserDO userDO = userOptional.get();
         Set<String> roleList = roleMapper.listRoleByUid(userOptional.get().getId());
-        Set<SimpleGrantedAuthority> authorities = roleList.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
-        return assembleSecurityUser(username, userDO, authorities);
+        return assembleSecurityUser(username, userDO, roleList);
     }
 
-    private SecurityUser assembleSecurityUser(String username, UserDO userDO, Set<SimpleGrantedAuthority> authorities) {
-        SecurityUser securityUser = new SecurityUser(username, userDO.getPassword(), authorities);
+    private SecurityUser assembleSecurityUser(String username, UserDO userDO, Set<String> roleList) {
+        SecurityUser securityUser = new SecurityUser(username, userDO.getPassword(), roleList);
         securityUser.setId(userDO.getId());
         securityUser.setName(userDO.getName());
         securityUser.setAvatar(userDO.getIcon());

@@ -1,7 +1,7 @@
 package com.pm.application.command;
 
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ProjectConvertor;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.infrastructure.dataobject.ProjectDO;

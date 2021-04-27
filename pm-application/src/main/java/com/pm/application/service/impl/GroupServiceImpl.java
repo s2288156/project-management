@@ -4,7 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.GroupConvertor;
 import com.pm.application.dto.cmd.GroupAddCmd;
 import com.pm.application.dto.vo.GroupVO;
