@@ -118,9 +118,9 @@ public class ModuleServiceTest extends NoneWebBaseTest {
     @Test
     void testDeleteModuleSuccess() {
         ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
-        moduleDeleteCmd.setId("");
+        moduleDeleteCmd.setId("3344");
         Response response = moduleService.deleteModule(moduleDeleteCmd);
-        Assertions.assertEquals(Response.buildSuccess(), response);
+        assertTrue(response.isSuccess());
     }
 
     @Transactional
@@ -129,7 +129,8 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
         moduleDeleteCmd.setId("2233");
         Response response = moduleService.deleteModule(moduleDeleteCmd);
-        Assertions.assertEquals(Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorMsg()), response);
+        Assertions.assertFalse(response.isSuccess());
+        assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
     }
 
     private ModuleDO insertModule() {
