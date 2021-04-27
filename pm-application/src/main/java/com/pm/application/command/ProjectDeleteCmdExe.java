@@ -2,7 +2,6 @@ package com.pm.application.command;
 
 import com.alibaba.cola.dto.Response;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.infrastructure.dataobject.ModuleDO;
@@ -12,6 +11,7 @@ import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -39,18 +39,18 @@ public class ProjectDeleteCmdExe {
     public Response execute(ProjectDeleteCmd cmd) {
         // 由项目id查询出依赖此项目的项目名称
         List<String> projectNameList = dependenceMapper.selectDependenceProjectByProjectId(cmd.getId());
-        if (!org.springframework.util.CollectionUtils.isEmpty(projectNameList)) {
+        if (!CollectionUtils.isEmpty(projectNameList)) {
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode());
         }
         // 根据项目id查询出自己项目引用自己模块的DependenceId
         List<String> dependIdList = dependenceMapper.queryDependIdByProjectId(cmd.getId());
-        if (CollectionUtils.isNotEmpty(dependIdList)) {
+        if (!CollectionUtils.isEmpty(dependIdList)) {
             //  删除项目相关的依赖
             dependenceMapper.deleteBatchIds(dependIdList);
         }
         // 删除项目相关的模块版本
         List<String> moduleVersionIdList = moduleVersionMapper.selectModuleVersionIdByProjectId(cmd.getId());
-        if (CollectionUtils.isNotEmpty(moduleVersionIdList)) {
+        if (!CollectionUtils.isEmpty(moduleVersionIdList)) {
             moduleVersionMapper.deleteBatchIds(moduleVersionIdList);
         }
         // 删除项目的模块
