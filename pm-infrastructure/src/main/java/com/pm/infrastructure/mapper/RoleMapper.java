@@ -10,5 +10,5 @@ import java.util.Set;
  */
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
-    Set<RoleDO> listByUid(String uid);
+    Set<String> listRoleByUid(String uid);
 }

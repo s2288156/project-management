@@ -5,8 +5,8 @@
 <mapper namespace="com.pm.infrastructure.mapper.RoleMapper">
 
 
-    <select id="listByUid" resultType="com.pm.infrastructure.dataobject.RoleDO">
-        select tr.id, tr.role, tr.name
+    <select id="listRoleByUid" resultType="String">
+        select tr.role
         from t_role tr
                  left join t_user_role tur on tr.id = tur.role_id
             and tur.uid = #{uid}

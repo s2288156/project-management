@@ -22,6 +22,7 @@ public class UserDetailsServiceTest extends NoneWebBaseTest {
     @Test
     void testSelectByUsername() {
         LoginUser admin = (LoginUser) userDetailsService.loadUserByUsername("admin");
+        log.info("{}", admin);
         assertNotNull(admin);
         Set<String> roles = admin.getRoles();
         assertTrue(roles.contains("ADMIN"));
@@ -30,6 +31,5 @@ public class UserDetailsServiceTest extends NoneWebBaseTest {
                 () -> assertNotNull(admin.getPassword()),
                 () -> assertTrue(roles.contains("ADMIN"))
         );
-        log.info("{}", admin);
     }
 }

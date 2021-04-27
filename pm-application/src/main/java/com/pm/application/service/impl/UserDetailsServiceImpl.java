@@ -1,22 +1,18 @@
 package com.pm.application.service.impl;
 
 import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.dataobject.RoleDO;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.RoleMapper;
 import com.pm.infrastructure.mapper.UserMapper;
 import com.pm.infrastructure.security.LoginUser;
 import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,9 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (!userDO.isPresent()) {
             throw new BizException(ErrorCodeEnum.USERNAME_NOT_FOUND);
         }
-        // TODO: 2021/4/25 临时写死Roles
-        Set<String> authorityList = new HashSet<>();
-        authorityList.add("ADMIN");
-        return new LoginUser(username, userDO.get().getPassword(), authorityList);
+        Set<String> roleList = roleMapper.listRoleByUid(userDO.get().getId());
+        return new LoginUser(username, userDO.get().getPassword(), roleList);
     }
 }
