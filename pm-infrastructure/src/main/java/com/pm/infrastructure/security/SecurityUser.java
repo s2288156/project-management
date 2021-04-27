@@ -2,6 +2,8 @@ package com.pm.infrastructure.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,9 +15,10 @@ import java.util.stream.Collectors;
 /**
  * @author wcy
  */
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class SecurityUser implements UserDetails {
+public class SecurityUser extends JwtPayload implements UserDetails {
     private static final long serialVersionUID = 1988301320280808093L;
 
     private String id;
@@ -25,21 +28,6 @@ public class SecurityUser implements UserDetails {
     private String username;
 
     private Set<SimpleGrantedAuthority> authorities;
-
-    /**
-     * 头像
-     **/
-    private String avatar;
-
-    /**
-     * 邮箱
-     **/
-    private String email;
-
-    /**
-     * 姓名
-     **/
-    private String name;
 
     public SecurityUser(String username, String password, Set<String> roles) {
         this.username = username;
@@ -51,10 +39,10 @@ public class SecurityUser implements UserDetails {
 
     public JwtPayload generalPayload() {
         JwtPayload jwtPayload = new JwtPayload();
+        BeanUtils.copyProperties(this, jwtPayload);
         jwtPayload.setUid(this.id);
         jwtPayload.setRoles(roles());
         jwtPayload.setExp(expDaysLater());
-
         return jwtPayload;
     }
 

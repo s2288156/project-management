@@ -23,4 +23,19 @@ public class JwtPayload {
     private String iss;
 
     private Set<String> roles;
+
+    /**
+     * 头像
+     **/
+    private String avatar;
+
+    /**
+     * 邮箱
+     **/
+    private String email;
+
+    /**
+     * 姓名
+     **/
+    private String name;
 }

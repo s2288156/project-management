@@ -27,7 +27,7 @@ public class UserLoginCmdExe {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginCmd.getUsername(), userLoginCmd.getPassword()));
         SecurityUser securityUser = (SecurityUser) authenticate.getPrincipal();
 
-        LoginUserVO loginUserVO = LoginUserVO.convertForDo(securityUser);
+        LoginUserVO loginUserVO = new LoginUserVO();
         String jwt = tokenService.sign(securityUser.generalPayload());
         loginUserVO.setToken(jwt);
 

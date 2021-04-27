@@ -45,7 +45,6 @@ public class LoginUserVO extends DTO {
     public static LoginUserVO convertForDo(SecurityUser securityUser) {
         LoginUserVO userVO = new LoginUserVO();
         BeanUtils.copyProperties(securityUser, userVO);
-        userVO.setRoles(securityUser.roles());
         return userVO;
     }
 }

@@ -27,17 +27,13 @@ public class UserDetailVO extends UserVO {
         } catch (ParseException e) {
             throw new SysException(e.getMessage());
         }
-        String userStr = jwsObject.getPayload().toString();
-        JwtPayload jwtPayload = JsonUtils.fromJson(userStr, JwtPayload.class);
-
-        Set<String> rs = new HashSet<>();
-        // TODO: 2021/4/8 暂时写死
-        rs.add("ADMIN");
+        String payloadStr = jwsObject.getPayload().toString();
+        JwtPayload jwtPayload = JsonUtils.fromJson(payloadStr, JwtPayload.class);
 
         UserDetailVO userDetailVO = new UserDetailVO();
-        userDetailVO.setRoles(rs);
+        userDetailVO.setRoles(jwtPayload.getRoles());
         userDetailVO.setName(jwtPayload.getUid());
-        userDetailVO.setAvatar("https://wcy-img.oss-cn-beijing.aliyuncs.com/images/avatar/default_avatar.jpg");
+        userDetailVO.setAvatar(jwtPayload.getAvatar());
         return userDetailVO;
     }
 }
