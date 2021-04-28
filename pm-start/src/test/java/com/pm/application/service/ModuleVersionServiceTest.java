@@ -2,6 +2,7 @@ package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
 import com.pm.NoneWebBaseTest;
+import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleVersionDeleteCmd;
 import com.pm.application.service.impl.ModuleServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -33,7 +34,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         moduleVersionDeleteCmd.setVersion("1.0.0");
         Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
         Assertions.assertFalse(response.isSuccess());
-        assertEquals(response.getErrCode(),response.getErrMessage());
+        assertEquals(ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getErrorCode(),response.getErrCode());
     }
 
     @Transactional
@@ -46,7 +47,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         moduleVersionDeleteCmd.setVersion("1.0.2");
         Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
         Assertions.assertFalse(response.isSuccess());
-        assertEquals(response.getErrCode(),response.getErrMessage());
+        assertEquals(ErrorCodeEnum.MODULE_CITED.getErrorCode(),response.getErrCode());
     }
 
     @Transactional
@@ -59,7 +60,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         moduleVersionDeleteCmd.setVersion("1.0.2");
         Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
         Assertions.assertFalse(response.isSuccess());
-        assertEquals(response.getErrCode(),response.getErrMessage());
+        assertEquals(ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getErrorCode(),response.getErrCode());
     }
 
     @Transactional
@@ -71,7 +72,6 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         moduleVersionDeleteCmd.setMid("1381488489669283841");
         moduleVersionDeleteCmd.setVersion("1.0.2");
         Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
-        Assertions.assertFalse(response.isSuccess());
-        assertEquals(response.getErrCode(),response.getErrMessage());
+        Assertions.assertTrue(response.isSuccess());
     }
 }
