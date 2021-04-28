@@ -100,6 +100,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         ModuleVersionDO verifyData = moduleVersionMapper.selectById(moduleVersionDO.getId());
         assertNotNull(verifyData.getVersion());
         assertNotNull(verifyData.getMid());
+        assertEquals(desc, verifyData.getDescription());
     }
 
     @Transactional
