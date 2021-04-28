@@ -114,6 +114,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         assertTrue(response.isSuccess());
     }
 
+    // TODO: 2021/4/28 测试用例太简单
     @Transactional
     @Test
     void testDeleteModuleSuccess() {

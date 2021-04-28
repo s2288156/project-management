@@ -89,6 +89,7 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
 
     }
 
+    // TODO: 2021/4/28 测试太简单，基本上没有实际意义
     @Transactional
     @Test
     void testProjectDeleteSuccess() {
