@@ -47,7 +47,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         moduleVersionDeleteCmd.setVersion("1.0.2");
         Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
         Assertions.assertFalse(response.isSuccess());
-        assertEquals(ErrorCodeEnum.MODULE_CITED.getErrorCode(),response.getErrCode());
+        assertEquals(ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getErrorCode(),response.getErrCode());
     }
 
     @Transactional
