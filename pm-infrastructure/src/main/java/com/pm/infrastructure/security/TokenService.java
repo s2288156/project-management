@@ -49,16 +49,23 @@ public class TokenService {
     /**
      * 解析jwt，获取Payload内容
      */
-    public JwtPayload verifierAndGetPayload(HttpServletRequest request) throws ParseException {
+    public JwtPayload verifierAndGetPayload(HttpServletRequest request) {
         String realToken = getHeaderToken(request);
         if (StringUtils.isBlank(realToken)) {
             return null;
         }
-        JWSObject jwsObject = JWSObject.parse(realToken);
-
-        verifierToken(jwsObject);
-
+        JWSObject jwsObject = null;
+        try {
+            jwsObject = JWSObject.parse(realToken);
+        } catch (ParseException e) {
+            log.warn("jwt parse error:{}", e.getMessage());
+            if (log.isErrorEnabled()) {
+                log.error("jwt parse errorStack:", e);
+            }
+            throw new BizException(ErrorCodeEnum.JWT_PARSE_ERROR);
+        }
         String payloadStr = jwsObject.getPayload().toString();
+        verifierToken(jwsObject);
         return JsonUtils.fromJson(payloadStr, JwtPayload.class);
     }
 
@@ -67,11 +74,14 @@ public class TokenService {
             RSASSAVerifier verifier = new RSASSAVerifier(rsaKey);
             boolean verify = jwsObject.verify(verifier);
             if (!verify) {
-                log.error("令牌延签不通过: {}", verifier);
+                log.error("令牌验签不通过: {}", verifier);
                 throw new BizException(ErrorCodeEnum.JWT_VERIFIER_ERROR);
             }
         } catch (JOSEException e) {
-            log.error("jwt verifier error:", e);
+            log.warn("jwt verifier error:{}", e.getMessage());
+            if (log.isErrorEnabled()) {
+                log.error("jwt verifier errorStack:", e);
+            }
             throw new BizException(ErrorCodeEnum.JWT_VERIFIER_ERROR);
         }
     }
