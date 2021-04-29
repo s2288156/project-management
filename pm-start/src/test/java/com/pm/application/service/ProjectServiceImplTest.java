@@ -88,25 +88,4 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
         Assertions.assertTrue(response.isSuccess());
 
     }
-
-    // ============================= projectService.deleteProject ==================
-    // TODO: 2021/4/28 测试太简单，基本上没有实际意义
-    @Transactional
-    @Test
-    void testProjectDeleteSuccess() {
-        ProjectDeleteCmd projectDeleteCmd = new ProjectDeleteCmd();
-        projectDeleteCmd.setId("66666");
-        Response response = projectService.deleteProject(projectDeleteCmd);
-        Assertions.assertTrue(response.isSuccess());
-    }
-
-    @Transactional
-    @Test
-    void testProjectDeleteFailed() {
-        ProjectDeleteCmd projectDeleteCmd = new ProjectDeleteCmd();
-        projectDeleteCmd.setId("1122333");
-        Response response = projectService.deleteProject(projectDeleteCmd);
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
-    }
 }
