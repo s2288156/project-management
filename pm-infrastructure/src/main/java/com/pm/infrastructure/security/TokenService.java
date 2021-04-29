@@ -10,6 +10,7 @@ import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.RSAKey;
+import com.pm.infrastructure.cache.ICacheService;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.tool.JsonUtils;
 import com.zyzh.exception.BizException;
@@ -19,10 +20,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author wcy
@@ -34,9 +40,17 @@ public class TokenService {
     @Autowired
     private RSAKey rsaKey;
 
+    @Autowired
+    private ICacheService<String, Set<String>> guavaCacheService;
+
     public boolean canAccess(HttpServletRequest request, Authentication authentication) {
-        log.warn(">>>>>>>>>>>>>>> canAccess");
-        return true;
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Set<String> urlPerms = guavaCacheService.get(getPermKey(request));
+        return CollectionUtils.containsAny(urlPerms, authorities);
+    }
+
+    private String getPermKey(HttpServletRequest request) {
+        return request.getMethod() + request.getRequestURI();
     }
 
     @SneakyThrows
