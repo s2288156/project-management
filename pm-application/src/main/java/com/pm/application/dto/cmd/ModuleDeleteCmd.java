@@ -14,8 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ModuleDeleteCmd extends Command {
 
-    // TODO: 2021/4/28 项目id？
-    @NotBlank(message = "项目Id不能为空")
+    @NotBlank(message = "模块Id不能为空")
     private String id;
 
 }
