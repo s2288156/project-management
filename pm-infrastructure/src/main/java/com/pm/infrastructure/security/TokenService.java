@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,11 @@ public class TokenService {
     public static final String JWT_TOKEN_PREFIX = "Bearer ";
     @Autowired
     private RSAKey rsaKey;
+
+    public boolean canAccess(HttpServletRequest request, Authentication authentication) {
+        log.warn(">>>>>>>>>>>>>>> canAccess");
+        return true;
+    }
 
     @SneakyThrows
     public String sign(JwtPayload jwtPayload) {

@@ -79,8 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/info", "/test/**").anonymous()
-                .anyRequest().authenticated()
+                .antMatchers("/user/login", "/user/info", "/test/**").permitAll()
+                .anyRequest().access("@tokenService.canAccess(request,authentication)")
                 .and()
                 .headers().frameOptions().disable();
         // 添加JWT filter
