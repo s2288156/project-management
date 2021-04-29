@@ -115,26 +115,6 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         assertTrue(response.isSuccess());
     }
 
-    // TODO: 2021/4/28 测试用例太简单
-    @Transactional
-    @Test
-    void testDeleteModuleSuccess() {
-        ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
-        moduleDeleteCmd.setId("3344");
-        Response response = moduleService.deleteModule(moduleDeleteCmd);
-        assertTrue(response.isSuccess());
-    }
-
-    @Transactional
-    @Test
-    void testDeleteModuleFailed() {
-        ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
-        moduleDeleteCmd.setId("2233");
-        Response response = moduleService.deleteModule(moduleDeleteCmd);
-        Assertions.assertFalse(response.isSuccess());
-        assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
-    }
-
     private ModuleDO insertModule() {
         ModuleDO moduleDO = new ModuleDO();
         moduleDO.setName("hahaha");
