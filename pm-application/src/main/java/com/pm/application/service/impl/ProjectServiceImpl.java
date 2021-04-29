@@ -89,7 +89,6 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Response deleteProject(ProjectDeleteCmd cmd) {
         return projectDeleteCmdExe.execute(cmd);
     }

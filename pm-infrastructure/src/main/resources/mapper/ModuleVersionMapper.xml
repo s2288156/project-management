@@ -14,13 +14,4 @@
         from t_module_version
         where mid = #{mid}
     </select>
-    <select id="selectModuleVersionIdByProjectId" resultType="java.lang.String">
-        select tmv.id
-        from t_module_version tmv
-        where EXISTS(select tm.id mid
-                     from t_project tp
-                              left join t_module tm on tp.id = tm.pid
-                     where tp.id = #{pid}
-                       and tmv.mid = tm.id)
-    </select>
 </mapper>

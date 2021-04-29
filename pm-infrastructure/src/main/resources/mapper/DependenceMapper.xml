@@ -10,32 +10,9 @@
         where pid = #{pid}
           and depend_mid = #{dependMid}
     </select>
-    <select id="selectDependenceInfo" resultType="java.lang.String">
-        select td.pid
-        from t_dependence td
-        where td.depend_mid = #{mid}
-    </select>
-    <select id="selectDependenceProjectByProjectId" resultType="java.lang.String">
-        select tpj.name
-        from t_dependence td
-                 left join t_project tpj on td.pid = tpj.id
-        where td.pid != #{pid}
-          and EXISTS(select tm.id
-                     from t_project tp
-                              left join t_module tm on tp.id = tm.pid
-                     where tp.id = #{pid}
-                       and td.depend_mid = tm.id)
-        group by tpj.name
-    </select>
-    <select id="queryDependIdByProjectId" resultType="java.lang.String">
-        select td.id
-        from t_dependence td
-                 left join t_project tpj on td.pid = tpj.id
-        where td.pid = #{pid}
-          and EXISTS(select tm.id
-                     from t_project tp
-                              left join t_module tm on tp.id = tm.pid
-                     where tp.id = #{pid}
-                       and td.depend_mid = tm.id)
+    <select id="queryDependenceByProjectId" resultType="com.pm.infrastructure.dataobject.DependenceDO">
+        select *
+        from t_dependence
+        where t_dependence.depend_mid in (select id from t_module where pid = #{pid})
     </select>
 </mapper>
