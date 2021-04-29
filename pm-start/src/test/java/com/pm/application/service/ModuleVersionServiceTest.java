@@ -94,7 +94,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
         Assertions.assertNotNull(mvd);
         Assertions.assertFalse(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
-        assertEquals(response.getErrCode(), ErrorCodeEnum.MODULE_CITED.getCode());
+        assertEquals(response.getErrCode(), ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getCode());
 
         DependenceDO dependenceDO = selectByPidAndDependMid(moduleVersionDeleteCmd);
         Assertions.assertNotNull(dependenceDO);
