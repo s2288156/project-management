@@ -40,7 +40,7 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
     @Autowired
     private IProjectService projectService;
 
-    // 项目模块被依赖 
+    // 项目模块被依赖
     // 项目删除失败 依赖删除失败  模块删除失败 模块版本删除失败
     @Test
     void testFailDeleteProject() {
@@ -56,9 +56,7 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
         List<ModuleVersionDO> moduleVersionDOListDeleteBefore = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
 
-        ProjectDeleteCmd projectDeleteCmd = new ProjectDeleteCmd();
-        projectDeleteCmd.setId(projectDO.getId());
-        Response response = projectService.deleteProject(projectDeleteCmd);
+        Response response = this.getResponseDeleteProject(projectDO);
         Assertions.assertFalse(response.isSuccess());
         assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
         log.info(">>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", response.getErrMessage());
@@ -87,10 +85,7 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
         ModuleDO moduleDO = insertModule(projectDO.getId());
         ModuleVersionDO moduleVersionDO = insertModuleVersion(moduleDO.getId());
 
-        ProjectDeleteCmd projectDeleteCmd = new ProjectDeleteCmd();
-        projectDeleteCmd.setId(projectDO.getId());
-
-        Response response = projectService.deleteProject(projectDeleteCmd);
+        Response response = this.getResponseDeleteProject(projectDO);
         Assertions.assertTrue(response.isSuccess());
 
         ProjectDO selectById = projectMapper.selectById(projectDO.getId());
@@ -101,12 +96,18 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
         assertTrue(CollectionUtils.isEmpty(dependenceDOList));
 
         List<ModuleDO> moduleDOList = moduleMapper.selectList(new LambdaQueryWrapper<ModuleDO>()
-                .eq(ModuleDO::getPid, projectDeleteCmd.getId()));
+                .eq(ModuleDO::getPid, projectDO.getId()));
         assertTrue(CollectionUtils.isEmpty(moduleDOList));
 
         List<ModuleVersionDO> moduleVersionDOList = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
         assertTrue(CollectionUtils.isEmpty(moduleVersionDOList));
+    }
+
+    private Response getResponseDeleteProject(ProjectDO projectDO) {
+        ProjectDeleteCmd projectDeleteCmd = new ProjectDeleteCmd();
+        projectDeleteCmd.setId(projectDO.getId());
+        return projectService.deleteProject(projectDeleteCmd);
     }
 
     private DependenceDO insertDependence(String moduleId, String projectId) {
@@ -144,18 +145,10 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
 
     private GroupDO insertGroup() {
         GroupDO groupDO = new GroupDO();
-        groupDO.setName("longlong");
+        groupDO.setName("group");
         groupDO.setId("111");
         groupMapper.insert(groupDO);
         return groupDO;
-    }
-
-    private ModuleDO insertModule1() {
-        ModuleDO moduleDO = new ModuleDO();
-        moduleDO.setName("hahaha");
-        moduleDO.setPid("112233");
-        moduleMapper.insert(moduleDO);
-        return moduleDO;
     }
 
 }
