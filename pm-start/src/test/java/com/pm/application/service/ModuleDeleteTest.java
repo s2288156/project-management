@@ -42,19 +42,17 @@ public class ModuleDeleteTest extends NoneWebBaseTest {
     // 该模块被项目引入，删除失败
     @Test
     void testFailDeleteModule() {
-        ModuleDO moduleDO = insertModule("111");
         ProjectDO projectDO = insertProject("222");
+        ModuleDO moduleDO = insertModule("111");
 
         ModuleVersionDO moduleVersionDO = insertModuleVersion(moduleDO.getId());
 
         DependenceDO dependenceDO = insertDependence(moduleDO.getId(), projectDO.getId());
 
-        List<ModuleVersionDO> moduleVersionDOListBefore = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
+        List<ModuleVersionDO> moduleVersionDOListDeleteBefore = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
 
-        ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
-        moduleDeleteCmd.setId(moduleDO.getId());
-        Response response = moduleService.deleteModule(moduleDeleteCmd);
+        Response response = this.getResponseDeleteModule(moduleDO);
         Assertions.assertFalse(response.isSuccess());
         assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
         log.info(">>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", response.getErrMessage());
@@ -63,9 +61,9 @@ public class ModuleDeleteTest extends NoneWebBaseTest {
         boolean selectModuleVersionDOBoolean = Objects.isNull(selectModuleVersionDO);
         assertEquals(false, selectModuleVersionDOBoolean);
 
-        List<ModuleVersionDO> moduleVersionDOListAfter = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
+        List<ModuleVersionDO> moduleVersionDOListDeleteAfter = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
-        assertEquals(moduleVersionDOListBefore.size(), moduleVersionDOListAfter.size());
+        assertEquals(moduleVersionDOListDeleteBefore.size(), moduleVersionDOListDeleteAfter.size());
 
         DependenceDO dependence = dependenceMapper.selectById(dependenceDO.getId());
         Assertions.assertFalse(Objects.isNull(dependence));
@@ -85,11 +83,9 @@ public class ModuleDeleteTest extends NoneWebBaseTest {
         List<ModuleVersionDO> moduleVersionDOListDeleteBefore = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
         Assertions.assertFalse(CollectionUtils.isEmpty(moduleVersionDOListDeleteBefore));
-        log.info(">>>>>>>>>>>>>>>>>>>moduleVersionDOList:{}<<<<<<<<<<<<<<<<<<<<<<<",moduleVersionDOListDeleteBefore.toString());
+        log.info(">>>>>>>>>>>>>>>>>>>moduleVersionDOList:{}<<<<<<<<<<<<<<<<<<<<<<<", moduleVersionDOListDeleteBefore.toString());
 
-        ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
-        moduleDeleteCmd.setId(moduleDO.getId());
-        Response response = moduleService.deleteModule(moduleDeleteCmd);
+        Response response = this.getResponseDeleteModule(moduleDO);
         Assertions.assertTrue(response.isSuccess());
 
         ModuleDO module = moduleMapper.selectById(moduleDO.getId());
@@ -99,6 +95,12 @@ public class ModuleDeleteTest extends NoneWebBaseTest {
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
         Assertions.assertTrue(CollectionUtils.isEmpty(moduleVersionDOList));
 
+    }
+
+    private Response getResponseDeleteModule(ModuleDO moduleDO) {
+        ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
+        moduleDeleteCmd.setId(moduleDO.getId());
+        return moduleService.deleteModule(moduleDeleteCmd);
     }
 
 
@@ -149,14 +151,6 @@ public class ModuleDeleteTest extends NoneWebBaseTest {
         groupDO.setId("111");
         groupMapper.insert(groupDO);
         return groupDO;
-    }
-
-    private ModuleDO insertModule1() {
-        ModuleDO moduleDO = new ModuleDO();
-        moduleDO.setName("hahaha");
-        moduleDO.setPid("112233");
-        moduleMapper.insert(moduleDO);
-        return moduleDO;
     }
 
 }
