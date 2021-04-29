@@ -100,6 +100,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         ModuleVersionDO verifyData = moduleVersionMapper.selectById(moduleVersionDO.getId());
         assertNotNull(verifyData.getVersion());
         assertNotNull(verifyData.getMid());
+        assertEquals(desc, verifyData.getDescription());
     }
 
     @Transactional
@@ -114,6 +115,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         assertTrue(response.isSuccess());
     }
 
+    // TODO: 2021/4/28 测试用例太简单
     @Transactional
     @Test
     void testDeleteModuleSuccess() {

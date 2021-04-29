@@ -36,6 +36,16 @@ public class ProjectDeleteCmdExe {
     @Autowired
     private DependenceMapper dependenceMapper;
 
+    // TODO: 2021/4/28 逻辑不清晰，sql复杂 
+    /**
+     * 删除项目：
+     * 1. 判断项目中的module是否有被依赖，如果有则不允许删除（query）
+     * 2. 没有被依赖，删除包含的全部module，已经moduleVersion（delete）
+     * 3. 删除全部的依赖（delete）
+     * 4. 删除项目（delete）
+     * @param cmd
+     * @return
+     */
     public Response execute(ProjectDeleteCmd cmd) {
         // 由项目id查询出依赖此项目的项目名称
         List<String> projectNameList = dependenceMapper.selectDependenceProjectByProjectId(cmd.getId());

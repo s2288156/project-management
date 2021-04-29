@@ -49,7 +49,7 @@ public class ModuleVersionDeleteCmdExe {
         for (DependenceDO dependenceDO : dependenceDOList) {
             DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
             if (dependModuleInfo.getVersion().equals(moduleVersionDeleteCmd.getVersion())) {
-                return Response.buildFailure(ErrorCodeEnum.MODULE_CITED.getCode(), ErrorCodeEnum.MODULE_CITED.getErrorMsg());
+                return Response.buildFailure(ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getCode(), ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getErrorMsg());
             }
         }
         moduleVersionMapper.deleteById(moduleVersionDeleteCmd.getId());
