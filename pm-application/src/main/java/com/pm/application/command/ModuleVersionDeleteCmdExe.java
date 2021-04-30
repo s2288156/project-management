@@ -10,7 +10,9 @@ import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.tool.JsonUtils;
+import com.zyzh.exception.BizException;
 import com.zyzh.pm.domain.project.DependModuleInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -35,24 +37,45 @@ public class ModuleVersionDeleteCmdExe {
 
     public Response execute(ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
         ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDeleteCmd.getMid());
-        if (moduleDO.getLatestVersion().equals(moduleVersionDeleteCmd.getVersion())) {
-            return Response.buildFailure(ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getCode(), ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getErrorMsg());
-        }
 
-        List<DependenceDO> dependenceDOList = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
-                .eq(DependenceDO::getDependMid, moduleVersionDeleteCmd.getMid()));
-        if (CollectionUtils.isEmpty(dependenceDOList)) {
-            moduleVersionMapper.deleteById(moduleVersionDeleteCmd.getId());
-            return Response.buildSuccess();
-        }
+        deleteVersionLatestCheck(moduleVersionDeleteCmd.getVersion(), moduleDO.getLatestVersion());
 
-        for (DependenceDO dependenceDO : dependenceDOList) {
-            DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
-            if (dependModuleInfo.getVersion().equals(moduleVersionDeleteCmd.getVersion())) {
-                return Response.buildFailure(ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getCode(), ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getErrorMsg());
-            }
-        }
+        deleteVersionDependCheck(moduleVersionDeleteCmd.getVersion(), moduleVersionDeleteCmd.getMid());
+
         moduleVersionMapper.deleteById(moduleVersionDeleteCmd.getId());
         return Response.buildSuccess();
+    }
+
+    /**
+     * 最新的module version不允许删除
+     *
+     * @param deleteVersion 要删除的版本号
+     * @param moduleVersion module最新版本号
+     */
+    private void deleteVersionLatestCheck(String deleteVersion, String moduleVersion) {
+        if (StringUtils.equals(moduleVersion, deleteVersion)) {
+            throw new BizException(ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE);
+        }
+    }
+
+    /**
+     * 待删除module version是否被依赖检查
+     *
+     * @param deleteVersion 待删除module version
+     * @param dependMid     待删除moduleId
+     */
+    private void deleteVersionDependCheck(String deleteVersion, String dependMid) {
+        List<DependenceDO> dependenceDOList = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
+                .eq(DependenceDO::getDependMid, dependMid));
+
+        if (CollectionUtils.isEmpty(dependenceDOList)) {
+            return;
+        }
+        for (DependenceDO dependenceDO : dependenceDOList) {
+            DependModuleInfo dependModuleInfo = JsonUtils.fromJson(dependenceDO.getDependModuleInfo(), DependModuleInfo.class);
+            if (StringUtils.equals(deleteVersion, dependModuleInfo.getVersion())) {
+                throw new BizException(ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL);
+            }
+        }
     }
 }
