@@ -51,7 +51,7 @@ public class ProjectController {
     }
 
     @DeleteMapping
-    public Response deleteProject(@Validated ProjectDeleteCmd cmd) {
+    public Response deleteProject(@Validated ProjectDeleteCmd cmd) throws Exception {
         return projectService.deleteProject(cmd);
     }
 }

@@ -5,13 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleDeleteCmd;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
-import com.pm.application.service.IModuleService;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ModuleDO;
-import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
-import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author wcy
@@ -33,18 +29,14 @@ public class ProjectDeleteCmdExe {
     private ModuleMapper moduleMapper;
 
     @Autowired
-    private ModuleVersionMapper moduleVersionMapper;
-
-    @Autowired
     private ProjectMapper projectMapper;
 
     @Autowired
     private DependenceMapper dependenceMapper;
 
     @Autowired
-    private IModuleService moduleService;
+    private ModuleDeleteCmdExe moduleDeleteCmdExe;
 
-    // TODO: 2021/4/28 逻辑不清晰，sql复杂 
 
     /**
      * 删除项目：
@@ -57,28 +49,21 @@ public class ProjectDeleteCmdExe {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public Response execute(ProjectDeleteCmd cmd) {
+    public Response execute(ProjectDeleteCmd cmd) throws Exception {
 
         List<DependenceDO> dependenceList = dependenceMapper.queryDependenceByProjectId(cmd.getId());
         if (!CollectionUtils.isEmpty(dependenceList)) {
-            return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode());
+            return Response.buildFailure(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getErrorMsg());
         }
-        try {
-            this.deleteModuleAndModuleVersion(cmd);
-            this.deletedependence(cmd);
-            projectMapper.deleteById(cmd.getId());
-        } catch (Exception e) {
-            log.info(">>>>>>>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<", e);
-        }
+        deleteModuleAndModuleVersion(cmd);
+        deleteDependence(cmd);
+        projectMapper.deleteById(cmd.getId());
         return Response.buildSuccess();
     }
 
-    private void deletedependence(ProjectDeleteCmd cmd) {
-        List<String> dependenceIdList = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
-                .eq(DependenceDO::getPid, cmd.getId()))
-                .stream()
-                .map(DependenceDO::getId).collect(Collectors.toList());
-        dependenceMapper.deleteBatchIds(dependenceIdList);
+    private void deleteDependence(ProjectDeleteCmd cmd) {
+        dependenceMapper.delete(new LambdaQueryWrapper<DependenceDO>()
+                .eq(DependenceDO::getPid, cmd.getId()));
     }
 
     private void deleteModuleAndModuleVersion(ProjectDeleteCmd cmd) {
@@ -86,7 +71,7 @@ public class ProjectDeleteCmdExe {
         for (ModuleDO moduleDO : moduleDOList) {
             ModuleDeleteCmd moduleDeleteCmd = new ModuleDeleteCmd();
             moduleDeleteCmd.setId(moduleDO.getId());
-            moduleService.deleteModule(moduleDeleteCmd);
+            moduleDeleteCmdExe.execute(moduleDeleteCmd);
         }
     }
 

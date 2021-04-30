@@ -22,7 +22,6 @@ import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +38,7 @@ public class ProjectServiceImpl implements IProjectService {
     @Autowired
     private ProjectDeleteCmdExe projectDeleteCmdExe;
 
+    @Autowired
     private ProjectDependAddCmdExe projectDependAddCmdExe;
 
     @Autowired
@@ -89,7 +89,7 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public Response deleteProject(ProjectDeleteCmd cmd) {
+    public Response deleteProject(ProjectDeleteCmd cmd) throws Exception {
         return projectDeleteCmdExe.execute(cmd);
     }
 
