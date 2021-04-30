@@ -5,8 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pm.NoneWebBaseTest;
 import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
-import com.pm.infrastructure.dataobject.*;
-import com.pm.infrastructure.mapper.*;
+import com.pm.infrastructure.dataobject.DependenceDO;
+import com.pm.infrastructure.dataobject.ModuleDO;
+import com.pm.infrastructure.dataobject.ModuleVersionDO;
+import com.pm.infrastructure.dataobject.ProjectDO;
+import com.pm.infrastructure.mapper.DependenceMapper;
+import com.pm.infrastructure.mapper.ModuleMapper;
+import com.pm.infrastructure.mapper.ModuleVersionMapper;
+import com.pm.infrastructure.mapper.ProjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,17 +34,14 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
     @Autowired
     private ModuleMapper moduleMapper;
     @Autowired
-    private GroupMapper groupMapper;
-    @Autowired
     private ProjectMapper projectMapper;
     @Autowired
     private ModuleVersionMapper moduleVersionMapper;
     @Autowired
     private DependenceMapper dependenceMapper;
     @Autowired
-    private IModuleService moduleService;
-    @Autowired
     private IProjectService projectService;
+
 
     // 项目模块被依赖
     // 项目删除失败 依赖删除失败  模块删除失败 模块版本删除失败
@@ -56,9 +59,9 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
         List<ModuleVersionDO> moduleVersionDOListDeleteBefore = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
 
-        Response response = this.getResponseDeleteProject(projectDO);
+        Response response = getResponseDeleteProject(projectDO);
         Assertions.assertFalse(response.isSuccess());
-        assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
+        assertEquals(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
         log.info(">>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", response.getErrMessage());
 
         ProjectDO deleteProjectDO = projectMapper.selectById(projectDO.getId());
@@ -85,7 +88,7 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
         ModuleDO moduleDO = insertModule(projectDO.getId());
         ModuleVersionDO moduleVersionDO = insertModuleVersion(moduleDO.getId());
 
-        Response response = this.getResponseDeleteProject(projectDO);
+        Response response = getResponseDeleteProject(projectDO);
         Assertions.assertTrue(response.isSuccess());
 
         ProjectDO selectById = projectMapper.selectById(projectDO.getId());
@@ -141,14 +144,6 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
         projectDO.setDescription("description");
         projectMapper.insert(projectDO);
         return projectDO;
-    }
-
-    private GroupDO insertGroup() {
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName("group");
-        groupDO.setId("111");
-        groupMapper.insert(groupDO);
-        return groupDO;
     }
 
 }
