@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author wcy
@@ -41,22 +40,13 @@ public class ModuleDeleteCmdExe {
         if (!CollectionUtils.isEmpty(dependenceDOList)) {
             return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorMsg());
         }
-        // TODO: 2021/4/28 module dependenceProjectList为空，可以被删除。删除module的同时，对应的version也要全部删除，测试用例没有覆盖到这一点
-        try {
-            this.deleteModuleVersion(moduleDeleteCmd);
-            moduleMapper.deleteById(moduleDeleteCmd.getId());
-        } catch (Exception e) {
-            log.info(">>>>>>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", e.toString());
-        }
+        deleteModuleVersion(moduleDeleteCmd);
+        moduleMapper.deleteById(moduleDeleteCmd.getId());
         return Response.buildSuccess();
     }
 
     private void deleteModuleVersion(ModuleDeleteCmd moduleDeleteCmd) {
-        List<ModuleVersionDO> moduleVersionDOList = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
+        moduleVersionMapper.delete(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDeleteCmd.getId()));
-        List<String> collect = moduleVersionDOList.stream()
-                .map(ModuleVersionDO::getId)
-                .collect(Collectors.toList());
-        moduleVersionMapper.deleteBatchIds(collect);
     }
 }
