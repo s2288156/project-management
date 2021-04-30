@@ -89,7 +89,7 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public Response deleteProject(ProjectDeleteCmd cmd) throws Exception {
+    public Response deleteProject(ProjectDeleteCmd cmd) {
         return projectDeleteCmdExe.execute(cmd);
     }
 

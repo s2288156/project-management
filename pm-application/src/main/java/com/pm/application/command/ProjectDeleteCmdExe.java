@@ -49,7 +49,7 @@ public class ProjectDeleteCmdExe {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public Response execute(ProjectDeleteCmd cmd) throws Exception {
+    public Response execute(ProjectDeleteCmd cmd) {
 
         List<DependenceDO> dependenceList = dependenceMapper.queryDependenceByProjectId(cmd.getId());
         if (!CollectionUtils.isEmpty(dependenceList)) {

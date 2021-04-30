@@ -26,6 +26,6 @@ public interface IProjectService {
 
     Response deleteDepend(String id);
 
-    Response deleteProject(ProjectDeleteCmd cmd) throws Exception;
+    Response deleteProject(ProjectDeleteCmd cmd);
 
 }
