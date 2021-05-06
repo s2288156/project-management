@@ -38,7 +38,7 @@ import java.util.Set;
 public class TokenService {
     public static final String JWT_TOKEN_PREFIX = "Bearer ";
     // 管理员拥有全部权限
-    public static final String SUPER_ADMIN = "**";
+    public static final String SUPER_ADMIN = "ADMIN";
     @Autowired
     private RSAKey rsaKey;
 
@@ -51,27 +51,34 @@ public class TokenService {
     public boolean canAccess(HttpServletRequest request, Authentication authentication) {
         // 请求用户携带的授权信息role
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        Set<String> urlPerms = queryRequestPerms(request);
+
+        return validAccess(authorities, urlPerms);
+    }
+
+    /**
+     * 查询请求权限数据
+     *
+     * @param request HttpServletRequest
+     */
+    private Set<String> queryRequestPerms(HttpServletRequest request) {
         String permKey = getPermKey(request);
-        // 查询请求的url需要的role
         Set<String> urlPerms = guavaCacheService.get(permKey);
         if (CollectionUtils.isEmpty(urlPerms)) {
             log.warn("permKey  = {}, 未命中cache", permKey);
             urlPerms = roleMapper.listRoleByUrl(permKey);
             guavaCacheService.set(permKey, urlPerms);
         }
-        return validAccess(authorities, urlPerms);
+        return urlPerms;
     }
 
-
     /**
-     * 鉴权，判断用户是否拥有url的role权限
+     * 鉴权，判断用户是否拥有url的role权限。超级管理员ADMIN，拥有全部权限
      */
     private boolean validAccess(Collection<? extends GrantedAuthority> authorities, Set<String> urlPerms) {
-        if (urlPerms.contains(SUPER_ADMIN)) {
-            return true;
-        }
         for (GrantedAuthority authority : authorities) {
-            if (urlPerms.contains(authority.getAuthority())) {
+            if (StringUtils.equals(authority.getAuthority(), SUPER_ADMIN) || urlPerms.contains(authority.getAuthority())) {
                 return true;
             }
         }
