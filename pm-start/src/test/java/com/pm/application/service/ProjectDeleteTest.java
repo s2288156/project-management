@@ -3,7 +3,7 @@ package com.pm.application.service;
 import com.alibaba.cola.dto.Response;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pm.NoneWebBaseTest;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ModuleDO;

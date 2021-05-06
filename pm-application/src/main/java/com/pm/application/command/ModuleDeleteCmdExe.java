@@ -2,8 +2,8 @@ package com.pm.application.command;
 
 import com.alibaba.cola.dto.Response;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleDeleteCmd;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
