@@ -1,18 +1,15 @@
 package com.pm.application.command;
 
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.UserLoginCmd;
-import com.pm.infrastructure.dataobject.UserDO;
-import com.pm.infrastructure.mapper.UserMapper;
-import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.JwtUtil;
-import com.pm.infrastructure.tool.Payload;
+import com.pm.application.dto.vo.LoginUserVO;
+import com.pm.infrastructure.security.SecurityUser;
+import com.pm.infrastructure.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 /**
  * @author wcy
@@ -21,33 +18,20 @@ import java.util.Optional;
 public class UserLoginCmdExe {
 
     @Autowired
-    private UserMapper userMapper;
+    private TokenService tokenService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    public SingleResponse<LoginUserVO> execute(UserLoginCmd userLoginCmd) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginCmd.getUsername(), userLoginCmd.getPassword()));
+        SecurityUser securityUser = (SecurityUser) authenticate.getPrincipal();
 
-    public SingleResponse execute(UserLoginCmd userLoginCmd) {
-        Optional<UserDO> optional = userMapper.selectForUsername(userLoginCmd.getUsername());
-        if (!optional.isPresent()) {
-            return SingleResponse.buildFailure(ErrorCodeEnum.USERNAME_NOT_FOUND.getErrorCode(), ErrorCodeEnum.USERNAME_NOT_FOUND.getErrorMsg());
-        }
-        if (!validPwd(userLoginCmd.getPassword(), optional.get().getPassword())) {
-            return SingleResponse.buildFailure(ErrorCodeEnum.PASSWORD_FAIL.getErrorCode(), ErrorCodeEnum.PASSWORD_FAIL.getErrorMsg());
-        }
-        Payload payload = new Payload();
-        payload.setUid(optional.get().getId());
+        LoginUserVO loginUserVO = new LoginUserVO();
+        String jwt = tokenService.sign(securityUser.generalPayload());
+        loginUserVO.setToken(jwt);
 
-        return SingleResponse.of(signJwt(payload));
+        return SingleResponse.of(loginUserVO);
     }
 
-    private boolean validPwd(String inputPwd, String dbPwd) {
-        return passwordEncoder.matches(inputPwd, dbPwd);
-    }
-
-    private String signJwt(Payload payload) {
-        return jwtUtil.sign(JsonUtils.toJson(payload));
-    }
 }

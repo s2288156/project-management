@@ -2,7 +2,7 @@ package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
 import com.pm.NoneWebBaseTest;
-import com.pm.application.consts.ErrorCodeEnum;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.UserRegisterCmd;
 import com.pm.application.dto.vo.UserVO;
 import com.pm.infrastructure.entity.PageQuery;

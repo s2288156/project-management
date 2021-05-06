@@ -2,10 +2,11 @@ package com.pm.application.dto.vo;
 
 import com.nimbusds.jose.JWSObject;
 import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.Payload;
+import com.pm.infrastructure.security.JwtPayload;
 import com.zyzh.exception.SysException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.BeanUtils;
 
 import java.text.ParseException;
 import java.util.HashSet;
@@ -27,17 +28,11 @@ public class UserDetailVO extends UserVO {
         } catch (ParseException e) {
             throw new SysException(e.getMessage());
         }
-        String userStr = jwsObject.getPayload().toString();
-        Payload payload = JsonUtils.fromJson(userStr, Payload.class);
-
-        Set<String> rs = new HashSet<>();
-        // TODO: 2021/4/8 暂时写死
-        rs.add("ADMIN");
+        String payloadStr = jwsObject.getPayload().toString();
+        JwtPayload jwtPayload = JsonUtils.fromJson(payloadStr, JwtPayload.class);
 
         UserDetailVO userDetailVO = new UserDetailVO();
-        userDetailVO.setRoles(rs);
-        userDetailVO.setName(payload.getUid());
-        userDetailVO.setAvatar("https://wcy-img.oss-cn-beijing.aliyuncs.com/images/avatar/default_avatar.jpg");
+        BeanUtils.copyProperties(jwtPayload, userDetailVO);
         return userDetailVO;
     }
 }
