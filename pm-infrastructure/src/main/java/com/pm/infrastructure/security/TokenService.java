@@ -12,6 +12,7 @@ import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.pm.infrastructure.cache.ICacheService;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
+import com.pm.infrastructure.mapper.RoleMapper;
 import com.pm.infrastructure.tool.JsonUtils;
 import com.zyzh.exception.BizException;
 import lombok.SneakyThrows;
@@ -27,7 +28,6 @@ import org.springframework.util.CollectionUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -37,16 +37,45 @@ import java.util.Set;
 @Component
 public class TokenService {
     public static final String JWT_TOKEN_PREFIX = "Bearer ";
+    // 管理员拥有全部权限
+    public static final String SUPER_ADMIN = "**";
     @Autowired
     private RSAKey rsaKey;
 
     @Autowired
     private ICacheService<String, Set<String>> guavaCacheService;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
     public boolean canAccess(HttpServletRequest request, Authentication authentication) {
+        // 请求用户携带的授权信息role
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Set<String> urlPerms = guavaCacheService.get(getPermKey(request));
-        return CollectionUtils.containsAny(urlPerms, authorities);
+        String permKey = getPermKey(request);
+        // 查询请求的url需要的role
+        Set<String> urlPerms = guavaCacheService.get(permKey);
+        if (CollectionUtils.isEmpty(urlPerms)) {
+            log.warn("permKey  = {}, 未命中cache", permKey);
+            urlPerms = roleMapper.listRoleByUrl(permKey);
+            guavaCacheService.set(permKey, urlPerms);
+        }
+        return validAccess(authorities, urlPerms);
+    }
+
+
+    /**
+     * 鉴权，判断用户是否拥有url的role权限
+     */
+    private boolean validAccess(Collection<? extends GrantedAuthority> authorities, Set<String> urlPerms) {
+        if (urlPerms.contains(SUPER_ADMIN)) {
+            return true;
+        }
+        for (GrantedAuthority authority : authorities) {
+            if (urlPerms.contains(authority.getAuthority())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String getPermKey(HttpServletRequest request) {
