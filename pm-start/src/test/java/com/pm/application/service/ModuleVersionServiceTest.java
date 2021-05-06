@@ -9,6 +9,7 @@ import com.pm.application.service.impl.ModuleServiceImpl;
 import com.pm.infrastructure.dataobject.*;
 import com.pm.infrastructure.mapper.*;
 import com.pm.infrastructure.tool.JsonUtils;
+import com.zyzh.exception.BizException;
 import com.zyzh.pm.domain.project.DependModuleInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Administrator
@@ -67,12 +69,12 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         ModuleVersionDO moduleVersionDO = addModuleVersion("1.0.0");
         //删除模块版本
         ModuleVersionDeleteCmd moduleVersionDeleteCmd = deployModuleVersionDeleteCmd(moduleVersionDO);
-        Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
+        BizException bizException = Assertions.assertThrows(BizException.class, () -> moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd));
+        assertEquals(bizException.getErrCode(), ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getCode());
 
         ModuleVersionDO mvd = moduleVersionMapper.selectById(moduleVersionDO.getId());
         Assertions.assertNotNull(mvd);
-        Assertions.assertFalse(response.isSuccess());
-        assertEquals(response.getErrCode(), ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getCode());
+        assertEquals(mvd.getId(),moduleVersionDO.getId());
     }
 
     /**
@@ -88,19 +90,17 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         DependenceDO dd = addproductDepend(moduleVersionDO);
         //删除版本为0.0.1的模块
         ModuleVersionDeleteCmd moduleVersionDeleteCmd = deployModuleVersionDeleteCmd(moduleVersionDO);
-        Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
+        BizException bizException = assertThrows(BizException.class, () -> moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd));
+        assertEquals(bizException.getErrCode(), ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getCode());
 
         ModuleVersionDO mvd = moduleVersionMapper.selectById(moduleVersionDO.getId());
-        ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
         Assertions.assertNotNull(mvd);
+        ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
         Assertions.assertFalse(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
-        assertEquals(response.getErrCode(), ErrorCodeEnum.MODULE_DEPEND_NOT_ALLOW_DEL.getCode());
 
         DependenceDO dependenceDO = selectByPidAndDependMid(moduleVersionDeleteCmd);
         Assertions.assertNotNull(dependenceDO);
         assertEquals(dependenceDO.getId(), dd.getId());
-        Assertions.assertFalse(response.isSuccess());
-
     }
 
     /**
@@ -116,18 +116,19 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         DependenceDO dd = addproductDepend(moduleVersionDO);
         //删除版本为1.0.0的模块
         ModuleVersionDeleteCmd moduleVersionDeleteCmd = deployModuleVersionDeleteCmd(moduleVersionDO);
-        Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
+        BizException bizException = Assertions.assertThrows(BizException.class,()->moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd));
+        assertEquals(bizException.getErrCode(),ErrorCodeEnum.LATEST_MODULE_VERSION_NOT_ALLOW_DELETE.getCode());
 
         ModuleVersionDO mvd = moduleVersionMapper.selectById(moduleVersionDO.getId());
         Assertions.assertNotNull(mvd);
+        assertEquals(mvd.getId(),moduleVersionDO.getId());
 
         ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
         Assertions.assertTrue(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
 
         DependenceDO dependenceDO = selectByPidAndDependMid(moduleVersionDeleteCmd);
         Assertions.assertNotNull(dependenceDO);
-        Assertions.assertFalse(response.isSuccess());
-
+        assertEquals(dependenceDO.getId(),dd.getId());
     }
 
     /**
@@ -142,13 +143,13 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         //删除版本为0.0.1的模块
         ModuleVersionDeleteCmd moduleVersionDeleteCmd = deployModuleVersionDeleteCmd(moduleVersionDO);
         Response response = moduleServiceImpl.deleteModuleVersion(moduleVersionDeleteCmd);
-
-        ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
-        Assertions.assertFalse(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
+        Assertions.assertTrue(response.isSuccess());
 
         ModuleVersionDO mvd = moduleVersionMapper.selectById(moduleVersionDO.getId());
         Assertions.assertNull(mvd);
-        Assertions.assertTrue(response.isSuccess());
+
+        ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
+        Assertions.assertFalse(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
     }
 
 

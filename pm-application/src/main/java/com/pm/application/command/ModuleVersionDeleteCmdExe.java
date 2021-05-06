@@ -65,9 +65,7 @@ public class ModuleVersionDeleteCmdExe {
      * @param dependMid     待删除moduleId
      */
     private void deleteVersionDependCheck(String deleteVersion, String dependMid) {
-        List<DependenceDO> dependenceDOList = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
-                .eq(DependenceDO::getDependMid, dependMid));
-
+        List<DependenceDO> dependenceDOList = dependenceMapper.selectByDependMid(dependMid);
         if (CollectionUtils.isEmpty(dependenceDOList)) {
             return;
         }

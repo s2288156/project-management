@@ -16,4 +16,5 @@ public interface DependenceMapper extends BaseMapper<DependenceDO> {
 
     List<DependenceDO> queryDependenceByProjectId(@Param("pid") String id);
 
+    List<DependenceDO> selectByDependMid(@Param("dependMid") String dependMid);
 }

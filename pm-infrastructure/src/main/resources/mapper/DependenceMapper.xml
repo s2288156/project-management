@@ -15,4 +15,15 @@
         from t_dependence
         where t_dependence.depend_mid in (select id from t_module where pid = #{pid})
     </select>
+    <select id="selectByDependMid" resultType="com.pm.infrastructure.dataobject.DependenceDO">
+       select
+          id
+          ,pid
+          ,depend_mid
+          ,depend_module_info
+          ,create_time
+          ,update_time
+        from t_dependence
+        where depend_mid = #{dependMid}
+    </select>
 </mapper>
