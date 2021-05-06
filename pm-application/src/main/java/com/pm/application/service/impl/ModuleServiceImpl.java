@@ -4,14 +4,12 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ModuleAddCmdExe;
+import com.pm.application.command.ModuleDeleteCmdExe;
+import com.pm.application.command.ModuleVersionDeleteCmdExe;
 import com.pm.application.command.ModuleVersionPageQueryCmdExe;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleVersionConvertor;
-import com.pm.application.dto.cmd.ModuleAddCmd;
-import com.pm.application.dto.cmd.ModulePageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionAddCmd;
-import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
-import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
+import com.pm.application.dto.cmd.*;
 import com.pm.application.dto.vo.ModuleVO;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.application.service.IModuleService;
@@ -45,6 +43,12 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Autowired
     private ModuleVersionPageQueryCmdExe versionPageQueryCmdExe;
+
+    @Autowired
+    private ModuleVersionDeleteCmdExe moduleVersionDeleteCmdExe;
+
+    @Autowired
+    private ModuleDeleteCmdExe moduleDeleteCmdExe;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -96,6 +100,16 @@ public class ModuleServiceImpl implements IModuleService {
     public Response updateVersion(ModuleVersionUpdateCmd versionUpdateCmd) {
         moduleVersionMapper.updateById(versionUpdateCmd.convert2Do());
         return Response.buildSuccess();
+    }
+
+    @Override
+    public Response deleteModuleVersion(ModuleVersionDeleteCmd moduleVersionDeleteCmd) {
+        return moduleVersionDeleteCmdExe.execute(moduleVersionDeleteCmd);
+    }
+
+    @Override
+    public Response deleteModule(ModuleDeleteCmd moduleDeleteCmd) {
+        return moduleDeleteCmdExe.execute(moduleDeleteCmd);
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {

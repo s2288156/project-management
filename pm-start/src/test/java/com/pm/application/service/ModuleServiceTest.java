@@ -5,6 +5,7 @@ import com.alibaba.cola.dto.SingleResponse;
 import com.pm.NoneWebBaseTest;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleAddCmd;
+import com.pm.application.dto.cmd.ModuleDeleteCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
 import com.pm.application.dto.vo.ModuleVO;
@@ -15,6 +16,7 @@ import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import com.zyzh.exception.BizException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,6 +100,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         ModuleVersionDO verifyData = moduleVersionMapper.selectById(moduleVersionDO.getId());
         assertNotNull(verifyData.getVersion());
         assertNotNull(verifyData.getMid());
+        assertEquals(desc, verifyData.getDescription());
     }
 
     @Transactional

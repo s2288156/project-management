@@ -5,11 +5,13 @@ import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.command.ProjectAddCmdExe;
+import com.pm.application.command.ProjectDeleteCmdExe;
 import com.pm.application.command.ProjectDependAddCmdExe;
 import com.pm.application.dto.PidQuery;
+import com.pm.application.dto.cmd.ProjectAddCmd;
+import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.cmd.ProjectPageQueryCmd;
-import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
@@ -32,6 +34,9 @@ public class ProjectServiceImpl implements IProjectService {
 
     @Autowired
     private ProjectAddCmdExe projectAddCmdExe;
+
+    @Autowired
+    private ProjectDeleteCmdExe projectDeleteCmdExe;
 
     @Autowired
     private ProjectDependAddCmdExe projectDependAddCmdExe;
@@ -81,6 +86,11 @@ public class ProjectServiceImpl implements IProjectService {
     public Response deleteDepend(String id) {
         dependenceMapper.deleteById(id);
         return Response.buildSuccess();
+    }
+
+    @Override
+    public Response deleteProject(ProjectDeleteCmd cmd) {
+        return projectDeleteCmdExe.execute(cmd);
     }
 
 }
