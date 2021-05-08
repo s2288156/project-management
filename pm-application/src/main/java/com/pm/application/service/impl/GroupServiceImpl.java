@@ -9,12 +9,15 @@ import com.pm.application.convertor.GroupConvertor;
 import com.pm.application.dto.cmd.GroupAddCmd;
 import com.pm.application.dto.vo.GroupVO;
 import com.pm.application.service.IGroupService;
+import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.GroupDO;
 import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
+import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,14 +32,18 @@ public class GroupServiceImpl implements IGroupService {
     @Autowired
     private GroupMapper groupMapper;
 
+    @Autowired
+    private DependenceMapper dependenceMapper;
+
     @Override
-    public SingleResponse<?> addGroup(GroupAddCmd addCmd) {
+    public SingleResponse<String> addGroup(GroupAddCmd addCmd) {
         Optional<GroupDO> optional = groupMapper.selectByName(addCmd.getName());
         if (optional.isPresent()) {
             return SingleResponse.buildFailure(ErrorCodeEnum.GROUP_NAME_EXISTED.getErrorCode(), ErrorCodeEnum.GROUP_NAME_EXISTED.getErrorMsg());
         }
-        groupMapper.insert(GroupConvertor.convert2Do(addCmd));
-        return SingleResponse.buildSuccess();
+        GroupDO groupDO = GroupConvertor.convert2Do(addCmd);
+        groupMapper.insert(groupDO);
+        return SingleResponse.of(groupDO.getId());
     }
 
     @Override
@@ -54,7 +61,13 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public Response deleteById(String id) {
-        groupMapper.deleteById(id);
-        return Response.buildSuccess();
+        List<String> allMid = groupMapper.listAllMidByGroupId(id);
+        List<DependenceDO> dependenceDOS = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>().in(DependenceDO::getDependMid, allMid));
+        if (CollectionUtils.isEmpty(dependenceDOS)) {
+            groupMapper.deleteById(id);
+            return Response.buildSuccess();
+        }
+        return Response.buildFailure(ErrorCodeEnum.HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE.getCode(), ErrorCodeEnum.HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE.getMsg());
     }
+
 }

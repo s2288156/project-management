@@ -35,7 +35,7 @@ public class ProjectAddCmdExe {
 
         ProjectDO projectDO = ProjectConvertor.convertFor(addCmd);
         projectMapper.insert(projectDO);
-        return SingleResponse.buildSuccess();
+        return SingleResponse.of(projectDO.getId());
     }
 
 }
