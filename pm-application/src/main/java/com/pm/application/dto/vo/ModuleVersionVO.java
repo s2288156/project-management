@@ -17,6 +17,8 @@ public class ModuleVersionVO extends DTO {
 
     private String id;
 
+    private String mid;
+
     /**
      * version
      */
