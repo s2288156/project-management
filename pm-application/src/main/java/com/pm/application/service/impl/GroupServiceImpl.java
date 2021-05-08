@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pm.application.command.GroupDeleteExe;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.GroupConvertor;
 import com.pm.application.dto.cmd.GroupAddCmd;
@@ -33,7 +34,7 @@ public class GroupServiceImpl implements IGroupService {
     private GroupMapper groupMapper;
 
     @Autowired
-    private DependenceMapper dependenceMapper;
+    private GroupDeleteExe groupDeleteExe;
 
     @Override
     public SingleResponse<String> addGroup(GroupAddCmd addCmd) {
@@ -61,13 +62,7 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public Response deleteById(String id) {
-        List<String> allMid = groupMapper.listAllMidByGroupId(id);
-        List<DependenceDO> dependenceDOS = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>().in(DependenceDO::getDependMid, allMid));
-        if (CollectionUtils.isEmpty(dependenceDOS)) {
-            groupMapper.deleteById(id);
-            return Response.buildSuccess();
-        }
-        return Response.buildFailure(ErrorCodeEnum.HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE.getCode(), ErrorCodeEnum.HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE.getMsg());
+        return groupDeleteExe.execute(id);
     }
 
 }

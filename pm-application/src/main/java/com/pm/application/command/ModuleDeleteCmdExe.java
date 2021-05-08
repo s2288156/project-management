@@ -9,6 +9,7 @@ import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
+import com.zyzh.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,7 +39,7 @@ public class ModuleDeleteCmdExe {
         List<DependenceDO> dependenceDOList = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>()
                 .eq(DependenceDO::getDependMid, moduleDeleteCmd.getId()));
         if (!CollectionUtils.isEmpty(dependenceDOList)) {
-            return Response.buildFailure(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR);
         }
         deleteModuleVersion(moduleDeleteCmd);
         moduleMapper.deleteById(moduleDeleteCmd.getId());
