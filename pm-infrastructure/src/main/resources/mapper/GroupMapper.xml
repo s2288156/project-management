@@ -10,11 +10,10 @@
         from t_group
         where name = #{name}
     </select>
-    <select id="listAllMidByGroupId" resultType="java.lang.String">
-        select t_module.id
+    <select id="listAllPidByGroupId" resultType="java.lang.String">
+        select t_project.id
         from t_group
                  left join t_project on t_group.id = t_project.group_id
-                 left join t_module on t_project.id = t_module.pid
         where t_group.id = #{id}
     </select>
 </mapper>

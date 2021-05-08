@@ -1,7 +1,7 @@
 package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
-import com.alibaba.cola.dto.SingleResponse;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pm.NoneWebBaseTest;
 import com.pm.application.dto.cmd.GroupAddCmd;
 import com.pm.application.dto.cmd.ModuleAddCmd;
@@ -12,12 +12,22 @@ import com.pm.application.service.impl.GroupServiceImpl;
 import com.pm.application.service.impl.ModuleServiceImpl;
 import com.pm.application.service.impl.ProjectServiceImpl;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
+import com.pm.infrastructure.dataobject.DependenceDO;
+import com.pm.infrastructure.dataobject.ProjectDO;
+import com.pm.infrastructure.mapper.DependenceMapper;
+import com.pm.infrastructure.mapper.ModuleMapper;
+import com.pm.infrastructure.mapper.ProjectMapper;
+import com.zyzh.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author wcy
  */
@@ -33,62 +43,83 @@ public class GroupServiceTest extends NoneWebBaseTest {
     @Autowired
     private ModuleServiceImpl moduleService;
 
+    @Autowired
+    private ProjectMapper projectMapper;
+
+    @Autowired
+    private ModuleMapper moduleMapper;
+
+    @Autowired
+    private DependenceMapper dependenceMapper;
+
     /**
      * 1. group内有被引用的module，则返回错误码ErrorCodeEnum.HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE
      * 2. group没有被引用的module，删除全部相关数据：t_dependence / t_module_version / t_module / t_project
      */
     @Test
     void testDeleteById() {
-        log.info("新增Group: web , dubbo");
-        GroupAddCmd web = new GroupAddCmd();
-        web.setName("web");
-        String webGroupId = groupService.addGroup(web).getData();
+        log.warn("新增Group: web , dubbo");
+        String webGroupId = addGroupTestData("web");
+        String dubboGroupId = addGroupTestData("dubbo");
 
-        GroupAddCmd dubbo = new GroupAddCmd();
-        dubbo.setName("dubbo");
-        String dubboGroupId = groupService.addGroup(dubbo).getData();
+        log.warn("Group新增project: web(Group) -> webApp(Project);  dubbo(Group) -> dubbo-rpc(Project)");
+        String webProjectId = addProjectTestData("webApp", webGroupId);
+        String rpcProjectId = addProjectTestData("rpc", dubboGroupId);
 
-        initDeleteGroupTestData(webGroupId, dubboGroupId);
+        log.warn("Project新增Module: dubbo-rpc(P) -> rpc-core(M)");
+        ModuleVO dubboModule = addModuleTestData(rpcProjectId, "rpc-core", "1.0.0");
+        ModuleVO webModule = addModuleTestData(webProjectId, "web-dao", "2.0.0");
+
+        log.warn("webApp(P) 依赖 rpc-core(M)");
+        addDependencyTestData(webProjectId, dubboModule.getId(), "1.0.0");
 
         testCaseDeleteGroupFail(dubboGroupId);
-        testCaseDeleteGroupSuccess(webGroupId);
+        testCaseDeleteGroupSuccess(webGroupId, webProjectId, webModule.getId());
     }
 
-    private void initDeleteGroupTestData(String webGroupId, String dubboGroupId) {
-        log.info("Group新增project: web(Group) -> webApp(Project);  dubbo(Group) -> dubbo-rpc(Project)");
-        ProjectAddCmd webApp = new ProjectAddCmd();
-        webApp.setGroupId(webGroupId);
-        webApp.setName("webApp");
-        ProjectAddCmd rpc = new ProjectAddCmd();
-        rpc.setGroupId(dubboGroupId);
-        rpc.setName("dubbo-rpc");
-        SingleResponse<?> webAppAdd = projectService.addOne(webApp);
-        SingleResponse<?> rpcAdd = projectService.addOne(rpc);
+    private String addGroupTestData(String groupName) {
+        GroupAddCmd group = new GroupAddCmd();
+        group.setName(groupName);
+        return groupService.addGroup(group).getData();
+    }
 
-        log.info("Project新增Module: dubbo-rpc(P) -> rpc-core(M)");
-        ModuleAddCmd dubboModuleAddCmd = new ModuleAddCmd();
-        dubboModuleAddCmd.setName("rpc-core");
-        dubboModuleAddCmd.setVersion("1.0.0");
-        dubboModuleAddCmd.setPid((String) rpcAdd.getData());
-        ModuleVO dubboModule = moduleService.addOne(dubboModuleAddCmd).getData();
+    private String addProjectTestData(String projectName, String groupId) {
+        ProjectAddCmd projectAdd = new ProjectAddCmd();
+        projectAdd.setGroupId(groupId);
+        projectAdd.setName(projectName);
+        return (String) projectService.addOne(projectAdd).getData();
+    }
 
-        log.info("webApp(P) 依赖 rpc-core(M)");
+    private ModuleVO addModuleTestData(String pid, String name, String version) {
+        ModuleAddCmd moduleAddCmd = new ModuleAddCmd();
+        moduleAddCmd.setName(name);
+        moduleAddCmd.setVersion(version);
+        moduleAddCmd.setPid(pid);
+        return moduleService.addOne(moduleAddCmd).getData();
+    }
+
+    private void addDependencyTestData(String pid, String dependMid, String version) {
         ProjectDependAddCmd webAppProjectAdd = new ProjectDependAddCmd();
-        webAppProjectAdd.setPid((String) webAppAdd.getData());
-        webAppProjectAdd.setDependMid(dubboModule.getId());
-        webAppProjectAdd.setVersion("1.0.0");
+        webAppProjectAdd.setPid(pid);
+        webAppProjectAdd.setDependMid(dependMid);
+        webAppProjectAdd.setVersion(version);
         projectService.dependAdd(webAppProjectAdd);
     }
 
-    private void testCaseDeleteGroupSuccess(String webGroupId) {
+    private void testCaseDeleteGroupSuccess(String webGroupId, String webPid, String webMid) {
         Response webDeleteResponse = groupService.deleteById(webGroupId);
         assertTrue(webDeleteResponse.isSuccess());
+        assertNull(projectMapper.selectById(webPid));
+        assertNull(moduleMapper.selectById(webMid));
+        List<DependenceDO> dependenceMid = dependenceMapper.selectByDependMid(webMid);
+        List<DependenceDO> dependencePid = dependenceMapper.selectList(new LambdaQueryWrapper<DependenceDO>().eq(DependenceDO::getPid, webPid));
+        assertTrue(CollectionUtils.isEmpty(dependenceMid));
+        assertTrue(CollectionUtils.isEmpty(dependencePid));
     }
 
     private void testCaseDeleteGroupFail(String dubboGroupId) {
-        Response dubboDeleteResponse = groupService.deleteById(dubboGroupId);
-        assertFalse(dubboDeleteResponse.isSuccess());
-        assertEquals(ErrorCodeEnum.HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE.getCode(), dubboDeleteResponse.getErrCode());
+        BizException bizException = assertThrows(BizException.class, () -> groupService.deleteById(dubboGroupId));
+        assertEquals(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getCode(), bizException.getErrCode());
     }
 
 }

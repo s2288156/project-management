@@ -13,6 +13,6 @@ public interface GroupMapper extends BaseMapper<GroupDO> {
 
     Optional<GroupDO> selectByName(String name);
 
-    List<String> listAllMidByGroupId(String id);
+    List<String> listAllPidByGroupId(String id);
 
 }
