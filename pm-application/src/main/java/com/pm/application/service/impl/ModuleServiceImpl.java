@@ -3,10 +3,12 @@ package com.pm.application.service.impl;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pm.application.command.ModuleAddCmdExe;
-import com.pm.application.command.ModuleDeleteCmdExe;
-import com.pm.application.command.ModuleVersionDeleteCmdExe;
-import com.pm.application.command.ModuleVersionPageQueryCmdExe;
+import com.pm.application.dto.query.ModulePageQuery;
+import com.pm.application.dto.query.ModuleVersionPageQuery;
+import com.pm.application.execute.command.ModuleAddCmdExe;
+import com.pm.application.execute.command.ModuleDeleteCmdExe;
+import com.pm.application.execute.command.ModuleVersionDeleteCmdExe;
+import com.pm.application.execute.query.ModuleVersionPageQueryExe;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleVersionConvertor;
 import com.pm.application.dto.cmd.*;
@@ -42,7 +44,7 @@ public class ModuleServiceImpl implements IModuleService {
     private ModuleMapper moduleMapper;
 
     @Autowired
-    private ModuleVersionPageQueryCmdExe versionPageQueryCmdExe;
+    private ModuleVersionPageQueryExe versionPageQueryCmdExe;
 
     @Autowired
     private ModuleVersionDeleteCmdExe moduleVersionDeleteCmdExe;
@@ -66,7 +68,7 @@ public class ModuleServiceImpl implements IModuleService {
     }
 
     @Override
-    public PageResponse<ModuleVO> list(ModulePageQueryCmd pageQueryCmd) {
+    public PageResponse<ModuleVO> list(ModulePageQuery pageQueryCmd) {
         Page<ModuleDO> moduleDoPage = moduleMapper.listProjectAndVersion(pageQueryCmd.createPage(), pageQueryCmd.getPid());
         List<ModuleVO> moduleVos = moduleDoPage.getRecords()
                 .stream()
@@ -92,7 +94,7 @@ public class ModuleServiceImpl implements IModuleService {
     }
 
     @Override
-    public PageResponse<ModuleVersionVO> listVersion(ModuleVersionPageQueryCmd versionPageQueryCmd) {
+    public PageResponse<ModuleVersionVO> listVersion(ModuleVersionPageQuery versionPageQueryCmd) {
         return versionPageQueryCmdExe.execute(versionPageQueryCmd);
     }
 

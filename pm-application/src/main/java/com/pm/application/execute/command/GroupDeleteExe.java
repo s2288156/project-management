@@ -1,11 +1,7 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.Response;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
-import com.pm.infrastructure.consts.ErrorCodeEnum;
-import com.pm.infrastructure.dataobject.DependenceDO;
-import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.infrastructure.consts.ErrorCodeEnum;

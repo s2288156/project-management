@@ -6,7 +6,7 @@ import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
-import com.pm.application.dto.cmd.ProjectPageQueryCmd;
+import com.pm.application.dto.query.ProjectPageQuery;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
@@ -31,8 +31,8 @@ public class ProjectController {
     }
 
     @GetMapping("/list")
-    public PageResponse<ProjectVO> listProject(ProjectPageQueryCmd projectPageQueryCmd) {
-        return projectService.listProjects(projectPageQueryCmd);
+    public PageResponse<ProjectVO> listProject(ProjectPageQuery projectPageQuery) {
+        return projectService.listProjects(projectPageQuery);
     }
 
     @PostMapping("/depend")

@@ -1,4 +1,4 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.Response;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

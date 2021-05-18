@@ -1,7 +1,7 @@
-package com.pm.application.command;
+package com.pm.application.execute.query;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pm.application.dto.cmd.ModuleVersionPageQueryCmd;
+import com.pm.application.dto.query.ModuleVersionPageQuery;
 import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.entity.PageResponse;
@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
  * @author wcy
  */
 @Component
-public class ModuleVersionPageQueryCmdExe {
+public class ModuleVersionPageQueryExe {
 
     @Autowired
     private ModuleVersionMapper moduleVersionMapper;
 
-    public PageResponse<ModuleVersionVO> execute(ModuleVersionPageQueryCmd versionPageQueryCmd) {
+    public PageResponse<ModuleVersionVO> execute(ModuleVersionPageQuery versionPageQueryCmd) {
         Page<ModuleVersionDO> page = versionPageQueryCmd.createPage();
         moduleVersionMapper.listModuleVersion(page, versionPageQueryCmd.getMid());
         List<ModuleVersionVO> moduleVersionVOList = page.getRecords().stream()

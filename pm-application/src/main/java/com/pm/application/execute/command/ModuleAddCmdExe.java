@@ -1,7 +1,6 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ModuleConvertor;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.vo.ModuleVO;
