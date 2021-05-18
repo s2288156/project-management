@@ -38,9 +38,7 @@ public class SecurityUser extends JwtPayload implements UserDetails {
     }
 
     public JwtPayload generalPayload() {
-        JwtPayload jwtPayload = new JwtPayload();
-        BeanUtils.copyProperties(this, jwtPayload);
-        jwtPayload.setUid(this.id);
+        JwtPayload jwtPayload = SecurityConvertor.INSTANCE.securityUser2JwtPayload(this);
         jwtPayload.setRoles(roles());
         jwtPayload.setExp(expDaysLater());
         return jwtPayload;
