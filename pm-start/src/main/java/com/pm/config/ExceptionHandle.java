@@ -23,7 +23,10 @@ public class ExceptionHandle {
 
     @ExceptionHandler(value = BizException.class)
     public Response bizException(BizException e) {
-        log.error("BizException: {}", e.getMessage(), e);
+        log.error("BizException: {}", e.getMessage());
+        if (log.isDebugEnabled()) {
+            log.debug("BizExceptionStack:", e);
+        }
         return Response.buildFailure(e.getErrCode(), e.getMessage());
     }
 

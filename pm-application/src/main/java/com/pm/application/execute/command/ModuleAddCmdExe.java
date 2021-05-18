@@ -19,10 +19,8 @@ public class ModuleAddCmdExe {
     private ModuleMapper moduleMapper;
 
     public SingleResponse<ModuleVO> execute(ModuleAddCmd addCmd) {
-
-        ModuleDO moduleDO = ModuleConvertor.convert2Do(addCmd);
+        ModuleDO moduleDO = ModuleConvertor.INSTANCE.convert2Do(addCmd);
         moduleMapper.insert(moduleDO);
-
         return SingleResponse.of(ModuleVO.createForId(moduleDO.getId()));
     }
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.convertor.ModuleVersionConvertor;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModuleDeleteCmd;
+import com.pm.application.dto.cmd.ModuleUpdateLatestVersionCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionDeleteCmd;
 import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
@@ -116,6 +117,12 @@ public class ModuleServiceImpl implements IModuleService {
     @Override
     public Response deleteModule(ModuleDeleteCmd moduleDeleteCmd) {
         return moduleDeleteCmdExe.execute(moduleDeleteCmd);
+    }
+
+    @Override
+    public Response moduleUpdateLatestVersion(ModuleUpdateLatestVersionCmd cmd) {
+        
+        return null;
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {
