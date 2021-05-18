@@ -13,7 +13,6 @@ import com.pm.application.service.impl.ModuleServiceImpl;
 import com.pm.application.service.impl.ProjectServiceImpl;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.DependenceDO;
-import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;

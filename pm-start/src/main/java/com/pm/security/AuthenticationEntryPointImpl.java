@@ -21,8 +21,8 @@ import java.nio.charset.StandardCharsets;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        Response response = Response.buildFailure(ErrorCodeEnum.UNAUTHORIZED.getErrorCode(), ErrorCodeEnum.UNAUTHORIZED.getErrorMsg());
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
+        Response response = Response.buildFailure(ErrorCodeEnum.UNAUTHORIZED.getCode(), ErrorCodeEnum.UNAUTHORIZED.getMsg());
         httpServletResponse.setStatus(200);
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());

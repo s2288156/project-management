@@ -18,8 +18,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author ytl
@@ -55,12 +54,12 @@ public class ModuleDeleteTest extends NoneWebBaseTest {
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
 
         BizException bizException = assertThrows(BizException.class, () -> getResponseDeleteModule(moduleDO));
-        assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getErrorCode(), bizException.getErrCode());
+        assertEquals(ErrorCodeEnum.MODULE_DEPENDENCE_ERROR.getCode(), bizException.getErrCode());
         log.info(">>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", bizException.getMessage());
 
         ModuleVersionDO selectModuleVersionDO = moduleVersionMapper.selectById(moduleVersionDO.getId());
         boolean selectModuleVersionDOBoolean = Objects.isNull(selectModuleVersionDO);
-        assertEquals(false, selectModuleVersionDOBoolean);
+        assertFalse(selectModuleVersionDOBoolean);
 
         List<ModuleVersionDO> moduleVersionDOListDeleteAfter = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
@@ -84,7 +83,7 @@ public class ModuleDeleteTest extends NoneWebBaseTest {
         List<ModuleVersionDO> moduleVersionDOListDeleteBefore = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
         Assertions.assertFalse(CollectionUtils.isEmpty(moduleVersionDOListDeleteBefore));
-        log.info(">>>>>>>>>>>>>>>>>>>moduleVersionDOList:{}<<<<<<<<<<<<<<<<<<<<<<<", moduleVersionDOListDeleteBefore.toString());
+        log.info(">>>>>>>>>>>>>>>>>>>moduleVersionDOList:{}<<<<<<<<<<<<<<<<<<<<<<<", moduleVersionDOListDeleteBefore);
 
         Response response = this.getResponseDeleteModule(moduleDO);
         Assertions.assertTrue(response.isSuccess());

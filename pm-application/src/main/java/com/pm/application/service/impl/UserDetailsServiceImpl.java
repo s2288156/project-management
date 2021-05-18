@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserDO> userOptional = userMapper.selectForUsername(username);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new BizException(ErrorCodeEnum.USERNAME_NOT_FOUND);
         }
         UserDO userDO = userOptional.get();

@@ -60,7 +60,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         try {
             moduleService.addOne(moduleAddCmd);
         } catch (BizException ex) {
-            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ex.getErrCode());
+            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getCode(), ex.getErrCode());
         }
     }
 
@@ -77,7 +77,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         // 如果mid不存在，应该抛出ErrorCodeEnum.MODULE_NOT_FOUND错误码
         BizException bizException = assertThrows(BizException.class, () -> moduleService.addVersion(versionAddCmd));
 
-        assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), bizException.getErrCode());
+        assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getCode(), bizException.getErrCode());
     }
 
     @Transactional

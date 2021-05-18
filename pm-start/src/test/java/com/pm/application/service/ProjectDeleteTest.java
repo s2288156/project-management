@@ -61,7 +61,7 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
 
         BizException bizException = assertThrows(BizException.class, () -> getResponseDeleteProject(projectDO));
-        assertEquals(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getErrorCode(), bizException.getErrCode());
+        assertEquals(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getCode(), bizException.getErrCode());
         log.info(">>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", bizException.getMessage());
 
         ProjectDO deleteProjectDO = projectMapper.selectById(projectDO.getId());

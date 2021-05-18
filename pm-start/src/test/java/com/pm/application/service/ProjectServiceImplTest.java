@@ -61,7 +61,7 @@ class ProjectServiceImplTest extends NoneWebBaseTest {
         Assertions.assertTrue(response.isSuccess());
 
         BizException bizException = Assertions.assertThrows(BizException.class, () -> projectService.dependAdd(projectDependAddCmd));
-        Assertions.assertEquals(ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getErrorCode(), bizException.getErrCode());
+        Assertions.assertEquals(ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getCode(), bizException.getErrCode());
     }
 
     private ProjectDependAddCmd assembleDependAddCmd() {
