@@ -40,7 +40,7 @@ public class GroupServiceImpl implements IGroupService {
         if (optional.isPresent()) {
             throw new BizException(ErrorCodeEnum.GROUP_NAME_EXISTED);
         }
-        GroupDO groupDO = GroupConvertor.convert2Do(addCmd);
+        GroupDO groupDO = GroupConvertor.INSTANCE.convert2Do(addCmd);
         groupMapper.insert(groupDO);
         return SingleResponse.of(groupDO.getId());
     }
