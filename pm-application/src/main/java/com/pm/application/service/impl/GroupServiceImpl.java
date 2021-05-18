@@ -14,6 +14,7 @@ import com.pm.infrastructure.dataobject.GroupDO;
 import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
 import com.pm.infrastructure.mapper.GroupMapper;
+import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class GroupServiceImpl implements IGroupService {
     public SingleResponse<String> addGroup(GroupAddCmd addCmd) {
         Optional<GroupDO> optional = groupMapper.selectByName(addCmd.getName());
         if (optional.isPresent()) {
-            return SingleResponse.buildFailure(ErrorCodeEnum.GROUP_NAME_EXISTED.getErrorCode(), ErrorCodeEnum.GROUP_NAME_EXISTED.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.GROUP_NAME_EXISTED);
         }
         GroupDO groupDO = GroupConvertor.convert2Do(addCmd);
         groupMapper.insert(groupDO);
