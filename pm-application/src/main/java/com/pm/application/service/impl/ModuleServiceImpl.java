@@ -3,6 +3,7 @@ package com.pm.application.service.impl;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pm.application.convertor.ModuleConvertor;
 import com.pm.application.convertor.ModuleVersionConvertor;
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModuleDeleteCmd;
@@ -121,8 +122,9 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     public Response moduleUpdateLatestVersion(ModuleUpdateLatestVersionCmd cmd) {
-        
-        return null;
+        ModuleDO moduleDO = ModuleConvertor.INSTANCE.convert2Do(cmd);
+        moduleMapper.updateById(moduleDO);
+        return Response.buildSuccess();
     }
 
     private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {

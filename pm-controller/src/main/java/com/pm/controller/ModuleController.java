@@ -63,7 +63,6 @@ public class ModuleController {
      */
     @PutMapping("/latest_version")
     public Response updateModuleLatestVersion(ModuleUpdateLatestVersionCmd cmd) {
-
-        return null;
+        return moduleService.moduleUpdateLatestVersion(cmd);
     }
 }

@@ -17,6 +17,5 @@ public interface ModuleConvertor {
     @Mapping(source = "version", target = "latestVersion")
     ModuleDO convert2Do(ModuleAddCmd moduleAddCmd);
 
-    @Mapping(source = "version", target = "latestVersion")
     ModuleDO convert2Do(ModuleUpdateLatestVersionCmd updateLatestVersionCmd);
 }

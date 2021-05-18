@@ -96,7 +96,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         ModuleVersionDO mvd = moduleVersionMapper.selectById(moduleVersionDO.getId());
         Assertions.assertNotNull(mvd);
         ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
-        Assertions.assertFalse(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
+        Assertions.assertNotEquals(moduleVersionDO.getVersion(), moduleDO.getLatestVersion());
 
         DependenceDO dependenceDO = selectByPidAndDependMid(moduleVersionDeleteCmd);
         Assertions.assertNotNull(dependenceDO);
@@ -124,7 +124,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         assertEquals(mvd.getId(),moduleVersionDO.getId());
 
         ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
-        Assertions.assertTrue(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
+        assertEquals(moduleVersionDO.getVersion(), moduleDO.getLatestVersion());
 
         DependenceDO dependenceDO = selectByPidAndDependMid(moduleVersionDeleteCmd);
         Assertions.assertNotNull(dependenceDO);
@@ -149,7 +149,7 @@ public class ModuleVersionServiceTest extends NoneWebBaseTest {
         Assertions.assertNull(mvd);
 
         ModuleDO moduleDO = moduleMapper.selectById(moduleVersionDO.getMid());
-        Assertions.assertFalse(moduleVersionDO.getVersion().equals(moduleDO.getLatestVersion()));
+        Assertions.assertNotEquals(moduleVersionDO.getVersion(), moduleDO.getLatestVersion());
     }
 
 
