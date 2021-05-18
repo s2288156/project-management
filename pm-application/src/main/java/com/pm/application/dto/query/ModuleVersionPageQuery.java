@@ -1,4 +1,4 @@
-package com.pm.application.dto.cmd;
+package com.pm.application.dto.query;
 
 import com.pm.infrastructure.entity.PageQuery;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ModuleVersionPageQueryCmd extends PageQuery {
+public class ModuleVersionPageQuery extends PageQuery {
 
     private String mid;
 

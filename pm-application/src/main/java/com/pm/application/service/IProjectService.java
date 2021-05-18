@@ -6,7 +6,7 @@ import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
-import com.pm.application.dto.cmd.ProjectPageQueryCmd;
+import com.pm.application.dto.query.ProjectPageQuery;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.infrastructure.entity.PageResponse;
@@ -18,7 +18,7 @@ public interface IProjectService {
 
     SingleResponse<?> addOne(ProjectAddCmd addCmd);
 
-    PageResponse<ProjectVO> listProjects(ProjectPageQueryCmd projectPageQueryCmd);
+    PageResponse<ProjectVO> listProjects(ProjectPageQuery projectPageQuery);
 
     Response dependAdd(ProjectDependAddCmd dependAddCmd);
 

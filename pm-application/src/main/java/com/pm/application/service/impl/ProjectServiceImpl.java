@@ -4,14 +4,14 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pm.application.command.ProjectAddCmdExe;
-import com.pm.application.command.ProjectDeleteCmdExe;
-import com.pm.application.command.ProjectDependAddCmdExe;
+import com.pm.application.execute.command.ProjectAddCmdExe;
+import com.pm.application.execute.command.ProjectDeleteCmdExe;
+import com.pm.application.execute.command.ProjectDependAddCmdExe;
 import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
-import com.pm.application.dto.cmd.ProjectPageQueryCmd;
+import com.pm.application.dto.query.ProjectPageQuery;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
@@ -53,9 +53,9 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public PageResponse<ProjectVO> listProjects(ProjectPageQueryCmd projectPageQueryCmd) {
-        Page<ProjectDO> page = projectPageQueryCmd.createPage();
-        projectMapper.pageByGroupId(page, projectPageQueryCmd.getGroupId());
+    public PageResponse<ProjectVO> listProjects(ProjectPageQuery projectPageQuery) {
+        Page<ProjectDO> page = projectPageQuery.createPage();
+        projectMapper.pageByGroupId(page, projectPageQuery.getGroupId());
 
         List<ProjectVO> collect = page.getRecords()
                 .stream()

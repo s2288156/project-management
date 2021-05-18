@@ -1,11 +1,12 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.SingleResponse;
-import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.ProjectConvertor;
 import com.pm.application.dto.cmd.ProjectAddCmd;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.ProjectMapper;
+import com.zyzh.exception.BizException;
 import com.zyzh.pm.domain.gateway.GroupGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,16 +27,16 @@ public class ProjectAddCmdExe {
 
     public SingleResponse<?> execute(ProjectAddCmd addCmd) {
         if (!groupGateway.existById(addCmd.getGroupId())) {
-            return SingleResponse.buildFailure(ErrorCodeEnum.GROUP_NOT_FOUND.getErrorCode(), ErrorCodeEnum.GROUP_NOT_FOUND.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.GROUP_NOT_FOUND);
         }
         Optional<ProjectDO> optionalProject = projectMapper.selectByName(addCmd.getName());
         if (optionalProject.isPresent()) {
-            return SingleResponse.buildFailure(ErrorCodeEnum.PROJECT_NAME_EXISTED.getErrorCode(), ErrorCodeEnum.PROJECT_NAME_EXISTED.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.PROJECT_NAME_EXISTED);
         }
 
         ProjectDO projectDO = ProjectConvertor.convertFor(addCmd);
         projectMapper.insert(projectDO);
-        return SingleResponse.buildSuccess();
+        return SingleResponse.of(projectDO.getId());
     }
 
 }

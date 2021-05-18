@@ -12,7 +12,7 @@ import com.pm.infrastructure.entity.PageResponse;
  */
 public interface IGroupService {
 
-    SingleResponse<?> addGroup(GroupAddCmd addCmd);
+    SingleResponse<String> addGroup(GroupAddCmd addCmd);
 
     PageResponse<GroupVO> listGroup(PageQuery pageQuery);
 

@@ -25,32 +25,23 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     RE_DEPEND_NOT_ALLOW("50009", "不允许重复依赖"),
     PROJECT_NOT_FOUND("50010", "项目不存在"),
     ARGUMENT_NOT_VALID_ERROR("50011", "参数校验异常"),
-    LATEST_MODULE_VERSION_NOT_ALLOW_DELETE("50012","最新版本不允许删除"),
-    MODULE_DEPEND_NOT_ALLOW_DEL("50013","此模块版本被引用，不允许删除"),
+    LATEST_MODULE_VERSION_NOT_ALLOW_DELETE("50012", "最新版本不允许删除"),
+    MODULE_DEPEND_NOT_ALLOW_DEL("50013", "此模块版本被引用，不允许删除"),
     TWO_PASSWORD_ENTERED_NOT_SAME("50014", "两次输入的密码不相同"),
     MODULE_DEPENDENCE_ERROR("50015", "模块正在被其它项目引用"),
     PROJECT_MODULE_DEPENDENCE_ERROR("50016", "项目模块被正在被引用"),
+    HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE("50016", "group存在被引用Module，不允许被删除"),
     ;
 
     @Getter
-    private String errorCode;
+    private String code;
 
     @Getter
-    private String errorMsg;
+    private String msg;
 
-    ErrorCodeEnum(String errorCode, String errorMsg) {
-        this.errorCode = errorCode;
-        this.errorMsg = errorMsg;
-    }
-
-    @Override
-    public String getCode() {
-        return getErrorCode();
-    }
-
-    @Override
-    public String getMsg() {
-        return getErrorMsg();
+    ErrorCodeEnum(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
     @Override

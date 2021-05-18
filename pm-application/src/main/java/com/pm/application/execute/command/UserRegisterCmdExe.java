@@ -1,8 +1,8 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.Response;
-import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.UserRegisterCmd;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
 import com.zyzh.exception.BizException;
@@ -32,7 +32,7 @@ public class UserRegisterCmdExe {
         confirmPasswordEquals(userRegisterCmd.getPassword(), userRegisterCmd.getConfirmPassword());
 
         if (userGateway.existForUsername(userRegisterCmd.getUsername())) {
-            return Response.buildFailure(ErrorCodeEnum.USERNAME_EXISTED.getErrorCode(), ErrorCodeEnum.USERNAME_EXISTED.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.USERNAME_EXISTED);
         }
         UserDO userDO = encoderPwd(userRegisterCmd);
         userMapper.insert(userDO);

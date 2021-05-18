@@ -1,8 +1,8 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.Response;
-import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
@@ -28,7 +28,7 @@ public class ProjectDependAddCmdExe {
     public Response execute(ProjectDependAddCmd dependAddCmd) {
         Optional<DependenceDO> doOptional = dependenceMapper.selectByPidAndDependMid(dependAddCmd.getPid(), dependAddCmd.getDependMid());
         if (doOptional.isPresent()) {
-            return Response.buildFailure(ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getErrorCode(), ErrorCodeEnum.RE_DEPEND_NOT_ALLOW.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.RE_DEPEND_NOT_ALLOW);
         }
         Optional<ProjectDO> projectOptional = projectMapper.selectByMid(dependAddCmd.getDependMid());
         ProjectDO projectDO = projectOptional.orElseThrow(() -> new BizException(ErrorCodeEnum.PROJECT_NOT_FOUND));

@@ -47,7 +47,7 @@ public class UserServiceTest extends NoneWebBaseTest {
         userRegisterCmd.setPassword("112233");
         userRegisterCmd.setConfirmPassword("11223344");
         BizException bizException = Assertions.assertThrows(BizException.class, () -> userService.userRegister(userRegisterCmd));
-        Assertions.assertEquals(ErrorCodeEnum.TWO_PASSWORD_ENTERED_NOT_SAME.getErrorCode(), bizException.getErrCode());
+        Assertions.assertEquals(ErrorCodeEnum.TWO_PASSWORD_ENTERED_NOT_SAME.getCode(), bizException.getErrCode());
     }
 
     @Test

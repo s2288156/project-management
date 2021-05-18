@@ -13,6 +13,7 @@ import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
+import com.zyzh.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -59,10 +60,9 @@ public class ProjectDeleteTest extends NoneWebBaseTest {
         List<ModuleVersionDO> moduleVersionDOListDeleteBefore = moduleVersionMapper.selectList(new LambdaQueryWrapper<ModuleVersionDO>()
                 .eq(ModuleVersionDO::getMid, moduleDO.getId()));
 
-        Response response = getResponseDeleteProject(projectDO);
-        Assertions.assertFalse(response.isSuccess());
-        assertEquals(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getErrorCode(), response.getErrCode());
-        log.info(">>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", response.getErrMessage());
+        BizException bizException = assertThrows(BizException.class, () -> getResponseDeleteProject(projectDO));
+        assertEquals(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getCode(), bizException.getErrCode());
+        log.info(">>>>>>>>>>>>>>>errorMessage:{}<<<<<<<<<<<<<<<<<<", bizException.getMessage());
 
         ProjectDO deleteProjectDO = projectMapper.selectById(projectDO.getId());
         Assertions.assertFalse(Objects.isNull(deleteProjectDO));

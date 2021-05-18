@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pm.application.execute.command.GroupDeleteExe;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.GroupConvertor;
 import com.pm.application.dto.cmd.GroupAddCmd;
@@ -13,6 +14,7 @@ import com.pm.infrastructure.dataobject.GroupDO;
 import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
 import com.pm.infrastructure.mapper.GroupMapper;
+import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +31,18 @@ public class GroupServiceImpl implements IGroupService {
     @Autowired
     private GroupMapper groupMapper;
 
+    @Autowired
+    private GroupDeleteExe groupDeleteExe;
+
     @Override
-    public SingleResponse<?> addGroup(GroupAddCmd addCmd) {
+    public SingleResponse<String> addGroup(GroupAddCmd addCmd) {
         Optional<GroupDO> optional = groupMapper.selectByName(addCmd.getName());
         if (optional.isPresent()) {
-            return SingleResponse.buildFailure(ErrorCodeEnum.GROUP_NAME_EXISTED.getErrorCode(), ErrorCodeEnum.GROUP_NAME_EXISTED.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.GROUP_NAME_EXISTED);
         }
-        groupMapper.insert(GroupConvertor.convert2Do(addCmd));
-        return SingleResponse.buildSuccess();
+        GroupDO groupDO = GroupConvertor.INSTANCE.convert2Do(addCmd);
+        groupMapper.insert(groupDO);
+        return SingleResponse.of(groupDO.getId());
     }
 
     @Override
@@ -54,7 +60,7 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public Response deleteById(String id) {
-        groupMapper.deleteById(id);
-        return Response.buildSuccess();
+        return groupDeleteExe.execute(id);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.pm.application.command;
+package com.pm.application.execute.command;
 
 import com.alibaba.cola.dto.Response;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -10,6 +10,7 @@ import com.pm.infrastructure.dataobject.ModuleDO;
 import com.pm.infrastructure.mapper.DependenceMapper;
 import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
+import com.zyzh.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,7 +54,7 @@ public class ProjectDeleteCmdExe {
 
         List<DependenceDO> dependenceList = dependenceMapper.queryDependenceByProjectId(cmd.getId());
         if (!CollectionUtils.isEmpty(dependenceList)) {
-            return Response.buildFailure(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getErrorCode(), ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR.getErrorMsg());
+            throw new BizException(ErrorCodeEnum.PROJECT_MODULE_DEPENDENCE_ERROR);
         }
         deleteModuleAndModuleVersion(cmd);
         deleteDependence(cmd);

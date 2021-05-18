@@ -28,7 +28,7 @@ public class GroupController {
     private IGroupService groupService;
 
     @PostMapping("/add")
-    public SingleResponse<?> addGroup(@RequestBody @Validated GroupAddCmd addCmd) {
+    public SingleResponse<String> addGroup(@RequestBody @Validated GroupAddCmd addCmd) {
         return groupService.addGroup(addCmd);
     }
 
