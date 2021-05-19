@@ -1,17 +1,19 @@
 package com.pm.application.convertor;
 
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
+import com.pm.application.dto.vo.ModuleVersionVO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
-import org.springframework.beans.BeanUtils;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 /**
  * @author wcy
  */
-public class ModuleVersionConvertor {
+@Mapper
+public interface ModuleVersionConvertor {
+    ModuleVersionConvertor INSTANCE = Mappers.getMapper(ModuleVersionConvertor.class);
 
-    public static ModuleVersionDO convertFor(ModuleVersionAddCmd versionAddCmd) {
-        ModuleVersionDO moduleVersionDO = new ModuleVersionDO();
-        BeanUtils.copyProperties(versionAddCmd, moduleVersionDO);
-        return moduleVersionDO;
-    }
+    ModuleVersionDO convert2Do(ModuleVersionAddCmd moduleVersionAddCmd);
+
+    ModuleVersionVO convert2Vo(ModuleVersionDO moduleVersionDO);
 }

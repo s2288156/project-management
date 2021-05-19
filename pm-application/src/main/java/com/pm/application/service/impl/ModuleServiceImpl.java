@@ -95,7 +95,7 @@ public class ModuleServiceImpl implements IModuleService {
             throw new BizException(ErrorCodeEnum.MODULE_VERSION_EXISTED);
         }
 
-        moduleVersionMapper.insert(ModuleVersionConvertor.convertFor(versionAddCmd));
+        moduleVersionMapper.insert(ModuleVersionConvertor.INSTANCE.convert2Do(versionAddCmd));
         return Response.buildSuccess();
     }
 
