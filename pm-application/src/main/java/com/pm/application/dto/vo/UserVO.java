@@ -1,10 +1,8 @@
 package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
-import com.pm.infrastructure.dataobject.UserDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
@@ -38,10 +36,4 @@ public class UserVO extends DTO {
 
     private LocalDateTime createTime;
 
-    public static UserVO convertForDo(UserDO userDO) {
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(userDO, userVO);
-        userVO.setAvatar(userDO.getIcon());
-        return userVO;
-    }
 }
