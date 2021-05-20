@@ -9,13 +9,14 @@ import javax.validation.constraints.NotBlank;
 /**
  * @author wcy
  */
+
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ModuleVersionUpdateCmd extends Command {
+public class ModuleUpdateLatestVersionCmd extends Command {
 
-    @NotBlank
+    @NotBlank(message = "模块Id不能为空")
     private String id;
 
     @NotBlank
-    private String description;
+    private String latestVersion;
 }

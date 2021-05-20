@@ -52,7 +52,7 @@ public class GroupServiceImpl implements IGroupService {
 
         List<GroupVO> datas = page.getRecords()
                 .stream()
-                .map(GroupVO::convertForDo)
+                .map(GroupConvertor.INSTANCE::convertDo2Vo)
                 .collect(Collectors.toList());
 
         return PageResponse.of(datas, page.getTotal());

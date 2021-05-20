@@ -57,4 +57,12 @@ public class ModuleController {
     public Response deleteModule(@Validated @RequestBody ModuleDeleteCmd moduleDeleteCmd) {
         return moduleService.deleteModule(moduleDeleteCmd);
     }
+
+    /**
+     * 设置指定version为当前module最新的版本,更新t_module信息
+     */
+    @PutMapping("/latest_version")
+    public Response updateModuleLatestVersion(@Validated @RequestBody ModuleUpdateLatestVersionCmd cmd) {
+        return moduleService.moduleUpdateLatestVersion(cmd);
+    }
 }

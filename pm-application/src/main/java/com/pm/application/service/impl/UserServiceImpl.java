@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pm.application.convertor.UserConvertor;
 import com.pm.application.execute.command.UserLoginCmdExe;
 import com.pm.application.execute.command.UserRegisterCmdExe;
 import com.pm.application.dto.cmd.UserLoginCmd;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements IUserService {
         userMapper.selectPage(page, new LambdaQueryWrapper<>());
         List<UserVO> userVoList = page.getRecords()
                 .stream()
-                .map(UserVO::convertForDo)
+                .map(UserConvertor.INSTANCE::userDo2UserVo)
                 .collect(Collectors.toList());
         return PageResponse.of(userVoList, page.getTotal());
     }

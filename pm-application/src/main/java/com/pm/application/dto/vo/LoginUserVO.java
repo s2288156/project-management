@@ -1,13 +1,9 @@
 package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
-import com.pm.infrastructure.dataobject.UserDO;
-import com.pm.infrastructure.security.SecurityUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.beans.BeanUtils;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -42,9 +38,4 @@ public class LoginUserVO extends DTO {
 
     private Set<String> roles;
 
-    public static LoginUserVO convertForDo(SecurityUser securityUser) {
-        LoginUserVO userVO = new LoginUserVO();
-        BeanUtils.copyProperties(securityUser, userVO);
-        return userVO;
-    }
 }
