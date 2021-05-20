@@ -62,7 +62,7 @@ public class ModuleController {
      * 设置指定version为当前module最新的版本,更新t_module信息
      */
     @PutMapping("/latest_version")
-    public Response updateModuleLatestVersion(ModuleUpdateLatestVersionCmd cmd) {
+    public Response updateModuleLatestVersion(@Validated @RequestBody ModuleUpdateLatestVersionCmd cmd) {
         return moduleService.moduleUpdateLatestVersion(cmd);
     }
 }
