@@ -2,17 +2,16 @@ package com.pm.application.convertor;
 
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.infrastructure.dataobject.ProjectDO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 /**
  * @author wcy
  */
-public class  ProjectConvertor {
+@Mapper
+public interface ProjectConvertor {
 
-    public static ProjectDO convertFor(ProjectAddCmd addCmd) {
-        ProjectDO projectDO = new ProjectDO();
-        projectDO.setGroupId(addCmd.getGroupId());
-        projectDO.setName(addCmd.getName());
-        projectDO.setDescription(addCmd.getDescription());
-        return projectDO;
-    }
+    ProjectConvertor INSTANCE = Mappers.getMapper(ProjectConvertor.class);
+
+    ProjectDO convert2Do(ProjectAddCmd addCmd);
 }

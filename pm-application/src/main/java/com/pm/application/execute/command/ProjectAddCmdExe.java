@@ -34,7 +34,7 @@ public class ProjectAddCmdExe {
             throw new BizException(ErrorCodeEnum.PROJECT_NAME_EXISTED);
         }
 
-        ProjectDO projectDO = ProjectConvertor.convertFor(addCmd);
+        ProjectDO projectDO = ProjectConvertor.INSTANCE.convert2Do(addCmd);
         projectMapper.insert(projectDO);
         return SingleResponse.of(projectDO.getId());
     }
