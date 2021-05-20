@@ -1,16 +1,10 @@
 package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
-import com.nimbusds.jose.JWSObject;
-import com.pm.infrastructure.tool.JsonUtils;
-import com.pm.infrastructure.tool.Payload;
-import com.zyzh.exception.SysException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.text.ParseException;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 /**
  * @author wcy
@@ -40,26 +34,6 @@ public class UserVO extends DTO {
      **/
     private String name;
 
-    private Set<String> roles;
+    private LocalDateTime createTime;
 
-    public static UserVO createForToken(String token) {
-        JWSObject jwsObject;
-        try {
-            jwsObject = JWSObject.parse(token);
-        } catch (ParseException e) {
-            throw new SysException(e.getMessage());
-        }
-        String userStr = jwsObject.getPayload().toString();
-        Payload payload = JsonUtils.fromJson(userStr, Payload.class);
-
-        Set<String> rs = new HashSet<>();
-        // TODO: 2021/4/8 暂时写死
-        rs.add("ADMIN");
-
-        UserVO userVO = new UserVO();
-        userVO.setRoles(rs);
-        userVO.setName(payload.getUid());
-        userVO.setAvatar("https://wcy-img.oss-cn-beijing.aliyuncs.com/images/avatar/default_avatar.jpg");
-        return userVO;
-    }
 }

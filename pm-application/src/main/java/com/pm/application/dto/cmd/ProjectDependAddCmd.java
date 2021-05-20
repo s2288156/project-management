@@ -1,6 +1,7 @@
 package com.pm.application.dto.cmd;
 
 import com.alibaba.cola.dto.Command;
+import com.pm.application.convertor.DependenceConvertor;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.tool.JsonUtils;
@@ -28,8 +29,7 @@ public class ProjectDependAddCmd extends Command {
     private String version;
 
     public DependenceDO convert2Do(ProjectDO projectDO) {
-        DependenceDO dependenceDO = new DependenceDO();
-        BeanUtils.copyProperties(this, dependenceDO);
+        DependenceDO dependenceDO = DependenceConvertor.INSTANCE.convert2DO(this);
         DependModuleInfo dependModuleInfo = createDependModuleInfo(projectDO);
         dependenceDO.setDependModuleInfo(JsonUtils.toJson(dependModuleInfo));
         return dependenceDO;

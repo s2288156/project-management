@@ -4,12 +4,15 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pm.application.command.ProjectAddCmdExe;
-import com.pm.application.command.ProjectDependAddCmdExe;
+import com.pm.application.convertor.ProjectConvertor;
+import com.pm.application.execute.command.ProjectAddCmdExe;
+import com.pm.application.execute.command.ProjectDeleteCmdExe;
+import com.pm.application.execute.command.ProjectDependAddCmdExe;
 import com.pm.application.dto.PidQuery;
-import com.pm.application.dto.cmd.ProjectDependAddCmd;
-import com.pm.application.dto.cmd.ProjectPageQueryCmd;
 import com.pm.application.dto.cmd.ProjectAddCmd;
+import com.pm.application.dto.cmd.ProjectDeleteCmd;
+import com.pm.application.dto.cmd.ProjectDependAddCmd;
+import com.pm.application.dto.query.ProjectPageQuery;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
@@ -34,6 +37,9 @@ public class ProjectServiceImpl implements IProjectService {
     private ProjectAddCmdExe projectAddCmdExe;
 
     @Autowired
+    private ProjectDeleteCmdExe projectDeleteCmdExe;
+
+    @Autowired
     private ProjectDependAddCmdExe projectDependAddCmdExe;
 
     @Autowired
@@ -48,13 +54,13 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public PageResponse<ProjectVO> listProjects(ProjectPageQueryCmd projectPageQueryCmd) {
-        Page<ProjectDO> page = projectPageQueryCmd.createPage();
-        projectMapper.pageByGroupId(page, projectPageQueryCmd.getGroupId());
+    public PageResponse<ProjectVO> listProjects(ProjectPageQuery projectPageQuery) {
+        Page<ProjectDO> page = projectPageQuery.createPage();
+        projectMapper.pageByGroupId(page, projectPageQuery.getGroupId());
 
         List<ProjectVO> collect = page.getRecords()
                 .stream()
-                .map(ProjectVO::convert2DO)
+                .map(ProjectConvertor.INSTANCE::convertDo2ProjectVo)
                 .collect(Collectors.toList());
         return PageResponse.of(collect, page.getTotal());
     }
@@ -81,6 +87,11 @@ public class ProjectServiceImpl implements IProjectService {
     public Response deleteDepend(String id) {
         dependenceMapper.deleteById(id);
         return Response.buildSuccess();
+    }
+
+    @Override
+    public Response deleteProject(ProjectDeleteCmd cmd) {
+        return projectDeleteCmdExe.execute(cmd);
     }
 
 }

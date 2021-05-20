@@ -4,21 +4,16 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectAddCmd;
+import com.pm.application.dto.cmd.ProjectDeleteCmd;
 import com.pm.application.dto.cmd.ProjectDependAddCmd;
-import com.pm.application.dto.cmd.ProjectPageQueryCmd;
+import com.pm.application.dto.query.ProjectPageQuery;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.dto.vo.ProjectVO;
 import com.pm.application.service.IProjectService;
 import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author wcy
@@ -36,8 +31,8 @@ public class ProjectController {
     }
 
     @GetMapping("/list")
-    public PageResponse<ProjectVO> listProject(ProjectPageQueryCmd projectPageQueryCmd) {
-        return projectService.listProjects(projectPageQueryCmd);
+    public PageResponse<ProjectVO> listProject(ProjectPageQuery projectPageQuery) {
+        return projectService.listProjects(projectPageQuery);
     }
 
     @PostMapping("/depend")
@@ -53,5 +48,10 @@ public class ProjectController {
     @DeleteMapping("/depend/{id}")
     public Response deleteDepend(@PathVariable String id) {
         return projectService.deleteDepend(id);
+    }
+
+    @DeleteMapping
+    public Response deleteProject(@Validated @RequestBody ProjectDeleteCmd cmd) {
+        return projectService.deleteProject(cmd);
     }
 }

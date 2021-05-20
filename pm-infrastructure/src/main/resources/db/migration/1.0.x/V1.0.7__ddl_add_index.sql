@@ -1,0 +1,1 @@
+ALTER TABLE `t_dependence` ADD INDEX `index_pid`(`pid`) USING BTREE;

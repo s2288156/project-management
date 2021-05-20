@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.infrastructure.mapper.RoleMapper">
+
+
+    <select id="listRoleByUid" resultType="String">
+        select tr.role
+        from t_role tr
+                 left join t_user_role tur on tr.id = tur.role_id
+            and tur.uid = #{uid}
+    </select>
+    <select id="listRoleByUrl" resultType="java.lang.String">
+        select role.role
+        from t_role_resource trr
+                 right join t_resource resource on trr.resource_id = resource.id
+                 left join t_role role on trr.role_id = role.id
+        where resource.url = #{url}
+    </select>
+</mapper>

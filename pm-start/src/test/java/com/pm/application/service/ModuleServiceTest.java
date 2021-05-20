@@ -3,11 +3,12 @@ package com.pm.application.service;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.NoneWebBaseTest;
-import com.pm.application.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.ModuleAddCmd;
+import com.pm.application.dto.cmd.ModuleUpdateLatestVersionCmd;
 import com.pm.application.dto.cmd.ModuleVersionAddCmd;
 import com.pm.application.dto.cmd.ModuleVersionUpdateCmd;
 import com.pm.application.dto.vo.ModuleVO;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.ModuleDO;
 import com.pm.infrastructure.dataobject.ModuleVersionDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
@@ -15,6 +16,7 @@ import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import com.zyzh.exception.BizException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author wcy
  */
+@Transactional
 public class ModuleServiceTest extends NoneWebBaseTest {
 
     @Autowired
@@ -38,7 +41,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
     @Autowired
     private ModuleVersionMapper moduleVersionMapper;
 
-    @Transactional
+    @DisplayName("method:addOne:test")
     @Test
     void addOneModuleTest() {
         ModuleAddCmd moduleAddCmd = new ModuleAddCmd();
@@ -60,11 +63,10 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         try {
             moduleService.addOne(moduleAddCmd);
         } catch (BizException ex) {
-            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getErrorCode(), ex.getErrCode());
+            assertEquals(ErrorCodeEnum.MODULE_NAME_EXISTED.getCode(), ex.getErrCode());
         }
     }
 
-    @Transactional
     @Test
     void testAddModuleVersionMidNotExist() {
         String version = "2.1.1";
@@ -75,11 +77,11 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         versionAddCmd.setMid(mid);
 
         // 如果mid不存在，应该抛出ErrorCodeEnum.MODULE_NOT_FOUND错误码
-        Response response = moduleService.addVersion(versionAddCmd);
-        assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getErrorCode(), response.getErrCode());
+        BizException bizException = assertThrows(BizException.class, () -> moduleService.addVersion(versionAddCmd));
+
+        assertEquals(ErrorCodeEnum.MODULE_NOT_FOUND.getCode(), bizException.getErrCode());
     }
 
-    @Transactional
     @Test
     void testUpdateVersion() {
         ModuleVersionDO moduleVersionDO = new ModuleVersionDO();
@@ -98,9 +100,9 @@ public class ModuleServiceTest extends NoneWebBaseTest {
         ModuleVersionDO verifyData = moduleVersionMapper.selectById(moduleVersionDO.getId());
         assertNotNull(verifyData.getVersion());
         assertNotNull(verifyData.getMid());
+        assertEquals(desc, verifyData.getDescription());
     }
 
-    @Transactional
     @Test
     void testAddModuleVersionSuccess() {
         ModuleDO moduleDO = insertModule();
@@ -110,6 +112,25 @@ public class ModuleServiceTest extends NoneWebBaseTest {
 
         Response response = moduleService.addVersion(versionAddCmd);
         assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void testUpdateModuleLatestVersion() {
+        ModuleDO moduleDO = insertModule();
+        ModuleVersionAddCmd versionAddCmd = new ModuleVersionAddCmd();
+        versionAddCmd.setVersion("2.3.1");
+        versionAddCmd.setMid(moduleDO.getId());
+
+        String latestVersion = "3.0.0";
+        ModuleUpdateLatestVersionCmd moduleUpdateLatestVersionCmd = new ModuleUpdateLatestVersionCmd();
+        moduleUpdateLatestVersionCmd.setLatestVersion(latestVersion);
+        moduleUpdateLatestVersionCmd.setId(moduleDO.getId());
+
+        Response response = moduleService.moduleUpdateLatestVersion(moduleUpdateLatestVersionCmd);
+        assertTrue(response.isSuccess());
+
+        ModuleDO updatedModuleDo = moduleMapper.selectById(moduleDO.getId());
+        assertEquals(latestVersion, updatedModuleDo.getLatestVersion());
     }
 
     private ModuleDO insertModule() {
