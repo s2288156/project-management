@@ -2,6 +2,7 @@ package com.pm.application.convertor;
 
 import com.pm.application.dto.cmd.ModuleAddCmd;
 import com.pm.application.dto.cmd.ModuleUpdateLatestVersionCmd;
+import com.pm.application.dto.vo.ModuleVO;
 import com.pm.infrastructure.dataobject.ModuleDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,4 +19,6 @@ public interface ModuleConvertor {
     ModuleDO convert2Do(ModuleAddCmd moduleAddCmd);
 
     ModuleDO convert2Do(ModuleUpdateLatestVersionCmd updateLatestVersionCmd);
+
+    ModuleVO convertDo2ModuleVo(ModuleDO moduleDO);
 }

@@ -69,7 +69,7 @@ public class ModuleServiceImpl implements IModuleService {
         Page<ModuleDO> moduleDoPage = moduleMapper.listProjectAndVersion(pageQueryCmd.createPage(), pageQueryCmd.getPid());
         List<ModuleVO> moduleVos = moduleDoPage.getRecords()
                 .stream()
-                .map(ModuleVO::convertForDo)
+                .map(ModuleConvertor.INSTANCE::convertDo2ModuleVo)
                 .collect(Collectors.toList());
         return PageResponse.of(moduleVos, moduleDoPage.getTotal());
     }
@@ -97,7 +97,7 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     public Response updateVersion(ModuleVersionUpdateCmd versionUpdateCmd) {
-        moduleVersionMapper.updateById(versionUpdateCmd.convert2Do());
+        moduleVersionMapper.updateById(ModuleVersionConvertor.INSTANCE.convert2Do(versionUpdateCmd));
         return Response.buildSuccess();
     }
 

@@ -1,10 +1,8 @@
 package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
-import com.pm.infrastructure.dataobject.ProjectDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
@@ -32,11 +30,5 @@ public class ProjectVO extends DTO {
      * 描述
      **/
     private String description;
-
-    public static ProjectVO convert2DO(ProjectDO projectDO) {
-        ProjectVO projectVO = new ProjectVO();
-        BeanUtils.copyProperties(projectDO, projectVO);
-        return projectVO;
-    }
 
 }

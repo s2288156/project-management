@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pm.application.convertor.ProjectConvertor;
 import com.pm.application.execute.command.ProjectAddCmdExe;
 import com.pm.application.execute.command.ProjectDeleteCmdExe;
 import com.pm.application.execute.command.ProjectDependAddCmdExe;
@@ -59,7 +60,7 @@ public class ProjectServiceImpl implements IProjectService {
 
         List<ProjectVO> collect = page.getRecords()
                 .stream()
-                .map(ProjectVO::convert2DO)
+                .map(ProjectConvertor.INSTANCE::convertDo2ProjectVo)
                 .collect(Collectors.toList());
         return PageResponse.of(collect, page.getTotal());
     }
