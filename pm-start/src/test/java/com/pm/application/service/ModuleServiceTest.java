@@ -16,6 +16,7 @@ import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import com.zyzh.exception.BizException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,7 @@ public class ModuleServiceTest extends NoneWebBaseTest {
     @Autowired
     private ModuleVersionMapper moduleVersionMapper;
 
+    @DisplayName("method:addOne:test")
     @Test
     void addOneModuleTest() {
         ModuleAddCmd moduleAddCmd = new ModuleAddCmd();

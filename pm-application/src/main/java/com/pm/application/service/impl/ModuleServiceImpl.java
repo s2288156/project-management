@@ -61,16 +61,7 @@ public class ModuleServiceImpl implements IModuleService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SingleResponse<ModuleVO> addOne(ModuleAddCmd moduleAddCmd) {
-        Optional<ModuleDO> moduleOptional = moduleMapper.selectByName(moduleAddCmd.getName());
-        if (moduleOptional.isPresent()) {
-            throw new BizException(ErrorCodeEnum.MODULE_NAME_EXISTED);
-        }
-        SingleResponse<ModuleVO> moduleAddExe = moduleAddCmdExe.execute(moduleAddCmd);
-        if (!moduleAddExe.isSuccess()) {
-            return moduleAddExe;
-        }
-        saveModuleVersion(moduleAddCmd, moduleAddExe);
-        return moduleAddExe;
+        return moduleAddCmdExe.execute(moduleAddCmd);
     }
 
     @Override
@@ -125,14 +116,6 @@ public class ModuleServiceImpl implements IModuleService {
         ModuleDO moduleDO = ModuleConvertor.INSTANCE.convert2Do(cmd);
         moduleMapper.updateById(moduleDO);
         return Response.buildSuccess();
-    }
-
-    private void saveModuleVersion(ModuleAddCmd moduleAddCmd, SingleResponse<ModuleVO> moduleAddExe) {
-        ModuleVersionDO moduleVersionDO = new ModuleVersionDO();
-        moduleVersionDO.setMid(moduleAddExe.getData().getId());
-        moduleVersionDO.setVersion(moduleAddCmd.getVersion());
-        moduleVersionDO.setDescription(moduleAddCmd.getDescription());
-        moduleVersionMapper.insert(moduleVersionDO);
     }
 
 }
