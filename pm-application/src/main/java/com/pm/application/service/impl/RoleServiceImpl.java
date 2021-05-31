@@ -1,8 +1,10 @@
 package com.pm.application.service.impl;
 
+import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.convertor.RoleConvertor;
+import com.pm.application.dto.cmd.RoleAddCmd;
 import com.pm.application.dto.vo.RoleVO;
 import com.pm.application.service.IRoleService;
 import com.pm.infrastructure.dataobject.RoleDO;
@@ -35,5 +37,12 @@ public class RoleServiceImpl implements IRoleService {
                 .collect(Collectors.toList());
 
         return PageResponse.of(roleVOList, page.getTotal());
+    }
+
+    @Override
+    public SingleResponse<String> addRole(RoleAddCmd roleAddCmd) {
+        RoleDO roleDO = RoleConvertor.INSTANCE.roleAddCmd2RoleDo(roleAddCmd);
+        roleMapper.insert(roleDO);
+        return SingleResponse.of(roleDO.getId());
     }
 }

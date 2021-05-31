@@ -31,7 +31,6 @@ public class RoleController {
 
     @PostMapping
     public SingleResponse<String> addRole(@Validated @RequestBody RoleAddCmd roleAddCmd) {
-
-        return null;
+        return roleService.addRole(roleAddCmd);
     }
 }
