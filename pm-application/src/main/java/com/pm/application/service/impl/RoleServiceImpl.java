@@ -1,5 +1,6 @@
 package com.pm.application.service.impl;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -44,5 +45,11 @@ public class RoleServiceImpl implements IRoleService {
         RoleDO roleDO = RoleConvertor.INSTANCE.roleAddCmd2RoleDo(roleAddCmd);
         roleMapper.insert(roleDO);
         return SingleResponse.of(roleDO.getId());
+    }
+
+    @Override
+    public Response deleteRole(String id) {
+        roleMapper.deleteById(id);
+        return Response.buildSuccess();
     }
 }

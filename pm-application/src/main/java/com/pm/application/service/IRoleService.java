@@ -1,5 +1,6 @@
 package com.pm.application.service;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.RoleAddCmd;
 import com.pm.application.dto.vo.RoleVO;
@@ -14,4 +15,6 @@ public interface IRoleService {
     PageResponse<RoleVO> pageRole(PageQuery pageQuery);
 
     SingleResponse<String> addRole(RoleAddCmd roleAddCmd);
+
+    Response deleteRole(String id);
 }
