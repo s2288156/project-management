@@ -2,6 +2,7 @@ package com.pm.application.service;
 
 import com.alibaba.cola.dto.Response;
 import com.pm.NoneWebBaseTest;
+import com.pm.application.dto.cmd.UserSetRolesCmd;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.dto.cmd.UserRegisterCmd;
 import com.pm.application.dto.vo.UserVO;
@@ -14,6 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author wcy
@@ -55,5 +59,13 @@ public class UserServiceTest extends NoneWebBaseTest {
         PageResponse<UserVO> response = userService.listUser(pageQuery);
         Assertions.assertTrue(response.isSuccess());
         log.info("{}", response.getData());
+    }
+
+    @Test
+    void testUserSetRoles() {
+        UserSetRolesCmd userSetRolesCmd = new UserSetRolesCmd();
+        userSetRolesCmd.setUid("test-1");
+        userSetRolesCmd.setRoleIds(Arrays.asList("test1", "test2"));
+        userService.userSetRoles(userSetRolesCmd);
     }
 }

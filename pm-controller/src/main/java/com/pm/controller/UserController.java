@@ -54,6 +54,6 @@ public class UserController {
 
     @PostMapping("/set_roles")
     public Response setRoles(@Validated @RequestBody UserSetRolesCmd userSetRolesCmd) {
-        return null;
+        return userService.userSetRoles(userSetRolesCmd);
     }
 }
