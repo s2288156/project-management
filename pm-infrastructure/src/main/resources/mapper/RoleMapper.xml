@@ -9,7 +9,7 @@
         select tr.role
         from t_role tr
                  left join t_user_role tur on tr.id = tur.role_id
-            and tur.uid = #{uid}
+            where tur.uid = #{uid}
     </select>
     <select id="listRoleByUrl" resultType="java.lang.String">
         select role.role
