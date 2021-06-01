@@ -1,3 +1,7 @@
-### /user/info
+### /role/list
 GET http://{{host}}/role/list?page=1&limit=10
+Authorization: {{authorization}}
+
+### /role/list/by_uid
+GET http://{{host}}/role/list/by_uid?uid=1
 Authorization: {{authorization}}

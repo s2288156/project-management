@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.RoleAddCmd;
+import com.pm.application.dto.query.UserRolesQuery;
 import com.pm.application.dto.vo.RoleVO;
 import com.pm.application.service.IRoleService;
 import com.pm.infrastructure.entity.PageQuery;
@@ -34,8 +35,8 @@ public class RoleController {
     }
 
     @GetMapping("/list/by_uid")
-    public MultiResponse<RoleVO> listRolesByUid(String uid) {
-        return null;
+    public MultiResponse<RoleVO> listRolesByUid(UserRolesQuery userRolesQuery) {
+        return roleService.listRoleByUid(userRolesQuery);
     }
 
     @PostMapping

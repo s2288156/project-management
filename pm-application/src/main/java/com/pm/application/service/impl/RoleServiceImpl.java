@@ -1,11 +1,13 @@
 package com.pm.application.service.impl;
 
+import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.convertor.RoleConvertor;
 import com.pm.application.dto.cmd.RoleAddCmd;
+import com.pm.application.dto.query.UserRolesQuery;
 import com.pm.application.dto.vo.RoleVO;
 import com.pm.application.service.IRoleService;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -68,5 +71,14 @@ public class RoleServiceImpl implements IRoleService {
         }
         roleMapper.deleteById(id);
         return Response.buildSuccess();
+    }
+
+    @Override
+    public MultiResponse<RoleVO> listRoleByUid(UserRolesQuery userRolesQuery) {
+        Set<RoleDO> roleDOs = roleMapper.listRoleDoByUid(userRolesQuery.getUid());
+        List<RoleVO> roleVOList = roleDOs.stream()
+                .map(RoleConvertor.INSTANCE::roleDo2RoleVo)
+                .collect(Collectors.toList());
+        return MultiResponse.of(roleVOList);
     }
 }
