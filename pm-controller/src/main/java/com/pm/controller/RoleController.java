@@ -1,5 +1,6 @@
 package com.pm.controller;
 
+import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.RoleAddCmd;
@@ -30,6 +31,11 @@ public class RoleController {
     @GetMapping("/list")
     public PageResponse<RoleVO> pageRole(PageQuery pageQuery) {
         return roleService.pageRole(pageQuery);
+    }
+
+    @GetMapping("/list/by_uid")
+    public MultiResponse<RoleVO> listRolesByUid(String uid) {
+        return null;
     }
 
     @PostMapping
