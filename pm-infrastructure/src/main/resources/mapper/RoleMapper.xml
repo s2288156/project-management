@@ -22,6 +22,8 @@
         select tr.id, tr.role, tr.name
         from t_role tr
                  left join t_user_role tur on tr.id = tur.role_id
-        where tur.uid = #{uid}
+        <if test="uid != null and uid != ''">
+            where tur.uid = #{uid}
+        </if>
     </select>
 </mapper>

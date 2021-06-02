@@ -5,6 +5,7 @@ import com.pm.infrastructure.dataobject.UserRoleDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,9 +17,9 @@ import java.util.stream.Collectors;
 @Data
 public class UserSetRolesCmd extends Command {
 
+    @NotBlank
     private String uid;
 
-    @NotNull
     private List<String> roleIds;
 
     public List<UserRoleDO> convert2UserRoleDo() {

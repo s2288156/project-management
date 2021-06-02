@@ -21,6 +21,8 @@ import com.pm.infrastructure.mapper.UserMapper;
 import com.pm.infrastructure.mapper.UserRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,10 +65,14 @@ public class UserServiceImpl implements IUserService {
         return PageResponse.of(userVoList, page.getTotal());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Response userSetRoles(UserSetRolesCmd userSetRolesCmd) {
-        List<UserRoleDO> userRoleDOList = userSetRolesCmd.convert2UserRoleDo();
-        userRoleMapper.insertBatch(userRoleDOList);
+        userRoleMapper.delete(new LambdaQueryWrapper<UserRoleDO>().eq(UserRoleDO::getUid, userSetRolesCmd.getUid()));
+        if (!CollectionUtils.isEmpty(userSetRolesCmd.getRoleIds())) {
+            List<UserRoleDO> userRoleDOList = userSetRolesCmd.convert2UserRoleDo();
+            userRoleMapper.insertBatch(userRoleDOList);
+        }
         return Response.buildSuccess();
     }
 }
