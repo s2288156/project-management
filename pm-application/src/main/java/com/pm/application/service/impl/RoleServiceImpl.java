@@ -9,6 +9,7 @@ import com.pm.application.convertor.RoleConvertor;
 import com.pm.application.dto.cmd.RoleAddCmd;
 import com.pm.application.dto.query.UserRolesQuery;
 import com.pm.application.dto.vo.RoleVO;
+import com.pm.application.execute.command.RoleAddCmdExe;
 import com.pm.application.service.IRoleService;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.RoleDO;
@@ -42,6 +43,9 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     private RoleResourceMapper roleResourceMapper;
 
+    @Autowired
+    private RoleAddCmdExe roleAddCmdExe;
+
     @Override
     public PageResponse<RoleVO> pageRole(PageQuery pageQuery) {
         Page<RoleDO> page = pageQuery.createPage();
@@ -57,9 +61,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public SingleResponse<String> addRole(RoleAddCmd roleAddCmd) {
-        RoleDO roleDO = RoleConvertor.INSTANCE.roleAddCmd2RoleDo(roleAddCmd);
-        roleMapper.insert(roleDO);
-        return SingleResponse.of(roleDO.getId());
+        return SingleResponse.of(roleAddCmdExe.execute(roleAddCmd));
     }
 
     @Override
