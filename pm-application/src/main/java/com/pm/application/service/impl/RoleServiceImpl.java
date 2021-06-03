@@ -69,7 +69,7 @@ public class RoleServiceImpl implements IRoleService {
         Integer userRoleCount = userRoleMapper.selectCount(new LambdaQueryWrapper<UserRoleDO>().eq(UserRoleDO::getRoleId, id));
         Integer roleResourceCount = roleResourceMapper.selectCount(new LambdaQueryWrapper<RoleResourceDO>().eq(RoleResourceDO::getRoleId, id));
         if (userRoleCount > 0 || roleResourceCount > 0) {
-            throw new BizException(ErrorCodeEnum.ROLE_NOT_ALLOW_DELETE);
+            throw new BizException(ErrorCodeEnum.ROLE_HAS_USED_NOT_ALLOW_DELETE);
         }
         roleMapper.deleteById(id);
         return Response.buildSuccess();
