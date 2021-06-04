@@ -13,7 +13,12 @@ import com.pm.application.service.IProjectService;
 import com.pm.infrastructure.entity.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author wcy
@@ -45,8 +50,8 @@ public class ProjectController {
         return projectService.listDepend(pid);
     }
 
-    @DeleteMapping("/depend/{id}")
-    public Response deleteDepend(@PathVariable String id) {
+    @DeleteMapping("/depend")
+    public Response deleteDepend(String id) {
         return projectService.deleteDepend(id);
     }
 
