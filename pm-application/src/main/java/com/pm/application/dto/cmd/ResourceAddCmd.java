@@ -21,4 +21,8 @@ public class ResourceAddCmd extends Command {
 
     @NotBlank
     private String apiPath;
+
+    public String assembleUrl() {
+        return requestMethod + ":" + apiPath;
+    }
 }

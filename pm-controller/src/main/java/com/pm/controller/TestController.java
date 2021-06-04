@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,18 +62,10 @@ public class TestController {
                 return;
             }
             String url = StringUtils.substringBetween(methods.toString(), "[", "]") + ":/pm" + StringUtils.substringBetween(patternsCondition.toString(), "[", "]");
-            log.warn("{}", url);
+            urls.add(url);
         });
+        log.warn("{}", urls);
         return "ok";
     }
 
-    @GetMapping("/catch")
-    public void getCache() {
-
-    }
-
-    @PostMapping("/catch")
-    public void postCache() {
-
-    }
 }

@@ -1,6 +1,7 @@
 package com.pm.application.execute.command;
 
 import com.pm.application.dto.cmd.ResourceAddCmd;
+import com.pm.infrastructure.dataobject.ResourceDO;
 import com.pm.infrastructure.mapper.ResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,8 +16,9 @@ public class ResourceAddCmdExe {
     private ResourceMapper resourceMapper;
 
     public String execute(ResourceAddCmd addCmd) {
-
-        return null;
+        ResourceDO resourceDO = new ResourceDO();
+        resourceDO.setUrl(addCmd.assembleUrl());
+        resourceMapper.insert(resourceDO);
+        return resourceDO.getId();
     }
-
 }
