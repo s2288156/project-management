@@ -56,14 +56,13 @@ public class TestController {
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
         Set<String> urls = new HashSet<>();
         handlerMethods.forEach((k, v) -> {
-//            log.warn("method = {}, path = {}", k.getMethodsCondition(), k.getPatternsCondition());
             Set<RequestMethod> methods = k.getMethodsCondition().getMethods();
             PatternsRequestCondition patternsCondition = k.getPatternsCondition();
             if (CollectionUtils.isEmpty(methods)) {
                 log.warn("requestMethod is empty: {}, patterns = {}", methods, patternsCondition);
                 return;
             }
-            String url = StringUtils.substringBetween(methods.toString(), "[", "]") + StringUtils.substringBetween(patternsCondition.toString(), "[", "]");
+            String url = StringUtils.substringBetween(methods.toString(), "[", "]") + ":/pm" + StringUtils.substringBetween(patternsCondition.toString(), "[", "]");
             log.warn("{}", url);
         });
         return "ok";
