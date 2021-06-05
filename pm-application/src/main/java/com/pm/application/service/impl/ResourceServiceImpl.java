@@ -43,4 +43,9 @@ public class ResourceServiceImpl implements IResourceService {
         return PageResponse.of(voList, resourcePage.getTotal());
     }
 
+    @Override
+    public void deleteById(String id) {
+        resourceMapper.deleteById(id);
+    }
+
 }

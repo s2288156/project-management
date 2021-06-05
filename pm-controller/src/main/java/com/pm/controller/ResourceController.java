@@ -1,5 +1,6 @@
 package com.pm.controller;
 
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.ResourceAddCmd;
 import com.pm.application.dto.vo.ResourceVO;
@@ -9,8 +10,10 @@ import com.pm.infrastructure.entity.PageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +37,11 @@ public class ResourceController {
     @GetMapping("/list")
     public PageResponse<ResourceVO> pageResource(@Validated PageQuery pageQuery) {
         return resourceService.pageResource(pageQuery);
+    }
+
+    @DeleteMapping
+    public Response deleteResource(String id) {
+        resourceService.deleteById(id);
+        return Response.buildSuccess();
     }
 }

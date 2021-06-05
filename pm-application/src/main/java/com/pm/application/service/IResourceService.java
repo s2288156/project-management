@@ -12,4 +12,6 @@ public interface IResourceService {
     String addResource(ResourceAddCmd resourceAddCmd);
 
     PageResponse<ResourceVO> pageResource(PageQuery pageQuery);
+
+    void deleteById(String id);
 }
