@@ -1,0 +1,4 @@
+### /user/info
+GET http://{{host}}/resource/list?page=1&limit=10
+Content-Type: application/json
+Authorization: {{authorization}}
