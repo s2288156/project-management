@@ -4,11 +4,14 @@ import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.ResourceAddCmd;
 import com.pm.application.dto.vo.ResourceVO;
 import com.pm.application.service.IResourceService;
+import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +32,7 @@ public class ResourceController {
     }
 
     @GetMapping("/list")
-    public PageResponse<ResourceVO> pageResource() {
-        return null;
+    public PageResponse<ResourceVO> pageResource(@Validated @RequestBody PageQuery pageQuery) {
+        return resourceService.pageResource(pageQuery);
     }
 }
