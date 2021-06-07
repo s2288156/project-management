@@ -5,4 +5,10 @@
 <mapper namespace="com.pm.infrastructure.mapper.ResourceMapper">
 
 
+    <select id="selectAllByRoleId" resultType="com.pm.infrastructure.dataobject.ResourceDO">
+        select tr.id, tr.url
+        from t_role_resource trr
+                 left join t_resource tr on trr.resource_id = tr.id
+        where trr.role_id = #{roleId}
+    </select>
 </mapper>

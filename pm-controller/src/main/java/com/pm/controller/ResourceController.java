@@ -41,7 +41,7 @@ public class ResourceController {
 
     @GetMapping("/list/by_role")
     public PageResponse<ResourceVO> pageRoleResource(@Validated RoleResourcePageQuery pageQuery) {
-        return null;
+        return resourceService.pageRoleResource(pageQuery);
     }
 
     @DeleteMapping

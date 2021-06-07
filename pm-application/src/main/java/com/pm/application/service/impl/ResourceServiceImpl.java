@@ -3,6 +3,7 @@ package com.pm.application.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.convertor.ResourceConvertor;
 import com.pm.application.dto.cmd.ResourceAddCmd;
+import com.pm.application.dto.query.RoleResourcePageQuery;
 import com.pm.application.dto.vo.ResourceVO;
 import com.pm.application.execute.command.ResourceAddCmdExe;
 import com.pm.application.service.IResourceService;
@@ -36,6 +37,17 @@ public class ResourceServiceImpl implements IResourceService {
     public PageResponse<ResourceVO> pageResource(PageQuery pageQuery) {
         Page<ResourceDO> page = pageQuery.createPage();
         Page<ResourceDO> resourcePage = resourceMapper.selectPage(page, null);
+        List<ResourceVO> voList = resourcePage.getRecords()
+                .stream()
+                .map(ResourceConvertor.INSTANCE::do2Vo)
+                .collect(Collectors.toList());
+        return PageResponse.of(voList, resourcePage.getTotal());
+    }
+
+    @Override
+    public PageResponse<ResourceVO> pageRoleResource(RoleResourcePageQuery pageQuery) {
+        Page<ResourceDO> page = pageQuery.createPage();
+        Page<ResourceDO> resourcePage = resourceMapper.selectAllByRoleId(page, pageQuery.getRoleId());
         List<ResourceVO> voList = resourcePage.getRecords()
                 .stream()
                 .map(ResourceConvertor.INSTANCE::do2Vo)
