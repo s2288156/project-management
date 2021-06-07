@@ -1,0 +1,1 @@
+ALTER TABLE `t_resource` ADD COLUMN `perm_type` varchar(10) NULL COMMENT '权限类型：读 / 写' AFTER `url`;
