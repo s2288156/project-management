@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.convertor.RoleConvertor;
 import com.pm.application.dto.cmd.RoleAddCmd;
+import com.pm.application.dto.cmd.RoleSetResourcesCmd;
 import com.pm.application.dto.query.UserRolesQuery;
 import com.pm.application.dto.vo.RoleVO;
 import com.pm.application.execute.command.RoleAddCmdExe;
@@ -82,5 +83,11 @@ public class RoleServiceImpl implements IRoleService {
                 .map(RoleConvertor.INSTANCE::roleDo2RoleVo)
                 .collect(Collectors.toList());
         return MultiResponse.of(roleVOList);
+    }
+
+    @Override
+    public Response setResources(RoleSetResourcesCmd setResourcesCmd) {
+
+        return null;
     }
 }
