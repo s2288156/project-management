@@ -12,4 +12,5 @@ public interface RoleResourceMapper extends BaseMapper<RoleResourceDO> {
 
     int insertBatchResourceIds(List<RoleResourceDO> resourceList);
 
+    void deleteByRoleId(String roleId);
 }

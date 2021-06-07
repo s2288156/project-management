@@ -12,4 +12,9 @@
             (#{item.id}, #{item.roleId}, #{item.resourceId})
         </foreach>
     </insert>
+    <delete id="deleteByRoleId">
+        delete
+        from t_role_resource
+        where role_id = #{roleId}
+    </delete>
 </mapper>
