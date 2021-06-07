@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.RoleAddCmd;
+import com.pm.application.dto.cmd.RoleSetResourcesCmd;
 import com.pm.application.dto.query.UserRolesQuery;
 import com.pm.application.dto.vo.RoleVO;
 import com.pm.application.service.IRoleService;
@@ -46,5 +47,10 @@ public class RoleController {
     @DeleteMapping
     public Response deleteRole(String id) {
         return roleService.deleteRole(id);
+    }
+
+    @PostMapping("/resources")
+    public Response setResources(@Validated @RequestBody RoleSetResourcesCmd setResourcesCmd) {
+        return null;
     }
 }
