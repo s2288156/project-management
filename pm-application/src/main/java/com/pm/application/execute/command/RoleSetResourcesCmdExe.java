@@ -15,6 +15,7 @@ public class RoleSetResourcesCmdExe {
     private RoleResourceMapper roleResourceMapper;
 
     public void execute(RoleSetResourcesCmd setResourcesCmd) {
+        
         roleResourceMapper.insertBatchResourceIds(setResourcesCmd.convert2DoList());
     }
 
