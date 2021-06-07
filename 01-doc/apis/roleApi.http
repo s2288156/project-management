@@ -5,3 +5,13 @@ Authorization: {{authorization}}
 ### /role/list/by_uid
 GET http://{{host}}/role/list/by_uid?uid=1399536808257646594
 Authorization: {{authorization}}
+
+###
+POST http://{{host}}/role/resources
+Content-Type: application/json
+Authorization: {{authorization}}
+
+{
+  "roleId": "1400369808356626434",
+  "resourceIds": ["1401745677847330817", "1401745700660150273"]
+}
