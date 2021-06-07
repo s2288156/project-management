@@ -11,6 +11,7 @@ import com.pm.application.dto.cmd.RoleSetResourcesCmd;
 import com.pm.application.dto.query.UserRolesQuery;
 import com.pm.application.dto.vo.RoleVO;
 import com.pm.application.execute.command.RoleAddCmdExe;
+import com.pm.application.execute.command.RoleSetResourcesCmdExe;
 import com.pm.application.service.IRoleService;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.RoleDO;
@@ -46,6 +47,9 @@ public class RoleServiceImpl implements IRoleService {
 
     @Autowired
     private RoleAddCmdExe roleAddCmdExe;
+
+    @Autowired
+    private RoleSetResourcesCmdExe roleSetResourcesCmdExe;
 
     @Override
     public PageResponse<RoleVO> pageRole(PageQuery pageQuery) {
@@ -87,7 +91,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public Response setResources(RoleSetResourcesCmd setResourcesCmd) {
-
-        return null;
+        roleSetResourcesCmdExe.execute(setResourcesCmd);
+        return Response.buildSuccess();
     }
 }

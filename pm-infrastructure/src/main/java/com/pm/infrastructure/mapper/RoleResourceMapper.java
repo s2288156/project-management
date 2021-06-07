@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface RoleResourceMapper extends BaseMapper<RoleResourceDO> {
 
-    int insertBatchResourceIds(String roleId, List<String> resourceIds);
+    int insertBatchResourceIds(List<RoleResourceDO> resourceList);
 
 }

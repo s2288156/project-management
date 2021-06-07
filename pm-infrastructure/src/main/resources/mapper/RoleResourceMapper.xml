@@ -8,8 +8,8 @@
     <insert id="insertBatchResourceIds">
         insert into t_role_resource(id, role_id, resource_id)
         values
-            <foreach collection="list" item="item" separator=",">
-                (#{id}, #{roleId}, #{item})
-            </foreach>
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.roleId}, #{item.resourceId})
+        </foreach>
     </insert>
 </mapper>

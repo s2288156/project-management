@@ -51,6 +51,7 @@ public class RoleController {
 
     @PostMapping("/resources")
     public Response setResources(@Validated @RequestBody RoleSetResourcesCmd setResourcesCmd) {
-        return null;
+        return roleService.setResources(setResourcesCmd);
     }
+
 }
