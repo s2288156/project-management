@@ -3,6 +3,7 @@ package com.pm.controller;
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.ResourceAddCmd;
+import com.pm.application.dto.query.RoleResourcePageQuery;
 import com.pm.application.dto.vo.ResourceVO;
 import com.pm.application.service.IResourceService;
 import com.pm.infrastructure.entity.PageQuery;
@@ -13,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +37,11 @@ public class ResourceController {
     @GetMapping("/list")
     public PageResponse<ResourceVO> pageResource(@Validated PageQuery pageQuery) {
         return resourceService.pageResource(pageQuery);
+    }
+
+    @GetMapping("/list/by_role")
+    public PageResponse<ResourceVO> pageRoleResource(@Validated RoleResourcePageQuery pageQuery) {
+        return null;
     }
 
     @DeleteMapping
