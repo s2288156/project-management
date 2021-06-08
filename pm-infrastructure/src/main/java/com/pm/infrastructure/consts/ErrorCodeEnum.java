@@ -32,7 +32,8 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     PROJECT_MODULE_DEPENDENCE_ERROR("50016", "项目模块被正在被引用"),
     HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE("50017", "group存在被引用Module，不允许被删除"),
     ROLE_HAS_USED_NOT_ALLOW_DELETE("50018", "Role正在被使用不允许删除"),
-    ROLE_EXISTED("50018", "Role已经存在"),
+    ROLE_EXISTED("50019", "Role已经存在"),
+    RESOURCE_USED_NOT_ALLOW_DEL("50020", "Resource使用中，不允许删除!"),
     ;
 
     @Getter

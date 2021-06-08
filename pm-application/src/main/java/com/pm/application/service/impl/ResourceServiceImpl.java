@@ -6,6 +6,7 @@ import com.pm.application.dto.cmd.ResourceAddCmd;
 import com.pm.application.dto.query.RoleResourcePageQuery;
 import com.pm.application.dto.vo.ResourceVO;
 import com.pm.application.execute.command.ResourceAddCmdExe;
+import com.pm.application.execute.command.ResourceDeleteCmdExe;
 import com.pm.application.service.IResourceService;
 import com.pm.infrastructure.dataobject.ResourceDO;
 import com.pm.infrastructure.entity.PageQuery;
@@ -27,6 +28,9 @@ public class ResourceServiceImpl implements IResourceService {
 
     @Autowired
     private ResourceMapper resourceMapper;
+
+    @Autowired
+    private ResourceDeleteCmdExe resourceDeleteCmdExe;
 
     @Override
     public String addResource(ResourceAddCmd resourceAddCmd) {
@@ -57,7 +61,7 @@ public class ResourceServiceImpl implements IResourceService {
 
     @Override
     public void deleteById(String id) {
-        resourceMapper.deleteById(id);
+        resourceDeleteCmdExe.execute(id);
     }
 
 }
