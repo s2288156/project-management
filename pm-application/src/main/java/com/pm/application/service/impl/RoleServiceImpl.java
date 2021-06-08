@@ -11,6 +11,7 @@ import com.pm.application.dto.cmd.RoleSetResourcesCmd;
 import com.pm.application.dto.query.UserRolesQuery;
 import com.pm.application.dto.vo.RoleVO;
 import com.pm.application.execute.command.RoleAddCmdExe;
+import com.pm.application.execute.command.RoleDeleteCmdExe;
 import com.pm.application.execute.command.RoleSetResourcesCmdExe;
 import com.pm.application.service.IRoleService;
 import com.pm.infrastructure.consts.ErrorCodeEnum;
@@ -40,16 +41,13 @@ public class RoleServiceImpl implements IRoleService {
     private RoleMapper roleMapper;
 
     @Autowired
-    private UserRoleMapper userRoleMapper;
-
-    @Autowired
-    private RoleResourceMapper roleResourceMapper;
-
-    @Autowired
     private RoleAddCmdExe roleAddCmdExe;
 
     @Autowired
     private RoleSetResourcesCmdExe roleSetResourcesCmdExe;
+
+    @Autowired
+    private RoleDeleteCmdExe roleDeleteCmdExe;
 
     @Override
     public PageResponse<RoleVO> pageRole(PageQuery pageQuery) {
@@ -71,12 +69,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public Response deleteRole(String id) {
-        Integer userRoleCount = userRoleMapper.selectCount(new LambdaQueryWrapper<UserRoleDO>().eq(UserRoleDO::getRoleId, id));
-        Integer roleResourceCount = roleResourceMapper.selectCount(new LambdaQueryWrapper<RoleResourceDO>().eq(RoleResourceDO::getRoleId, id));
-        if (userRoleCount > 0 || roleResourceCount > 0) {
-            throw new BizException(ErrorCodeEnum.ROLE_HAS_USED_NOT_ALLOW_DELETE);
-        }
-        roleMapper.deleteById(id);
+        roleDeleteCmdExe.execute(id);
         return Response.buildSuccess();
     }
 

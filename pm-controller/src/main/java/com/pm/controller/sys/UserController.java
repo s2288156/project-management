@@ -1,4 +1,4 @@
-package com.pm.controller;
+package com.pm.controller.sys;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
