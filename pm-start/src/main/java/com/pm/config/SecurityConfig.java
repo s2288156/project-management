@@ -1,6 +1,7 @@
 package com.pm.config;
 
 import com.nimbusds.jose.jwk.RSAKey;
+import com.pm.security.CustomAccessDeniedHandler;
 import com.pm.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationTokenFilter authenticationTokenFilter;
 
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Bean
     public KeyPair keyPair() {
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "123456".toCharArray());
@@ -74,6 +78,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 // 基于token，不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
