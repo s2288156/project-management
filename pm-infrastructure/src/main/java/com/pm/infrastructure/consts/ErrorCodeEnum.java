@@ -10,7 +10,7 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     /**
      * 错误码
      */
-    UNAUTHORIZED("40001", "没有权限"),
+    UNAUTHORIZED("40001", "权限不足，请联系管理员！"),
     JWT_VERIFIER_ERROR("40002", "token验证异常"),
     JWT_PARSE_ERROR("40003", "token解析异常"),
     USERNAME_EXISTED("50000", "用户名重复"),
