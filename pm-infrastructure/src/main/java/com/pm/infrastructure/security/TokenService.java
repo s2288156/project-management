@@ -45,9 +45,15 @@ public class TokenService {
     @Autowired
     private ICacheService<String, Set<String>> guavaCacheService;
 
+    // TODO: 2021/6/3 后期引如resourceService实现
     @Autowired
     private RoleMapper roleMapper;
 
+    /**
+     * 1. 获取用户携带的ROLE列表信息
+     * 2. 查询请求对应的ROLE列表信息
+     * 3. 如果存在交集，则有权限，负载拒绝请求
+     */
     public boolean canAccess(HttpServletRequest request, Authentication authentication) {
         // 请求用户携带的授权信息role
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -58,14 +64,12 @@ public class TokenService {
     }
 
     /**
-     * 查询请求权限数据
-     *
-     * @param request HttpServletRequest
+     * 根据 RequestMethod:URI查询对应的ROLE列表
      */
     private Set<String> queryRequestPerms(HttpServletRequest request) {
         String permKey = getPermKey(request);
         Set<String> urlPerms = guavaCacheService.get(permKey);
-        if (CollectionUtils.isEmpty(urlPerms)) {
+        if (CollectionUtils.isEmpty(urlPerms) || urlPerms.contains(null)) {
             log.warn("permKey  = {}, 未命中cache", permKey);
             urlPerms = roleMapper.listRoleByUrl(permKey);
             guavaCacheService.set(permKey, urlPerms);
@@ -86,7 +90,7 @@ public class TokenService {
     }
 
     private String getPermKey(HttpServletRequest request) {
-        return request.getMethod() + request.getRequestURI();
+        return request.getMethod() + ":" + request.getRequestURI();
     }
 
     @SneakyThrows

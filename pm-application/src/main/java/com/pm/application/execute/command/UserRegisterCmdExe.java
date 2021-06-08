@@ -29,20 +29,27 @@ public class UserRegisterCmdExe {
     private PasswordEncoder passwordEncoder;
 
     public Response execute(UserRegisterCmd userRegisterCmd) {
-        confirmPasswordEquals(userRegisterCmd.getPassword(), userRegisterCmd.getConfirmPassword());
+        confirmPasswordCheck(userRegisterCmd.getPassword(), userRegisterCmd.getConfirmPassword());
 
-        if (userGateway.existForUsername(userRegisterCmd.getUsername())) {
-            throw new BizException(ErrorCodeEnum.USERNAME_EXISTED);
-        }
+        usernameExistedCheck(userRegisterCmd.getUsername());
         UserDO userDO = encoderPwd(userRegisterCmd);
         userMapper.insert(userDO);
         return Response.buildSuccess();
     }
 
     /**
+     * 检查用户名是否重复
+     */
+    private void usernameExistedCheck(String username) {
+        if (userGateway.existForUsername(username)) {
+            throw new BizException(ErrorCodeEnum.USERNAME_EXISTED);
+        }
+    }
+
+    /**
      * 如果两次输入的密码不相同，则返回错误
      */
-    private void confirmPasswordEquals(String password, String confirmPassword) {
+    private void confirmPasswordCheck(String password, String confirmPassword) {
         if (!StringUtils.equals(password, confirmPassword)) {
             throw new BizException(ErrorCodeEnum.TWO_PASSWORD_ENTERED_NOT_SAME);
         }

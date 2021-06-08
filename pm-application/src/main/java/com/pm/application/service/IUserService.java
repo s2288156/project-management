@@ -4,6 +4,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.UserLoginCmd;
 import com.pm.application.dto.cmd.UserRegisterCmd;
+import com.pm.application.dto.cmd.UserSetRolesCmd;
 import com.pm.application.dto.vo.LoginUserVO;
 import com.pm.application.dto.vo.UserVO;
 import com.pm.infrastructure.entity.PageQuery;
@@ -19,4 +20,6 @@ public interface IUserService {
     SingleResponse<LoginUserVO> userLogin(UserLoginCmd loginCmd);
 
     PageResponse<UserVO> listUser(PageQuery pageQuery);
+
+    Response userSetRoles(UserSetRolesCmd userSetRolesCmd);
 }

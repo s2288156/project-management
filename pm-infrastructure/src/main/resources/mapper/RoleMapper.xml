@@ -9,7 +9,7 @@
         select tr.role
         from t_role tr
                  left join t_user_role tur on tr.id = tur.role_id
-            and tur.uid = #{uid}
+            where tur.uid = #{uid}
     </select>
     <select id="listRoleByUrl" resultType="java.lang.String">
         select role.role
@@ -17,5 +17,18 @@
                  right join t_resource resource on trr.resource_id = resource.id
                  left join t_role role on trr.role_id = role.id
         where resource.url = #{url}
+    </select>
+    <select id="listRoleDoByUid" resultType="com.pm.infrastructure.dataobject.RoleDO">
+        select tr.id, tr.role, tr.name
+        from t_role tr
+        <if test="uid != null and uid != ''">
+                 left join t_user_role tur on tr.id = tur.role_id
+            where tur.uid = #{uid}
+        </if>
+    </select>
+    <select id="selectByRole" resultType="com.pm.infrastructure.dataobject.RoleDO">
+        select id
+        from t_role
+        where role = #{role}
     </select>
 </mapper>

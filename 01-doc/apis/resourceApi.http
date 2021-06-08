@@ -1,0 +1,8 @@
+### /user/info
+GET http://{{host}}/resource/list?page=1&limit=10
+Content-Type: application/json
+Authorization: {{authorization}}
+
+###
+GET http://{{host}}/resource/list/by_role?roleId=1400369808356626434&page=1&limit=10
+Authorization: {{authorization}}

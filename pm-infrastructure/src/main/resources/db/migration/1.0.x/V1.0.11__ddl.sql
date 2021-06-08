@@ -1,0 +1,1 @@
+ALTER TABLE `t_role_resource` ADD UNIQUE INDEX `uk_role_resource_id`(`role_id`, `resource_id`) USING BTREE;

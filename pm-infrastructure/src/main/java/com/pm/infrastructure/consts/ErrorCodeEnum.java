@@ -10,7 +10,7 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     /**
      * 错误码
      */
-    UNAUTHORIZED("40001", "没有权限"),
+    UNAUTHORIZED("40001", "权限不足，请联系管理员！"),
     JWT_VERIFIER_ERROR("40002", "token验证异常"),
     JWT_PARSE_ERROR("40003", "token解析异常"),
     USERNAME_EXISTED("50000", "用户名重复"),
@@ -30,7 +30,10 @@ public enum ErrorCodeEnum implements IStrErrorEnum {
     TWO_PASSWORD_ENTERED_NOT_SAME("50014", "两次输入的密码不相同"),
     MODULE_DEPENDENCE_ERROR("50015", "模块正在被其它项目引用"),
     PROJECT_MODULE_DEPENDENCE_ERROR("50016", "项目模块被正在被引用"),
-    HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE("50016", "group存在被引用Module，不允许被删除"),
+    HAVE_DEPEND_GROUP_NOT_ALLOW_DELETE("50017", "group存在被引用Module，不允许被删除"),
+    ROLE_HAS_USED_NOT_ALLOW_DELETE("50018", "Role正在被使用不允许删除"),
+    ROLE_EXISTED("50019", "Role已经存在"),
+    RESOURCE_USED_NOT_ALLOW_DEL("50020", "Resource使用中，不允许删除!"),
     ;
 
     @Getter

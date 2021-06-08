@@ -1,9 +1,10 @@
-package com.pm.controller;
+package com.pm.controller.sys;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.pm.application.dto.cmd.UserLoginCmd;
 import com.pm.application.dto.cmd.UserRegisterCmd;
+import com.pm.application.dto.cmd.UserSetRolesCmd;
 import com.pm.application.dto.vo.LoginUserVO;
 import com.pm.application.dto.vo.UserDetailVO;
 import com.pm.application.dto.vo.UserVO;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author wcy
@@ -47,5 +50,10 @@ public class UserController {
     @GetMapping("/list")
     public PageResponse<UserVO> list(PageQuery pageQuery) {
         return userService.listUser(pageQuery);
+    }
+
+    @PostMapping("/set_roles")
+    public Response setRoles(@Validated @RequestBody UserSetRolesCmd userSetRolesCmd) {
+        return userService.userSetRoles(userSetRolesCmd);
     }
 }

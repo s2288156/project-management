@@ -1,7 +1,7 @@
 package com.pm.application.service;
 
 import com.pm.NoneWebBaseTest;
-import com.pm.application.service.impl.UserDetailsServiceImpl;
+import com.pm.infrastructure.security.UserDetailsServiceImpl;
 import com.pm.infrastructure.security.SecurityUser;
 import com.pm.infrastructure.tool.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
