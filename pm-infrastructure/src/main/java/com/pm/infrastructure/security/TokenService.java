@@ -69,7 +69,7 @@ public class TokenService {
     private Set<String> queryRequestPerms(HttpServletRequest request) {
         String permKey = getPermKey(request);
         Set<String> urlPerms = guavaCacheService.get(permKey);
-        if (CollectionUtils.isEmpty(urlPerms)) {
+        if (CollectionUtils.isEmpty(urlPerms) || urlPerms.contains(null)) {
             log.warn("permKey  = {}, 未命中cache", permKey);
             urlPerms = roleMapper.listRoleByUrl(permKey);
             guavaCacheService.set(permKey, urlPerms);
