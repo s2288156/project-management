@@ -1,7 +1,7 @@
 package com.pm.application.dto.vo;
 
 import com.alibaba.cola.dto.DTO;
-import com.zyzh.pm.domain.project.DependModuleInfo;
+import com.pm.domain.project.DependModuleInfo;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.tool.JsonUtils;
 import lombok.Data;

@@ -5,10 +5,9 @@ import com.pm.application.convertor.DependenceConvertor;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.tool.JsonUtils;
-import com.zyzh.pm.domain.project.DependModuleInfo;
+import com.pm.domain.project.DependModuleInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
 

@@ -1,4 +1,4 @@
-package com.zyzh.pm.domain.project;
+package com.pm.domain.project;
 
 /**
  * @author wcy

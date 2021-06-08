@@ -1,4 +1,4 @@
-package com.zyzh.pm.domain.project;
+package com.pm.domain.project;
 
 import com.alibaba.cola.dto.DTO;
 import lombok.Data;

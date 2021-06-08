@@ -2,7 +2,7 @@ package com.pm.infrastructure.gatewayimpl;
 
 import com.pm.infrastructure.dataobject.GroupDO;
 import com.pm.infrastructure.mapper.GroupMapper;
-import com.zyzh.pm.domain.gateway.GroupGateway;
+import com.pm.domain.gateway.GroupGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

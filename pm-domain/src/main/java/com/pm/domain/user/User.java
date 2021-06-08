@@ -1,4 +1,4 @@
-package com.zyzh.pm.domain.user;
+package com.pm.domain.user;
 
 import lombok.Data;
 

@@ -10,7 +10,7 @@ import com.pm.infrastructure.mapper.ModuleMapper;
 import com.pm.infrastructure.mapper.ModuleVersionMapper;
 import com.pm.infrastructure.tool.JsonUtils;
 import com.zyzh.exception.BizException;
-import com.zyzh.pm.domain.project.DependModuleInfo;
+import com.pm.domain.project.DependModuleInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

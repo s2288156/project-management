@@ -7,7 +7,7 @@ import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.ProjectDO;
 import com.pm.infrastructure.mapper.ProjectMapper;
 import com.zyzh.exception.BizException;
-import com.zyzh.pm.domain.gateway.GroupGateway;
+import com.pm.domain.gateway.GroupGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

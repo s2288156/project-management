@@ -2,7 +2,7 @@ package com.pm.infrastructure.gatewayimpl;
 
 import com.pm.infrastructure.dataobject.UserDO;
 import com.pm.infrastructure.mapper.UserMapper;
-import com.zyzh.pm.domain.gateway.UserGateway;
+import com.pm.domain.gateway.UserGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

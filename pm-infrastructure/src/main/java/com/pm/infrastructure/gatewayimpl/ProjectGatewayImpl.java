@@ -1,6 +1,6 @@
 package com.pm.infrastructure.gatewayimpl;
 
-import com.zyzh.pm.domain.gateway.ProjectGateway;
+import com.pm.domain.gateway.ProjectGateway;
 import org.springframework.stereotype.Component;
 
 /**

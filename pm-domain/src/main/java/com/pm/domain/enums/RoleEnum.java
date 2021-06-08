@@ -1,4 +1,4 @@
-package com.zyzh.pm.domain.enums;
+package com.pm.domain.enums;
 
 import lombok.Setter;
 

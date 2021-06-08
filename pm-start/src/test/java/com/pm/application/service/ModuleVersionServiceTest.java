@@ -10,7 +10,7 @@ import com.pm.infrastructure.dataobject.*;
 import com.pm.infrastructure.mapper.*;
 import com.pm.infrastructure.tool.JsonUtils;
 import com.zyzh.exception.BizException;
-import com.zyzh.pm.domain.project.DependModuleInfo;
+import com.pm.domain.project.DependModuleInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

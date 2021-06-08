@@ -1,4 +1,4 @@
-package com.zyzh.pm.domain.gateway;
+package com.pm.domain.gateway;
 
 /**
  * @author wcy

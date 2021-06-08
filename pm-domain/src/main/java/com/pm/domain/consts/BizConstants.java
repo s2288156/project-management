@@ -1,4 +1,4 @@
-package com.zyzh.pm.domain.consts;
+package com.pm.domain.consts;
 
 /**
  * @author wcy
