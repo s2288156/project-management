@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author wcy
  */
@@ -14,5 +16,5 @@ public interface UserConvertor {
     UserConvertor INSTANCE = Mappers.getMapper(UserConvertor.class);
 
     @Mapping(source = "icon", target = "avatar")
-    UserVO userDo2UserVo(UserDO userDO);
+    List<UserVO> userDo2UserVo(List<UserDO> userDOList);
 }

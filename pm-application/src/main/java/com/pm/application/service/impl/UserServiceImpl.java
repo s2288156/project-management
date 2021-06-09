@@ -58,10 +58,7 @@ public class UserServiceImpl implements IUserService {
     public PageResponse<UserVO> listUser(PageQuery pageQuery) {
         Page<UserDO> page = pageQuery.createPage();
         userMapper.selectPage(page, new LambdaQueryWrapper<>());
-        List<UserVO> userVoList = page.getRecords()
-                .stream()
-                .map(UserConvertor.INSTANCE::userDo2UserVo)
-                .collect(Collectors.toList());
+        List<UserVO> userVoList = UserConvertor.INSTANCE.userDo2UserVo(page.getRecords());
         return PageResponse.of(userVoList, page.getTotal());
     }
 
