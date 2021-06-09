@@ -6,6 +6,8 @@ import com.pm.infrastructure.dataobject.ProjectDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author wcy
  */
@@ -16,5 +18,5 @@ public interface ProjectConvertor {
 
     ProjectDO convert2Do(ProjectAddCmd addCmd);
 
-    ProjectVO convertDo2ProjectVo(ProjectDO projectDO);
+    List<ProjectVO> convertDo2ProjectVo(List<ProjectDO> projectDOList);
 }

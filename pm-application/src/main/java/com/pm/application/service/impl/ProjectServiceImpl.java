@@ -5,9 +5,6 @@ import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pm.application.convertor.ProjectConvertor;
-import com.pm.application.execute.command.ProjectAddCmdExe;
-import com.pm.application.execute.command.ProjectDeleteCmdExe;
-import com.pm.application.execute.command.ProjectDependAddCmdExe;
 import com.pm.application.dto.PidQuery;
 import com.pm.application.dto.cmd.ProjectAddCmd;
 import com.pm.application.dto.cmd.ProjectDeleteCmd;
@@ -15,6 +12,9 @@ import com.pm.application.dto.cmd.ProjectDependAddCmd;
 import com.pm.application.dto.query.ProjectPageQuery;
 import com.pm.application.dto.vo.DependModuleVO;
 import com.pm.application.dto.vo.ProjectVO;
+import com.pm.application.execute.command.ProjectAddCmdExe;
+import com.pm.application.execute.command.ProjectDeleteCmdExe;
+import com.pm.application.execute.command.ProjectDependAddCmdExe;
 import com.pm.application.service.IProjectService;
 import com.pm.infrastructure.dataobject.DependenceDO;
 import com.pm.infrastructure.dataobject.ProjectDO;
@@ -58,10 +58,7 @@ public class ProjectServiceImpl implements IProjectService {
         Page<ProjectDO> page = projectPageQuery.createPage();
         projectMapper.pageByGroupId(page, projectPageQuery.getGroupId());
 
-        List<ProjectVO> collect = page.getRecords()
-                .stream()
-                .map(ProjectConvertor.INSTANCE::convertDo2ProjectVo)
-                .collect(Collectors.toList());
+        List<ProjectVO> collect = ProjectConvertor.INSTANCE.convertDo2ProjectVo(page.getRecords());
         return PageResponse.of(collect, page.getTotal());
     }
 

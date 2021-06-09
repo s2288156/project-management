@@ -6,6 +6,8 @@ import com.pm.infrastructure.dataobject.GroupDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author wcy
  */
@@ -15,5 +17,6 @@ public interface GroupConvertor {
 
     GroupDO convert2Do(GroupAddCmd groupAddCmd);
 
-    GroupVO convertDo2Vo(GroupDO groupDO);
+    List<GroupVO> convertDo2Vo(List<GroupDO> groupDOList);
+
 }

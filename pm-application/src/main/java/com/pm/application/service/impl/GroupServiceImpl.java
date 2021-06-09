@@ -4,12 +4,12 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pm.application.execute.command.GroupDeleteExe;
-import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.application.convertor.GroupConvertor;
 import com.pm.application.dto.cmd.GroupAddCmd;
 import com.pm.application.dto.vo.GroupVO;
+import com.pm.application.execute.command.GroupDeleteExe;
 import com.pm.application.service.IGroupService;
+import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.GroupDO;
 import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author wcy
@@ -50,11 +49,7 @@ public class GroupServiceImpl implements IGroupService {
         Page<GroupDO> page = pageQuery.createPage();
         groupMapper.selectPage(page, new LambdaQueryWrapper<>());
 
-        List<GroupVO> datas = page.getRecords()
-                .stream()
-                .map(GroupConvertor.INSTANCE::convertDo2Vo)
-                .collect(Collectors.toList());
-
+        List<GroupVO> datas = GroupConvertor.INSTANCE.convertDo2Vo(page.getRecords());
         return PageResponse.of(datas, page.getTotal());
     }
 

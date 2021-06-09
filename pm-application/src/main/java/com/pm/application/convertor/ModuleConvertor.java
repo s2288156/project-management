@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author wcy
  */
@@ -20,5 +22,5 @@ public interface ModuleConvertor {
 
     ModuleDO convert2Do(ModuleUpdateLatestVersionCmd updateLatestVersionCmd);
 
-    ModuleVO convertDo2ModuleVo(ModuleDO moduleDO);
+    List<ModuleVO> convertDo2ModuleVo(List<ModuleDO> moduleDOList);
 }

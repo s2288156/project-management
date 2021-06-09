@@ -6,6 +6,9 @@ import com.pm.infrastructure.dataobject.RoleDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * @author wcy
  */
@@ -13,7 +16,7 @@ import org.mapstruct.factory.Mappers;
 public interface RoleConvertor {
     RoleConvertor INSTANCE = Mappers.getMapper(RoleConvertor.class);
 
-    RoleVO roleDo2RoleVo(RoleDO roleDO);
+    List<RoleVO> roleDo2RoleVo(Collection<RoleDO> roleDOList);
 
     RoleDO roleAddCmd2RoleDo(RoleAddCmd roleAddCmd);
 }

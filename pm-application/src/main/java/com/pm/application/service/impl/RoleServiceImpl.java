@@ -14,22 +14,15 @@ import com.pm.application.execute.command.RoleAddCmdExe;
 import com.pm.application.execute.command.RoleDeleteCmdExe;
 import com.pm.application.execute.command.RoleSetResourcesCmdExe;
 import com.pm.application.service.IRoleService;
-import com.pm.infrastructure.consts.ErrorCodeEnum;
 import com.pm.infrastructure.dataobject.RoleDO;
-import com.pm.infrastructure.dataobject.RoleResourceDO;
-import com.pm.infrastructure.dataobject.UserRoleDO;
 import com.pm.infrastructure.entity.PageQuery;
 import com.pm.infrastructure.entity.PageResponse;
 import com.pm.infrastructure.mapper.RoleMapper;
-import com.pm.infrastructure.mapper.RoleResourceMapper;
-import com.pm.infrastructure.mapper.UserRoleMapper;
-import com.zyzh.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author wcy
@@ -54,10 +47,7 @@ public class RoleServiceImpl implements IRoleService {
         Page<RoleDO> page = pageQuery.createPage();
         roleMapper.selectPage(page, new LambdaQueryWrapper<>());
 
-        List<RoleVO> roleVOList = page.getRecords()
-                .stream()
-                .map(RoleConvertor.INSTANCE::roleDo2RoleVo)
-                .collect(Collectors.toList());
+        List<RoleVO> roleVOList = RoleConvertor.INSTANCE.roleDo2RoleVo(page.getRecords());
 
         return PageResponse.of(roleVOList, page.getTotal());
     }
@@ -76,9 +66,7 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public MultiResponse<RoleVO> listRoleByUid(UserRolesQuery userRolesQuery) {
         Set<RoleDO> roleDOs = roleMapper.listRoleDoByUid(userRolesQuery.getUid());
-        List<RoleVO> roleVOList = roleDOs.stream()
-                .map(RoleConvertor.INSTANCE::roleDo2RoleVo)
-                .collect(Collectors.toList());
+        List<RoleVO> roleVOList = RoleConvertor.INSTANCE.roleDo2RoleVo(roleDOs);
         return MultiResponse.of(roleVOList);
     }
 

@@ -41,10 +41,7 @@ public class ResourceServiceImpl implements IResourceService {
     public PageResponse<ResourceVO> pageResource(PageQuery pageQuery) {
         Page<ResourceDO> page = pageQuery.createPage();
         Page<ResourceDO> resourcePage = resourceMapper.selectPage(page, null);
-        List<ResourceVO> voList = resourcePage.getRecords()
-                .stream()
-                .map(ResourceConvertor.INSTANCE::do2Vo)
-                .collect(Collectors.toList());
+        List<ResourceVO> voList = ResourceConvertor.INSTANCE.do2Vo(resourcePage.getRecords());
         return PageResponse.of(voList, resourcePage.getTotal());
     }
 
@@ -52,10 +49,7 @@ public class ResourceServiceImpl implements IResourceService {
     public PageResponse<ResourceVO> pageRoleResource(RoleResourcePageQuery pageQuery) {
         Page<ResourceDO> page = pageQuery.createPage();
         Page<ResourceDO> resourcePage = resourceMapper.selectAllByRoleId(page, pageQuery.getRoleId());
-        List<ResourceVO> voList = resourcePage.getRecords()
-                .stream()
-                .map(ResourceConvertor.INSTANCE::do2Vo)
-                .collect(Collectors.toList());
+        List<ResourceVO> voList = ResourceConvertor.INSTANCE.do2Vo(resourcePage.getRecords());
         return PageResponse.of(voList, resourcePage.getTotal());
     }
 

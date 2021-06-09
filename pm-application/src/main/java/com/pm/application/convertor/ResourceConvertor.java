@@ -5,6 +5,8 @@ import com.pm.infrastructure.dataobject.ResourceDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author wcy
  */
@@ -12,5 +14,5 @@ import org.mapstruct.factory.Mappers;
 public interface ResourceConvertor {
     ResourceConvertor INSTANCE = Mappers.getMapper(ResourceConvertor.class);
 
-    ResourceVO do2Vo(ResourceDO resourceDO);
+    List<ResourceVO> do2Vo(List<ResourceDO> resourceDOList);
 }

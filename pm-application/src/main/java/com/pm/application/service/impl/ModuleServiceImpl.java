@@ -67,10 +67,7 @@ public class ModuleServiceImpl implements IModuleService {
     @Override
     public PageResponse<ModuleVO> list(ModulePageQuery pageQueryCmd) {
         Page<ModuleDO> moduleDoPage = moduleMapper.listProjectAndVersion(pageQueryCmd.createPage(), pageQueryCmd.getPid());
-        List<ModuleVO> moduleVos = moduleDoPage.getRecords()
-                .stream()
-                .map(ModuleConvertor.INSTANCE::convertDo2ModuleVo)
-                .collect(Collectors.toList());
+        List<ModuleVO> moduleVos = ModuleConvertor.INSTANCE.convertDo2ModuleVo(moduleDoPage.getRecords());
         return PageResponse.of(moduleVos, moduleDoPage.getTotal());
     }
 
